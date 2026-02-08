@@ -13,7 +13,7 @@ class Place(db.Model):
     peopleCount = db.Column(db.Integer, nullable=False)
 
     queue = db.Relationship("Queue", back_populates = "place")
-    queue = db.Relationship("User", back_populates = "place")
+    user = db.Relationship("User", back_populates = "place")
 
 
 class Queue(db.Model):
