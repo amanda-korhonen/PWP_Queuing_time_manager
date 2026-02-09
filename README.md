@@ -32,7 +32,10 @@ db.create_all()
 
 To create a place you can run a code:
 ```
-place = Place(name="Bar1", capacity=50, peopleCount=30)
+place1 = Place(name="Bar1", capacity=50, peopleCount=30)
+db.session.add(place1)
+db.session.commit()
+ctx.pop()
 ```
 
 To add things to an already populated database you have to query the database. Here we have added a queue to an already created **Bar1**:
