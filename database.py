@@ -20,13 +20,13 @@ class Queue(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     queue_type = db.Column(db.String(20), nullable = True)
     peopleCount = db.Column(db.Integer, nullable=False)
-    place_id = db.Column(db.Integer, db.ForeignKey("place.id", ondelete="CASCADE"))
+    place_id = db.Column(db.Integer, db.ForeignKey("place.id", ondelete="CASCADE"), nullable=False)
 
     place = db.relationship("Place", back_populates = "queue")
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     password = db.Column(db.String(60), nullable = False)
-    place_id = db.Column(db.Integer, db.ForeignKey("place.id", ondelete="CASCADE"))
+    place_id = db.Column(db.Integer, db.ForeignKey("place.id", ondelete="CASCADE"), nullable=False)
 
     place = db.relationship("Place", back_populates = "user")
