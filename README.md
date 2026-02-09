@@ -28,4 +28,18 @@ from database import app
 ctx = app.app_context()
 ctx.push()
 db.create_all()
-``` 
+```  
+
+
+To add things to an already populated database you have to query the database. Here we have added a queue to Bar1:
+```
+from database import db, Place, Queue, User
+from database import app
+ctx = app.app_context()
+ctx.push()
+place1 = Place.query.filter_by(name="Bar1").first()
+queue2 = Queue(queue_type="VIP", peopleCount=4, place=place1)
+db.session.add(queue2)
+db.session.commit()
+ctx.pop()
+```
