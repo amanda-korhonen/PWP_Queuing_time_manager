@@ -12,21 +12,21 @@ class Place(db.Model):
     capacity = db.Column(db.Integer, nullable=False)
     peopleCount = db.Column(db.Integer, nullable=False)
 
-    queue = db.relationship("Queue", back_populates = "place")
-    user = db.relationship("User", back_populates = "place")
+    queue = db.relationship("Queue", cascade="all, delete-orphan", back_populates = "place")
+    user = db.relationship("User", cascade="all, delete-orphan", back_populates = "place")
 
 
 class Queue(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     queue_type = db.Column(db.String(20), nullable = True)
     peopleCount = db.Column(db.Integer, nullable=False)
-    place_id = db.Column(db.Integer, db.ForeignKey("place.id"))
+    place_id = db.Column(db.Integer, db.ForeignKey("place.id", ondelete="CASCADE"))
 
     place = db.relationship("Place", back_populates = "queue")
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     password = db.Column(db.String(60), nullable = False)
-    place_id = db.Column(db.Integer, db.ForeignKey("place.id"))
+    place_id = db.Column(db.Integer, db.ForeignKey("place.id", ondelete="CASCADE"))
 
     place = db.relationship("Place", back_populates = "user")
