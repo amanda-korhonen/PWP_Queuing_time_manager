@@ -11,8 +11,9 @@ class Place(db.Model):
     name = db.Column(db.String(20), nullable=False)
     capacity = db.Column(db.Integer, nullable=False)
     peopleCount = db.Column(db.Integer, nullable=False)
+    location = db.Column(db.String(60), nullable=False)
 
-    queue = db.relationship("Queue", cascade="all, delete-orphan", back_populates = "place")
+    queues = db.relationship("Queue", cascade="all, delete-orphan", back_populates = "place")
     user = db.relationship("User", cascade="all, delete-orphan", back_populates = "place")
 
 
