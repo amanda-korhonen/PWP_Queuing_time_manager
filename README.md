@@ -8,12 +8,11 @@ Queuing Time Manager
 * Student 4. Eira Paakkunainen epaakkun21@student.oulu.fi
 
 
-__Remember to include all required documentation and HOWTOs, including how to create and populate the database, how to run and test the API, the url to the entrypoint, instructions on how to setup and run the client, instructions on how to setup and run the axiliary service and instructions on how to deploy the api in a production environment__
-
 **Requirements**
 * **We recommend using venv** when creating and populating database.
-*  We used SQLite and requirements.txt file contains all the project dependencies. 
-* We use python 3
+*  We use SQLite
+*  python 3
+*  **requirements.txt** file contains all the project dependencies
 
 
 __How to create database:__
@@ -62,3 +61,16 @@ db.session.add_all([queue1, queue2])
 db.session.commit()
 ctx.pop()
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+__Remember to include all required documentation and HOWTOs, including how to create and populate the database, how to run and test the API, the url to the entrypoint, instructions on how to setup and run the client, instructions on how to setup and run the axiliary service and instructions on how to deploy the api in a production environment__
