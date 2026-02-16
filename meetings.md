@@ -26,7 +26,11 @@ Discussed the necessity of user table in database. It's not really needed in the
 - In database.py, in class Place, the line _queue = db.relationship("Queue", cascade="all, delete-orphan", back_populates = "place")_, the variable name should be queues instead of queue. This is due to the one-to-many relationship, as an establishment can have multiple queues. 
 
 ### Notes
-*Add here notes that you consider important. This is not mandatory*
+- We added variable place_type and location to the place model in the database
+- Deleted unneccessary comments from Readme
+- Made the instructions in Readme clearer
+- Changed the variable name of queue to queues
+- Edited wiki and db_populate.py according to these changes
 
 
 ## Meeting 3.
