@@ -10,7 +10,8 @@ class Place(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), nullable=False)
     capacity = db.Column(db.Integer, nullable=False)
-    peopleCount = db.Column(db.Integer, nullable=False)
+    people_count = db.Column(db.Integer, nullable=False)
+    place_type = db.Column(db.String(120), nullable=False)
     location = db.Column(db.String(60), nullable=False)
 
     queues = db.relationship("Queue", cascade="all, delete-orphan", back_populates = "place")
@@ -20,7 +21,7 @@ class Place(db.Model):
 class Queue(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     queue_type = db.Column(db.String(20), nullable = True)
-    peopleCount = db.Column(db.Integer, nullable=False)
+    people_count = db.Column(db.Integer, nullable=False)
     place_id = db.Column(db.Integer, db.ForeignKey("place.id", ondelete="CASCADE"), nullable=False)
 
     place = db.relationship("Place", back_populates = "queue")
