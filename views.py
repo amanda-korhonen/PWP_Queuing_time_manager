@@ -97,7 +97,7 @@ class PlaceItem(Resource):
 '''
 Queueing Collection and Item classes
 '''
-class QueueCollection(Resourse):
+class QueueCollection(Resource):
 
     def get(self):
         response_data =[]

@@ -5,7 +5,7 @@ from flask import request
 from werkzeug.exceptions import Forbidden, NotFound
 from werkzeug.routing import BaseConverter
 
-from .database import Place
+from database import Place
 '''
 TODO: Ei oo missään vielä kutsua convertterille
 Tarvitaanko me Queue convertteriä?
