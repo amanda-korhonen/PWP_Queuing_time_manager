@@ -1,5 +1,5 @@
-from database import db, Place, Queue, User
-from database import app
+"""Module for populating database."""
+from queuinghub.database import db, Place, Queue, User
 ctx = app.app_context()
 ctx.push()
 db.create_all()
