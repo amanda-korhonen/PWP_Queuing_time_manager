@@ -1,12 +1,10 @@
 """Database, database models and their functions for the project."""
+import click
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask.cli import with_appcontext
 
-
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///test.db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-db = SQLAlchemy(app)
+from . import db
 
 class Place(db.Model):
     '''A class to represent a place, e.g. restaurant, library, etc.'''
@@ -141,3 +139,9 @@ class User(db.Model):
     place_id = db.Column(db.Integer, db.ForeignKey("place.id", ondelete="CASCADE"), nullable=False)
 
     place = db.relationship("Place", back_populates = "user")
+
+@click.command("init-db")
+@with_appcontext
+def init_db_command():
+    '''database initialization command'''
+    db.create_all()
