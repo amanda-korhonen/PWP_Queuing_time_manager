@@ -31,19 +31,19 @@ class PlaceCollection(Resource):
         try:
             validate(request.json, Place.json_schema())
         except ValidationError as e:
-            raise BadRequest(description = str(e))
+            raise BadRequest(description = str(e)) from e
 
         place = Place()
         place.deserialize(request.json)
         try:
             db.session.add(place)
             db.session.commit()
-        except IntegrityError:
+        except IntegrityError as e:
             raise Conflict(
                 description="Place with name '{name}' already exists.".format(
                     **request.json
                 )
-            )
+            ) from e
         return Response(status=201, headers= {
             "Location": url_for("api.placeitem", place=place)
         })
@@ -69,19 +69,19 @@ class PlaceItem(Resource):
         try:
             validate(request.json, Place.json_schema())
         except ValidationError  as e:
-            raise BadRequest(description=str(e))
+            raise BadRequest(description=str(e)) from e
         
         place.deserialize(request.json)
 
         try:
             db.session.add(place)
             db.session.commit()
-        except IntegrityError:
+        except IntegrityError as e:
             raise Conflict(
                 description="Place with name '{name}' already exists.".format(
                     **request.json
                 )
-            )
+            ) from e
         return Response(status=204)
         
     # NOTE: Mikäli aikaa implementoida admin oikeus

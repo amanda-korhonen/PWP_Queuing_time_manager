@@ -1,83 +1,109 @@
+"""
+Queueing Collection and Item classes
+"""
+
 from flask import request, Response, url_for
-from flask_restful import Resource
+from flask_restful import Resource  # pylint: disable=import-error
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import UnsupportedMediaType, BadRequest, Conflict
-from jsonschema import ValidationError, validate
+from jsonschema import ValidationError, validate # pylint: disable=import-error
 
 from database import db, Queue
 
-
-'''
-Queueing Collection and Item classes
-'''
-
 class QueueCollection(Resource):
+    """
+    QueueCollection is based on these examples:
+
+    https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/tree/ex2-project-layout/sensorhub/resources
+
+    And POST implementation from this excersice:
+    https://lovelace.oulu.fi/ohjelmoitava-web/ohjelmoitava-web/implementing-rest-apis-with-flask/#posting-it-all-together
+
+    Modification list: variable names.
+    """
 
     def get(self):
-        response_data =[]
+        """Get method for queue collection."""
+        response_data = []
         queues = Queue.query.all()
         for queue in queues:
             response_data.append(queue.serialize())
         return response_data, 200
-    
+
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_adimn
     def post(self, place):
+        """Post method for queue"""
         if not request.json:
             raise UnsupportedMediaType
-        
+
         try:
             validate(request.json, Queue.json_schema())
         except ValidationError as e:
-            raise BadRequest(description = str(e))
-        
+            raise BadRequest(description=str(e)) from e
+
         queue = Queue()
         queue.deserialize(request.json)
-        queue.place = place # connects a queue to a certain place
+        queue.place = place  # connects a queue to a certain place
         try:
             db.session.add(queue)
             db.session.commit()
-        except IntegrityError:
+        except IntegrityError as e:
             raise Conflict(
                 description="Place with name '{name}' already exists.".format(
                     **request.json
                 )
-            )
-        return Response(status=201, headers={
-            "Location": url_for("api.queueitem", place=place, queue=queue.id)
-        })
+            ) from e
+        return Response(
+            status=201,
+            headers={"Location": url_for("api.queueitem", place=place, queue=queue.id)},
+        )
 
 
 class QueueItem(Resource):
+    """
+    QueueItem is based on these examples:
+
+    https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/tree/ex2-project-layout/sensorhub/resources
+
+    And POST implementation from this excersice.
+    https://lovelace.oulu.fi/ohjelmoitava-web/ohjelmoitava-web/implementing-rest-apis-with-flask/#posting-it-all-together
+
+    Modification list: variable names.
+    """
+
     def get(self, queue):
+        """Get method for queue item"""
         return queue.serialize()
 
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_adimn
     def put(self, queue):
+        """Put method for queue"""
         if not request.json:
             raise UnsupportedMediaType
-        
+
         try:
             validate(request.json, Queue.json_schema())
         except ValidationError as e:
-            raise BadRequest(description = str(e))
-        
+            raise BadRequest(description=str(e)) from e
+
         queue.deserialize(request.json)
         try:
             db.session.add(queue)
             db.session.commit()
-        except IntegrityError:
+        except IntegrityError as e:
             raise Conflict(
                 description="Place with name '{name}' already exists.".format(
                     **request.json
                 )
-            )
+            ) from e
         return Response(status=204)
-    
+
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_adim
     def delete(self, queue):
+        """Delete for queue"""
         db.session.delete(queue)
         db.session.commit()
-        return Response(status=204) # Deleted
+        return Response(status=204)  # Deleted
