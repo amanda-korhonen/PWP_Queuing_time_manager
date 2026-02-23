@@ -8,10 +8,10 @@ https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/blo
 Modification list: variable names, imports.
 '''
 from flask import Blueprint
-from flask_restful import Api # type: ignore
+from flask_restful import Api # pylint: disable=import-error
 
 from .resources.Place import PlaceCollection, PlaceItem
-from .resources.Queue import QueueCollection, QueueItem 
+from .resources.Queue import QueueCollection, QueueItem
 
 api_bp = Blueprint("api", __name__, url_prefix="/api")
 api = Api(api_bp)
@@ -30,7 +30,7 @@ def entry():
 
 api_bp.add_url_rule("/", "entry", entry)
 
-# NOTE: Vaatii convertterien käyttöä esimerkissä ne oli init funktiossa
+# NOTE: Vaatii convertterien käyttöä esimerkissä ne oli init tiedostossa
 api.add_resource(PlaceCollection, "/places/" )
 api.add_resource(PlaceItem, "/places/<place:place>/")
 api.add_resource(QueueCollection, "/places/<place:place>/queues/")
