@@ -11,7 +11,7 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import UnsupportedMediaType, BadRequest, Conflict
 from jsonschema import ValidationError, validate
 
-from QueuingHub.database import db, Place
+from queuinghub.database import db, Place
 
 class PlaceCollection(Resource):
     """ Class for PlaceCollection."""

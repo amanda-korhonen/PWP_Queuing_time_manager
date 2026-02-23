@@ -12,7 +12,7 @@ Modifications function names, variable names
 from werkzeug.exceptions import NotFound
 from werkzeug.routing import BaseConverter
 
-from database import Place
+from queuinghub.database import Place
 
 class PlaceConverter(BaseConverter):
     '''Converter for Place'''

@@ -10,8 +10,8 @@ Modification list: variable names, imports.
 from flask import Blueprint
 from flask_restful import Api # pylint: disable=import-error
 
-from .resources.Place import PlaceCollection, PlaceItem
-from .resources.Queue import QueueCollection, QueueItem
+from .resources.place import PlaceCollection, PlaceItem
+from .resources.queue import QueueCollection, QueueItem
 
 api_bp = Blueprint("api", __name__, url_prefix="/api")
 api = Api(api_bp)
