@@ -23,9 +23,11 @@ class Place(db.Model):
     https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/blob/ex2-05-validation/app.py 
     - Chapters Serial Modeling, Embedded Serial Modeling, Deserial Modeling and Dynamic Schemas, Static Methods from course Lovelace 
     https://lovelace.oulu.fi/ohjelmoitava-web/ohjelmoitava-web/implementing-rest-apis-with-flask/#embedded-serial-modeling
+    We changed the variable names in the fucntions and the json schema to match our project, but the structure of the functions is based on the references.
 
     '''
 
+    #A method to change the variables to the correct format to send to the client
     def serialize(self):
         return {
             "name": self.name,
@@ -35,6 +37,7 @@ class Place(db.Model):
             "location": self.location
         }
     
+    #A method to change the variables to the correct format to save to the database
     def deserialize(self, doc):
         self.name = doc["name"]
         self.capacity = doc["capacity"]
@@ -42,6 +45,7 @@ class Place(db.Model):
         self.place_type = doc["place_type"]
         self.location = doc["location"]
     
+    # the sructure of the json data that the server accepts
     @staticmethod
     def json_schema():
         schema = {
@@ -86,8 +90,10 @@ class Queue(db.Model):
     https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/blob/ex2-05-validation/app.py 
     - Chapters Serial Modeling, Embedded Serial Modeling, Deserial Modeling and Dynamic Schemas, Static Methods from course Lovelace 
     https://lovelace.oulu.fi/ohjelmoitava-web/ohjelmoitava-web/implementing-rest-apis-with-flask/#embedded-serial-modeling
+    We changed the variable names in the fucntions and the json schema to match our project, but the structure of the functions is based on the references.
 
     '''
+    #A method to change the variables to the correct format to send to the client
     def serialize(self):
         return {
             "queue_type": self.queue_type,
@@ -95,10 +101,12 @@ class Queue(db.Model):
             "place": self.place and self.place.name
         }
     
+    #A method to change the variables to the correct format to save to the database
     def deserialize(self, doc):
         self.queue_type = doc["queue_type"]
         self.people_count = doc["people_count"]
 
+    # the sructure of the json data that the server accepts
     @staticmethod
     def json_schema():
         schema = {
