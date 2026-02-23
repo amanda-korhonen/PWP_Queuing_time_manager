@@ -1,5 +1,7 @@
 '''
 Place Collection and Item classes
+This code has the same structure as github Examples provided in Exercise2
+of PWP course: https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/blob/ex2-project-layout/sensorhub/resources/sensor.py
 
 #TODO fullness apufunktio tänne tai jonnekki muualle
 '''
