@@ -8,7 +8,7 @@ https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/blo
 Modification list: variable names, imports.
 '''
 from flask import Blueprint
-from flask_restful import Api # pylint: disable=import-error
+from flask_restful import Api  # type: ignore
 
 from .resources.place import PlaceCollection, PlaceItem
 from .resources.queue import QueueCollection, QueueItem
