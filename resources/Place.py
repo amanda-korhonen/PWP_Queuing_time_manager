@@ -17,11 +17,7 @@ class PlaceCollection(Resource):
         response = []
         places = Place.query.all()
         for place in places:
-            response.append([place.name, 
-                            place.capacity, 
-                            place.people_count, 
-                            place.place_type, 
-                            place.location])
+            response.append(place.serialize())
         return response, 200
     
     def post(self):
