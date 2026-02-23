@@ -3,6 +3,11 @@ from flask_restful import Api
 
 from views import PlaceCollection, PlaceItem, QueueCollection, QueueItem 
 
+'''
+This code file is structually taken from this file with modifications to match our implementation
+https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/blob/ex2-project-layout/sensorhub/api.py
+'''
+
 api_bp = Blueprint("api", __name__, url_prefix="/api")
 api = Api(api_bp)
 
