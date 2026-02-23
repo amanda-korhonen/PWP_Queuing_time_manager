@@ -27,10 +27,11 @@ def create_app(test_config=None):
 
     from queuinghub import database
     from queuinghub import api
-    from queuinghub.utils import PlaceConverter
+    from queuinghub.utils import PlaceConverter, QueueConverter
     app.cli.add_command(database.init_db_command)
     #app.cli.add_command(database.generate_test_data)
     app.url_map.converters["place"] = PlaceConverter
+    app.url_map.converters["queue"] = QueueConverter
     app.register_blueprint(api.api_bp)
 
     return app

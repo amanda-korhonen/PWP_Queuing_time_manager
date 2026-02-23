@@ -12,7 +12,7 @@ Modifications function names, variable names
 from werkzeug.exceptions import NotFound
 from werkzeug.routing import BaseConverter
 
-from queuinghub.database import Place
+from queuinghub.database import Place, Queue
 
 class PlaceConverter(BaseConverter):
     '''Converter for Place'''
@@ -24,3 +24,14 @@ class PlaceConverter(BaseConverter):
 
     def to_url(self, value):
         return value.name
+
+class QueueConverter(BaseConverter):
+    """Converter for Queue"""
+    def to_python(self, value):
+        db_queue = Queue.query.filter_by(place_id=value).first()
+        if db_queue is None:
+            raise NotFound
+        return db_queue
+
+    def to_url(self, value):
+        return value.place_id
