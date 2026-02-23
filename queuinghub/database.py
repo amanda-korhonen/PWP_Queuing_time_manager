@@ -94,7 +94,7 @@ class Queue(db.Model):
     people_count = db.Column(db.Integer, nullable=False)
     place_id = db.Column(db.Integer, db.ForeignKey("place.id", ondelete="CASCADE"), nullable=False)
 
-    place = db.relationship("Place", back_populates = "queue")
+    place = db.relationship("Place", back_populates = "queues")
 
     '''
     The functions serialize, deserialize and json_schema were created based on the
