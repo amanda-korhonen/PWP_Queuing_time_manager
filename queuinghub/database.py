@@ -1,10 +1,16 @@
 """Database, database models and their functions for the project."""
 import click
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import event
+from sqlalchemy.engine import Engine
 from flask.cli import with_appcontext
 
 from . import db
+
+@event.listens_for(Engine, "connect")
+def set_sqlite_pragma(dbapi_connection, connection_record):
+    cursor = dbapi_connection.cursor()
+    cursor.execute("PRAGMA foreign_keys=ON")
+    cursor.close()
 
 class Place(db.Model):
     '''A class to represent a place, e.g. restaurant, library, etc.'''

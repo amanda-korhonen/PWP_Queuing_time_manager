@@ -1,4 +1,4 @@
-'''Initializes the QueuingHub Flask application.'''
+'''Initializes the queuinghub Flask application.'''
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 def create_app(test_config=None):
+    '''Create and configure the Flask application.'''
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SQLALCHEMY_DATABASE_URI="sqlite:///" + os.path.join(app.instance_path, "queuing.db"),
@@ -24,9 +25,9 @@ def create_app(test_config=None):
 
     db.init_app(app)
 
-    from . import database
-    from . import api
-    from .utils import PlaceConverter
+    from queuinghub import database
+    from queuinghub import api
+    from queuinghub.utils import PlaceConverter
     app.cli.add_command(database.init_db_command)
     #app.cli.add_command(database.generate_test_data)
     app.url_map.converters["place"] = PlaceConverter
