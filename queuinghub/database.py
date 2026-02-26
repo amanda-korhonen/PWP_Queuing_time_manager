@@ -1,6 +1,6 @@
 """Database, database models and their functions for the project."""
 import click
-from sqlalchemy import event
+from sqlalchemy import event, UniqueConstraint
 from sqlalchemy.engine import Engine
 from flask.cli import with_appcontext
 
@@ -90,11 +90,16 @@ class Place(db.Model):
 class Queue(db.Model):
     '''A class to represent a queue, e.g. VIP queue, regular queue, etc.'''
     id = db.Column(db.Integer, primary_key=True)
-    queue_type = db.Column(db.String(20), nullable = True)
+    queue_type = db.Column(db.String(20), nullable=False)
     people_count = db.Column(db.Integer, nullable=False)
     place_id = db.Column(db.Integer, db.ForeignKey("place.id", ondelete="CASCADE"), nullable=False)
 
     place = db.relationship("Place", back_populates = "queues")
+    # Unique constraint implementation, so that one place can't have the same
+    # queue_type, but doesn't hinder other places from having same queue_type.
+    __table_args__ = (
+        UniqueConstraint("place_id", "queue_type", name="unique_q_per_place"),
+    )
 
     '''
     The functions serialize, deserialize and json_schema were created based on the

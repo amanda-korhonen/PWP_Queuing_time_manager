@@ -46,23 +46,35 @@ def _populate_db():
             people_count = i + 5,
             place = p
         )
+
+        q2 = Queue(
+            queue_type = f"extraTestQueue{i}",
+            people_count = i + 6,
+            place = p
+        )
         
         u = User(
             password = f"hunter{i}",
             place = p
         )
 
-        db.session.add_all([p, q, u])
+        db.session.add_all([p, q, q2, u])
     
     db.session.commit()
 
 def _get_place_json():
-    """Hardcoded post-ready json for testing"""
+    """Hardcoded post-ready json for testing place."""
     return {"name": "TestPlace",
             "capacity": 300,
             "people_count": 100,
             "place_type": "Nightclub",
             "location": "Turku"
+            }
+
+def _get_queue_json():
+    """Hardcoded post-ready json for testing queue."""
+    return {"queue_type": "VIP",
+            "people_count": 30
             }
 
 class TestPlaceCollection(object):
@@ -112,16 +124,38 @@ class TestPlaceCollection(object):
 
 class TestQueueCollection(object):
     
-    RESOURCE_URL = "/places/<place:place>/queues/"
+    RESOURCE_URL = "/api/places/testingPlace1/queues/"
 
     def test_get(self, client):
         resp = client.get(self.RESOURCE_URL)
         assert resp.status_code == 200
         body = json.loads(resp.data)
-        assert len(body) == 3
+        assert len(body) == 2 # Two rows of queues per place in testing
         for item in body:
             assert "queue_type" in item
             assert "people_count" in item
+
+    def test_post_valid_request(self, client):
+        valid = _get_queue_json()
+        resp = client.post(self.RESOURCE_URL, json=valid)
+        assert resp.status_code == 201
+
+    def test_headers(self, client):
+        valid = _get_queue_json()
+        valid["queue_type"] = "Ticketless"
+        resp = client.post(self.RESOURCE_URL, json=valid)
+        assert resp.headers["Location"].endswith(self.RESOURCE_URL + valid["queue_type"] + "/")
+
+    def test_post_wrong_mediatype(self, client):
+        valid = _get_queue_json()
+        resp = client.post(self.RESOURCE_URL, data=json.dumps(valid))
+        assert resp.status_code == 415
+
+    def test_post_missing_field(self, client):
+        valid = _get_queue_json()
+        valid.pop("queue_type")
+        resp = client.post(self.RESOURCE_URL, json=valid)
+        assert resp.status_code == 400
 """
 class TestPlaceItem(object):
     RESOURCE_URL = "/api/places/"

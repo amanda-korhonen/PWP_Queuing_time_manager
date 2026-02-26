@@ -12,7 +12,7 @@ place3 = Place(name="Bar2", capacity=100, people_count=100, place_type="Bar", lo
 
 queue1 = Queue(queue_type="General", people_count=0, place=place1)
 queue2 = Queue(queue_type="VIP", people_count=100, place=place2)
-queue3 = Queue(people_count=50, place=place3)
+queue3 = Queue(queue_type="Ticketless", people_count=50, place=place3)
 queue4 = Queue(queue_type="Regular", people_count=200, place=place2)
 
 user1 = User(password="password1", place=place1)

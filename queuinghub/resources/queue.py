@@ -45,14 +45,14 @@ class QueueCollection(Resource):
         queue = Queue()
         queue.deserialize(request.json)
         queue.place = place  # connects a queue to a certain place
+        print(queue)
         try:
             db.session.add(queue)
             db.session.commit()
         except IntegrityError as e:
+            db.session.rollback()
             raise Conflict(
-                description="Place with name '{name}' already exists.".format(
-                    **request.json
-                )
+                description=f"Queue type {queue.queue_type} already exists in {place.name}."
             ) from e
         return Response(
             status=201,
