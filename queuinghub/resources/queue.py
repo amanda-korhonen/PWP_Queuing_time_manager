@@ -23,7 +23,7 @@ class QueueCollection(Resource):
     """
 
     def get(self, place):
-        """Get method for queue collection."""
+        """Get method for all queues in place."""
         response_data = []
         queues = Queue.query.filter_by(place=place).all()
         for queue in queues:
@@ -33,7 +33,7 @@ class QueueCollection(Resource):
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_adimn
     def post(self, place):
-        """Post method for queue"""
+        """Post method for a queue."""
         if not request.json:
             raise UnsupportedMediaType
 
@@ -56,7 +56,7 @@ class QueueCollection(Resource):
             ) from e
         return Response(
             status=201,
-            headers={"Location": url_for("api.queueitem", place=place, queue=queue.id)},
+            headers={"Location": url_for("api.queueitem", place=place, queue=queue)},
         )
 
 
@@ -72,14 +72,18 @@ class QueueItem(Resource):
     Modification list: variable names.
     """
 
-    def get(self, queue):
-        """Get method for queue item"""
-        return queue.serialize()
+    def get(self, queue, place):
+        """Get method for a specific queue"""
+        return {
+            "queue_type": queue.queue_type,
+            "people_count": queue.people_count,
+            "place": place.name
+        }
 
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_adimn
     def put(self, queue):
-        """Put method for queue"""
+        """Put method for a specific queue"""
         if not request.json:
             raise UnsupportedMediaType
 

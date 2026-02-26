@@ -28,10 +28,10 @@ class PlaceConverter(BaseConverter):
 class QueueConverter(BaseConverter):
     """Converter for Queue"""
     def to_python(self, value):
-        db_queue = Queue.query.filter_by(place_id=value).first()
+        db_queue = Queue.query.filter_by(queue_type=value).first()
         if db_queue is None:
             raise NotFound
         return db_queue
 
     def to_url(self, value):
-        return value.place_id
+        return value.queue_type
