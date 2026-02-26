@@ -1,19 +1,17 @@
-"""Balles"""
-import os
+"""Testing module for API resources."""
 import json
 import pytest
-import random
-import tempfile
-from flask.testing import FlaskClient
-import pytest
-from werkzeug.datastructures import Headers
 
-from queuinghub.database import Place, Queue, User
-from queuinghub import create_app, db
+from queuinghub.database import Place, Queue, User # pylint: disable=import-error
+from queuinghub import create_app, db # pylint: disable=import-error
 
 
-@pytest.fixture
-def client():
+@pytest.fixture(name="client")
+def fixture_client():
+    """
+    Initialize app and database. Fixture inspired from this link to keep pylint from screaming:
+    https://stackoverflow.com/questions/46089480/pytest-fixtures-redefining-name-from-outer-scope-pylint
+    """
 
     app = create_app(test_config="resourcetest")
 
@@ -25,13 +23,13 @@ def client():
     _populate_db()
 
     yield app.test_client()
-
+    # Following commands empty the database after testing if wanted
     #db.session.remove()
     #db.drop_all()
     ctx.pop()
 
 def _populate_db():
-    """Populates the db with three rows of each table"""
+    """Populates the db with three rows of each table, except for Queue (6 tables)."""
     for i in range(1, 4):
         p = Place(
             name = f"testingPlace{i}",
@@ -52,14 +50,14 @@ def _populate_db():
             people_count = i + 6,
             place = p
         )
-        
+
         u = User(
             password = f"hunter{i}",
             place = p
         )
 
         db.session.add_all([p, q, q2, u])
-    
+
     db.session.commit()
 
 def _get_place_json():
@@ -77,11 +75,13 @@ def _get_queue_json():
             "people_count": 30
             }
 
-class TestPlaceCollection(object):
-    """Tests for the PlaceCollection class"""
+class TestPlaceCollection():
+    """Tests for the PlaceCollection class."""
+
     RESOURCE_URL = "/api/places/"
 
     def test_get(self, client):
+        """Test for GET request."""
         resp = client.get(self.RESOURCE_URL)
         assert resp.status_code == 200
         body = json.loads(resp.data)
@@ -94,39 +94,52 @@ class TestPlaceCollection(object):
             assert "location" in item
 
     def test_post_valid_request(self, client):
+        """Test for valid POST request."""
         valid = _get_place_json()
         resp = client.post(self.RESOURCE_URL, json=valid)
         assert resp.status_code == 201
 
     def test_headers(self, client):
+        """Test for headers."""
         valid = _get_place_json()
         valid["name"] = "TestPlace2"
         resp = client.post(self.RESOURCE_URL, json=valid)
         assert resp.headers["Location"].endswith(self.RESOURCE_URL + valid["name"] + "/")
 
     def test_post_wrong_mediatype(self, client):
+        """Test for wrong mediatype."""
         valid = _get_place_json()
         resp = client.post(self.RESOURCE_URL, data=json.dumps(valid))
         assert resp.status_code == 415
 
     def test_post_missing_field(self, client):
+        """Test for missing field in JSON."""
         valid = _get_place_json()
         valid.pop("location")
         resp = client.post(self.RESOURCE_URL, json=valid)
         assert resp.status_code == 400
 
     def test_conflict(self, client):
+        """Test for conflict (already exists)."""
         valid = _get_place_json()
         valid["name"] = "testingPlace1"
         resp = client.post(self.RESOURCE_URL, json=valid)
         assert resp.status_code == 409
 
+    def test_not_allowed(self, client):
+        """Test for non-supported method."""
+        valid = _get_place_json()
+        resp = client.put(self.RESOURCE_URL, json=valid)
+        assert resp.status_code == 405
 
-class TestQueueCollection(object):
-    
+
+class TestQueueCollection():
+    """Tests for the QueueCollection class."""
+
     RESOURCE_URL = "/api/places/testingPlace1/queues/"
 
     def test_get(self, client):
+        """Test for GET request."""
         resp = client.get(self.RESOURCE_URL)
         assert resp.status_code == 200
         body = json.loads(resp.data)
@@ -136,27 +149,147 @@ class TestQueueCollection(object):
             assert "people_count" in item
 
     def test_post_valid_request(self, client):
+        """Test for valid POST request."""
         valid = _get_queue_json()
         resp = client.post(self.RESOURCE_URL, json=valid)
         assert resp.status_code == 201
 
     def test_headers(self, client):
+        """Test for headers."""
         valid = _get_queue_json()
         valid["queue_type"] = "Ticketless"
         resp = client.post(self.RESOURCE_URL, json=valid)
         assert resp.headers["Location"].endswith(self.RESOURCE_URL + valid["queue_type"] + "/")
 
     def test_post_wrong_mediatype(self, client):
+        """Test for wrong mediatype."""
         valid = _get_queue_json()
         resp = client.post(self.RESOURCE_URL, data=json.dumps(valid))
         assert resp.status_code == 415
 
     def test_post_missing_field(self, client):
+        """Test for missing field in JSON."""
         valid = _get_queue_json()
         valid.pop("queue_type")
         resp = client.post(self.RESOURCE_URL, json=valid)
         assert resp.status_code == 400
-"""
-class TestPlaceItem(object):
-    RESOURCE_URL = "/api/places/"
-"""
+
+    def test_conflict(self, client):
+        """Test for conflict (already exists)."""
+        valid = _get_queue_json()
+        valid["queue_type"] = "testQueue1"
+        resp = client.post(self.RESOURCE_URL, json=valid)
+        assert resp.status_code == 409
+
+    def test_not_allowed(self, client):
+        """Test for non-supported method."""
+        valid = _get_queue_json()
+        resp = client.put(self.RESOURCE_URL, json=valid)
+        assert resp.status_code == 405
+
+
+class TestPlaceItem():
+    """Tests for the PlaceItem class."""
+
+    RESOURCE_URL = "/api/places/testingPlace1/"
+    INVALID_URL = "/api/places/noTestingPlace/"
+
+    def test_get(self, client):
+        """Test for GET request."""
+        resp = client.get(self.RESOURCE_URL)
+        assert resp.status_code == 200
+        body = json.loads(resp.data)
+        assert len(body) == 5 # Five attributes in one place
+        assert "name" in body
+        assert "capacity" in body
+        assert "people_count" in body
+        assert "place_type" in body
+        assert "location" in body
+
+    def test_not_found(self, client):
+        """Test for invalid URL."""
+        resp = client.get(self.INVALID_URL)
+        assert resp.status_code == 404
+
+    def test_put_valid_request(self, client):
+        """Test for valid PUT request."""
+        valid = _get_place_json()
+        resp = client.put(self.RESOURCE_URL, json=valid)
+        assert resp.status_code == 201
+
+    def test_headers(self, client):
+        """Test for headers."""
+        valid = _get_place_json()
+        resp = client.put(self.RESOURCE_URL, json=valid)
+        assert resp.headers["Location"].endswith(valid["name"] + "/")
+
+    def test_post_wrong_mediatype(self, client):
+        """Test for wrong mediatype."""
+        valid = _get_place_json()
+        resp = client.put(self.RESOURCE_URL, data=json.dumps(valid))
+        assert resp.status_code == 415
+
+    def test_post_missing_field(self, client):
+        """Test for missing field in JSON."""
+        valid = _get_place_json()
+        valid.pop("name")
+        resp = client.put(self.RESOURCE_URL, json=valid)
+        assert resp.status_code == 400
+
+    def test_not_allowed(self, client):
+        """Test for non-supported method."""
+        valid = _get_place_json()
+        resp = client.post(self.RESOURCE_URL, json=valid)
+        assert resp.status_code == 405
+
+class TestQueueItem():
+    """Tests for the QueueItem class."""
+
+    RESOURCE_URL = "/api/places/testingPlace1/queues/testQueue1/"
+    INVALID_URL = "/api/places/testingPlace1/queues/noTestQueue/"
+
+    def test_get(self, client):
+        """Test for GET request."""
+        resp = client.get(self.RESOURCE_URL)
+        assert resp.status_code == 200
+        body = json.loads(resp.data)
+        assert len(body) == 3 # Three attributes in one Queue
+        assert "queue_type" in body
+        assert "people_count" in body
+        assert "place" in body
+
+    def test_not_found(self, client):
+        """Test for invalid URL."""
+        resp = client.get(self.INVALID_URL)
+        assert resp.status_code == 404
+
+    def test_put_valid_request(self, client):
+        """Test for valid PUT request."""
+        valid = _get_queue_json()
+        resp = client.put(self.RESOURCE_URL, json=valid)
+        assert resp.status_code == 201
+
+    def test_headers(self, client):
+        """Test for headers."""
+        valid = _get_queue_json()
+        resp = client.put(self.RESOURCE_URL, json=valid)
+        assert resp.headers["Location"].endswith(valid["queue_type"] + "/")
+
+    def test_post_wrong_mediatype(self, client):
+        """Test for wrong mediatype."""
+        valid = _get_queue_json()
+        resp = client.put(self.RESOURCE_URL, data=json.dumps(valid))
+        assert resp.status_code == 415
+
+    def test_post_missing_field(self, client):
+        """Test for missing field in JSON."""
+        valid = _get_queue_json()
+        valid.pop("queue_type")
+        resp = client.put(self.RESOURCE_URL, json=valid)
+        assert resp.status_code == 400
+
+    def test_not_allowed(self, client):
+        """Test for non-supported method."""
+        valid = _get_queue_json()
+        resp = client.post(self.RESOURCE_URL, json=valid)
+        assert resp.status_code == 405

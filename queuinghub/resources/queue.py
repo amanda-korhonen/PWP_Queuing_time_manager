@@ -96,11 +96,10 @@ class QueueItem(Resource):
         try:
             db.session.add(queue)
             db.session.commit()
+            #NOTE: tarvitaanko konfliktitestausta PUTeille?
         except IntegrityError as e:
             raise Conflict(
-                description="Place with name '{name}' already exists.".format(
-                    **request.json
-                )
+                description="Something went wrong."
             ) from e
         return Response(
             status=201,

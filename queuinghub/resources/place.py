@@ -60,7 +60,7 @@ class PlaceItem(Resource):
 
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_adimn
-    # TODO: Itemille oma schema?
+    # NOTE: Itemille oma schema?
     def put(self, place):
         """Put method for place."""
         if not request.json:
@@ -75,16 +75,17 @@ class PlaceItem(Resource):
         try:
             db.session.add(place)
             db.session.commit()
+            #NOTE: tarvitaanko konfliktitestausta PUTeille?
         except IntegrityError as e:
             raise Conflict(
                 description="Something went wrong."
             ) from e
-        return Response(status=204, headers= {
+        return Response(status=201, headers= {
             "Location": url_for("api.placeitem", place=place)
         })
 
     # NOTE: Mikäli aikaa implementoida admin oikeus
-    # @require_adimn
+    # @require_admin
     def delete(self, place):
         """Delete method for place."""
         db.session.delete(place)

@@ -13,7 +13,7 @@ def set_sqlite_pragma(dbapi_connection, connection_record):
     cursor.execute("PRAGMA foreign_keys=ON")
     cursor.close()
 
-#TODO: Jonojen määrä omaksi rowiksi Placelle?
+#NOTE: Jonojen määrä omaksi rowiksi Placelle?
 class Place(db.Model):
     """A class to represent a place, e.g. restaurant, library, etc."""
 
