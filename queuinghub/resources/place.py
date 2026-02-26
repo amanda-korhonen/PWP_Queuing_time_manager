@@ -60,13 +60,14 @@ class PlaceItem(Resource):
 
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_adimn
+    # TODO: Itemille oma schema?
     def put(self, place):
         """Put method for place."""
         if not request.json:
             raise UnsupportedMediaType
         try:
             validate(request.json, Place.json_schema())
-        except ValidationError  as e:
+        except ValidationError as e:
             raise BadRequest(description=str(e)) from e
 
         place.deserialize(request.json)
@@ -76,9 +77,11 @@ class PlaceItem(Resource):
             db.session.commit()
         except IntegrityError as e:
             raise Conflict(
-                description=f"Place with name {place.name} already exists."
+                description="Something went wrong."
             ) from e
-        return Response(status=204)
+        return Response(status=204, headers= {
+            "Location": url_for("api.placeitem", place=place)
+        })
 
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_adimn

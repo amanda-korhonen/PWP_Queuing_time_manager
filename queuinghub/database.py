@@ -133,8 +133,8 @@ class Queue(db.Model):
             "description": "The type of the queue, e.g. VIP",
             "type": "string"
         }
-        props["people"] = {
-            "description": "The muber of people in the queue",
+        props["people_count"] = {
+            "description": "The number of people in the queue",
             "type": "integer"
         }
         return schema
