@@ -22,10 +22,10 @@ class QueueCollection(Resource):
     Modification list: variable names.
     """
 
-    def get(self):
+    def get(self, place):
         """Get method for queue collection."""
         response_data = []
-        queues = Queue.query.all()
+        queues = Queue.query.filter_by(place=place).all()
         for queue in queues:
             response_data.append(queue.serialize())
         return response_data, 200

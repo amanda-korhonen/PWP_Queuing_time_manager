@@ -86,14 +86,11 @@ class TestPlaceCollection(object):
         resp = client.post(self.RESOURCE_URL, json=valid)
         assert resp.status_code == 201
 
-        """
+    def test_headers(self, client):
+        valid = _get_place_json()
+        valid["name"] = "TestPlace2"
+        resp = client.post(self.RESOURCE_URL, json=valid)
         assert resp.headers["Location"].endswith(self.RESOURCE_URL + valid["name"] + "/")
-        resp = client.get(resp.headers["Location"])
-        assert resp.status_code == 200
-        body = json.loads(resp.data)
-        assert body["name"] == "TestPlace"
-        assert body[""]
-        """
 
     def test_post_wrong_mediatype(self, client):
         valid = _get_place_json()
@@ -112,18 +109,20 @@ class TestPlaceCollection(object):
         resp = client.post(self.RESOURCE_URL, json=valid)
         assert resp.status_code == 409
 
+
 class TestQueueCollection(object):
     
-    RESOURCE_URL = ""
+    RESOURCE_URL = "/places/<place:place>/queues/"
 
     def test_get(self, client):
-        resp = client.get(self)
+        resp = client.get(self.RESOURCE_URL)
         assert resp.status_code == 200
         body = json.loads(resp.data)
         assert len(body) == 3
         for item in body:
             assert "queue_type" in item
             assert "people_count" in item
-
+"""
 class TestPlaceItem(object):
     RESOURCE_URL = "/api/places/"
+"""

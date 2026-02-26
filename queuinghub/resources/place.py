@@ -49,7 +49,7 @@ class PlaceCollection(Resource):
 class PlaceItem(Resource):
     """Class for PlaceItem."""
     def get(self, place):
-        """Get method for place."""
+        """Get method for a specific place."""
         return {
             "name": place.name,
             "capacity": place.capacity,
