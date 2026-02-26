@@ -15,6 +15,12 @@ def create_app(test_config=None):
 
     if test_config is None:
         app.config.from_pyfile("config.py", silent=True)
+    elif test_config == "resourcetest":
+        app.config.from_mapping(
+            SQLALCHEMY_DATABASE_URI="sqlite:///" + os.path.join(app.instance_path, "testing.db"),
+            SQLALCHEMY_TRACK_MODIFICATIONS=False,
+            TESTING=True,
+        )
     else:
         app.config.from_mapping(test_config)
 

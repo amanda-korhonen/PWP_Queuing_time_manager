@@ -17,7 +17,7 @@ class Place(db.Model):
     '''A class to represent a place, e.g. restaurant, library, etc.'''
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(20), nullable=False)
+    name = db.Column(db.String(20), unique=True, nullable=False)
     capacity = db.Column(db.Integer, nullable=False)
     people_count = db.Column(db.Integer, nullable=False)
     place_type = db.Column(db.String(120), nullable=False)
