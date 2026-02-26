@@ -82,7 +82,7 @@ class QueueItem(Resource):
 
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_adimn
-    def put(self, queue):
+    def put(self, queue, place):
         """Put method for a specific queue"""
         if not request.json:
             raise UnsupportedMediaType
@@ -102,11 +102,14 @@ class QueueItem(Resource):
                     **request.json
                 )
             ) from e
-        return Response(status=204)
+        return Response(
+            status=201,
+            headers={"Location": url_for("api.queueitem", place=place, queue=queue)},
+        )
 
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_adim
-    def delete(self, queue):
+    def delete(self, queue, place):
         """Delete for queue"""
         db.session.delete(queue)
         db.session.commit()

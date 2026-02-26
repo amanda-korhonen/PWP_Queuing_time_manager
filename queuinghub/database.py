@@ -13,8 +13,9 @@ def set_sqlite_pragma(dbapi_connection, connection_record):
     cursor.execute("PRAGMA foreign_keys=ON")
     cursor.close()
 
+#TODO: Jonojen määrä omaksi rowiksi Placelle?
 class Place(db.Model):
-    '''A class to represent a place, e.g. restaurant, library, etc.'''
+    """A class to represent a place, e.g. restaurant, library, etc."""
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), unique=True, nullable=False)
@@ -26,7 +27,7 @@ class Place(db.Model):
     queues = db.relationship("Queue", cascade="all, delete-orphan", back_populates = "place")
     user = db.relationship("User", cascade="all, delete-orphan", back_populates = "place")
 
-    '''
+    """
     The functions serialize, deserialize and json_schema were created based on the
     following references:
     - Sensor class of the sensorhub example
@@ -36,10 +37,10 @@ class Place(db.Model):
     https://lovelace.oulu.fi/ohjelmoitava-web/ohjelmoitava-web/implementing-rest-apis-with-flask/#embedded-serial-modeling
     We changed the variable names in the fucntions to match our project, 
     but the structure of the functions is based on the references.
-    '''
+    """
 
     def serialize(self):
-        '''This function is to change the variables to the correct format to send to the client.'''
+        """This function is to change the variables to the correct format to send to the client."""
         return {
             "name": self.name,
             "capacity": self.capacity,
@@ -49,7 +50,7 @@ class Place(db.Model):
         }
 
     def deserialize(self, doc):
-        '''A method to change the variables to the correct format to save to the database.'''
+        """A method to change the variables to the correct format to save to the database."""
         self.name = doc["name"]
         self.capacity = doc["capacity"]
         self.people_count = doc["people_count"]
@@ -58,7 +59,7 @@ class Place(db.Model):
 
     @staticmethod
     def json_schema():
-        '''the sructure of the json data that the server accepts'''
+        """The sructure of the json data that the server accepts."""
         schema = {
             "type": "object",
             "required": ["name", "capacity", "people_count", "place_type", "location"]
@@ -88,7 +89,7 @@ class Place(db.Model):
 
 
 class Queue(db.Model):
-    '''A class to represent a queue, e.g. VIP queue, regular queue, etc.'''
+    """A class to represent a queue, e.g. VIP queue, regular queue, etc."""
     id = db.Column(db.Integer, primary_key=True)
     queue_type = db.Column(db.String(20), nullable=False)
     people_count = db.Column(db.Integer, nullable=False)
@@ -114,7 +115,7 @@ class Queue(db.Model):
     '''
 
     def serialize(self):
-        '''A method to change the variables to the correct format to send to the client'''
+        """A method to change the variables to the correct format to send to the client."""
         return {
             "queue_type": self.queue_type,
             "people_count": self.people_count,
@@ -122,13 +123,13 @@ class Queue(db.Model):
         }
 
     def deserialize(self, doc):
-        '''A method to change the variables to the correct format to save to the database'''
+        """A method to change the variables to the correct format to save to the database."""
         self.queue_type = doc["queue_type"]
         self.people_count = doc["people_count"]
 
     @staticmethod
     def json_schema():
-        '''the sructure of the json data that the server accepts'''
+        """The structure of the json data that the server accepts"""
         schema = {
             "type": "object",
             "required": ["queue_type", "people_count"]
@@ -145,7 +146,7 @@ class Queue(db.Model):
         return schema
 
 class User(db.Model):
-    '''A class to represent a user, e.g. restaurant owner etc.'''
+    """A class to represent a user, e.g. restaurant owner etc."""
     id = db.Column(db.Integer, primary_key=True)
     password = db.Column(db.String(60), nullable = False)
     place_id = db.Column(db.Integer, db.ForeignKey("place.id", ondelete="CASCADE"), nullable=False)
@@ -155,5 +156,5 @@ class User(db.Model):
 @click.command("init-db")
 @with_appcontext
 def init_db_command():
-    '''database initialization command'''
+    """Database initialization command"""
     db.create_all()
