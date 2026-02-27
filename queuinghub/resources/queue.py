@@ -50,7 +50,7 @@ class QueueCollection(Resource):
             db.session.add(queue)
             db.session.commit()
         except IntegrityError as e:
-            db.session.rollback()
+            db.session.rollback() # Use rollback because of unique constraint
             raise Conflict(
                 description=f"Queue type {queue.queue_type} already exists in {place.name}."
             ) from e
@@ -96,10 +96,10 @@ class QueueItem(Resource):
         try:
             db.session.add(queue)
             db.session.commit()
-            #NOTE: tarvitaanko konfliktitestausta PUTeille?
         except IntegrityError as e:
+            db.session.rollback() # Use rollback because of unique constraint
             raise Conflict(
-                description="Something went wrong."
+                description=f"Queue type {queue.queue_type} already exists in {place.name}."
             ) from e
         return Response(
             status=201,

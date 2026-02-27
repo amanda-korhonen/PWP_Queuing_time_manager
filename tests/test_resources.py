@@ -236,6 +236,13 @@ class TestPlaceItem():
         resp = client.put(self.RESOURCE_URL, json=valid)
         assert resp.status_code == 400
 
+    def test_conflict(self, client):
+        """Test for conflict (already exists)."""
+        valid = _get_place_json()
+        valid["name"] = "testingPlace3"
+        resp = client.put(self.RESOURCE_URL, json=valid)
+        assert resp.status_code == 409
+
     def test_not_allowed(self, client):
         """Test for non-supported method."""
         valid = _get_place_json()
@@ -287,6 +294,13 @@ class TestQueueItem():
         valid.pop("queue_type")
         resp = client.put(self.RESOURCE_URL, json=valid)
         assert resp.status_code == 400
+
+    def test_conflict(self, client):
+        """Test for conflict (already exists)."""
+        valid = _get_queue_json()
+        valid["queue_type"] = "extraTestQueue1"
+        resp = client.put(self.RESOURCE_URL, json=valid)
+        assert resp.status_code == 409
 
     def test_not_allowed(self, client):
         """Test for non-supported method."""

@@ -75,10 +75,10 @@ class PlaceItem(Resource):
         try:
             db.session.add(place)
             db.session.commit()
-            #NOTE: tarvitaanko konfliktitestausta PUTeille?
         except IntegrityError as e:
+            db.session.rollback() # Use rollback because of unique constraint
             raise Conflict(
-                description="Something went wrong."
+                description=f"Place with name {place.name} already exists."
             ) from e
         return Response(status=201, headers= {
             "Location": url_for("api.placeitem", place=place)
