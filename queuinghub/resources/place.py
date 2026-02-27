@@ -11,7 +11,8 @@ from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import UnsupportedMediaType, BadRequest, Conflict
 from jsonschema import ValidationError, validate # pylint: disable=import-error
 
-from queuinghub.database import db, Place
+from queuinghub.database import Place
+from queuinghub import db
 
 class PlaceCollection(Resource):
     """

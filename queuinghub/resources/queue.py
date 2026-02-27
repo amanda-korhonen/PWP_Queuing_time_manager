@@ -112,7 +112,7 @@ class QueueItem(Resource):
 
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_adim
-    def delete(self, queue, place):
+    def delete(self, queue):
         """Delete for queue"""
         db.session.delete(queue)
         db.session.commit()
