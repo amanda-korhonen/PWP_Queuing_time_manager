@@ -89,7 +89,11 @@ class Place(db.Model):
 
 
 class Queue(db.Model):
-    """A class to represent a queue, e.g. VIP queue, regular queue, etc."""
+    """
+    A class to represent a queue, e.g. VIP queue, regular queue, etc.
+    Help for setting up unique constraint was found from the following post:
+    https://stackoverflow.com/questions/14355499/how-to-model-a-unique-constraint-in-sqlalchemy#76066471
+    """
     id = db.Column(db.Integer, primary_key=True)
     queue_type = db.Column(db.String(20), nullable=False)
     people_count = db.Column(db.Integer, nullable=False)

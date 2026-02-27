@@ -1,15 +1,23 @@
-"""Testing module for API resources."""
+"""
+Testing module for API resources.
+Most of this code is the same as in exercise 2 github:
+https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/blob/ex2-project-layout/tests/test_resource.py
+
+Tests are mostly 1:1 as in the exercise, but the test setup is slightly different.
+Instead of using tempfiles, the test fixture makes a test database in the instance folder.
+This allows for easier debugging (in my opinion).
+"""
 import json
 import pytest
 
-from queuinghub.database import Place, Queue, User # pylint: disable=import-error
-from queuinghub import create_app, db # pylint: disable=import-error
+from queuinghub.database import Place, Queue, User
+from queuinghub import create_app, db
 
 
 @pytest.fixture(name="client")
 def fixture_client():
     """
-    Initialize app and database. Fixture inspired from this link to keep pylint from screaming:
+    Initialize app and database. Fixture found from following post to keep pylint from screaming:
     https://stackoverflow.com/questions/46089480/pytest-fixtures-redefining-name-from-outer-scope-pylint
     """
 
@@ -26,6 +34,7 @@ def fixture_client():
     # Following commands empty the database after testing if wanted
     #db.session.remove()
     #db.drop_all()
+
     ctx.pop()
 
 def _populate_db():
@@ -61,7 +70,7 @@ def _populate_db():
     db.session.commit()
 
 def _get_place_json():
-    """Hardcoded post-ready json for testing place."""
+    """Hardcoded post-ready json for Place tests."""
     return {"name": "TestPlace",
             "capacity": 300,
             "people_count": 100,
@@ -70,7 +79,7 @@ def _get_place_json():
             }
 
 def _get_queue_json():
-    """Hardcoded post-ready json for testing queue."""
+    """Hardcoded post-ready json for Queue tests."""
     return {"queue_type": "VIP",
             "people_count": 30
             }
