@@ -232,25 +232,30 @@ class TestPlaceItem():
         resp = client.put(self.RESOURCE_URL, json=valid)
         assert resp.headers["Location"].endswith(valid["name"] + "/")
 
-    def test_post_wrong_mediatype(self, client):
+    def test_put_wrong_mediatype(self, client):
         """Test for wrong mediatype."""
         valid = _get_place_json()
         resp = client.put(self.RESOURCE_URL, data=json.dumps(valid))
         assert resp.status_code == 415
 
-    def test_post_missing_field(self, client):
+    def test_put_missing_field(self, client):
         """Test for missing field in JSON."""
         valid = _get_place_json()
         valid.pop("name")
         resp = client.put(self.RESOURCE_URL, json=valid)
         assert resp.status_code == 400
 
-    def test_conflict(self, client):
+    def test_put_conflict(self, client):
         """Test for conflict (already exists)."""
         valid = _get_place_json()
         valid["name"] = "testingPlace3"
         resp = client.put(self.RESOURCE_URL, json=valid)
         assert resp.status_code == 409
+
+    def test_delete(self, client):
+        """Test for DELETE request."""
+        resp = client.delete(self.RESOURCE_URL)
+        assert resp.status_code == 204
 
     def test_not_allowed(self, client):
         """Test for non-supported method."""
@@ -291,25 +296,30 @@ class TestQueueItem():
         resp = client.put(self.RESOURCE_URL, json=valid)
         assert resp.headers["Location"].endswith(valid["queue_type"] + "/")
 
-    def test_post_wrong_mediatype(self, client):
+    def test_put_wrong_mediatype(self, client):
         """Test for wrong mediatype."""
         valid = _get_queue_json()
         resp = client.put(self.RESOURCE_URL, data=json.dumps(valid))
         assert resp.status_code == 415
 
-    def test_post_missing_field(self, client):
+    def test_put_missing_field(self, client):
         """Test for missing field in JSON."""
         valid = _get_queue_json()
         valid.pop("queue_type")
         resp = client.put(self.RESOURCE_URL, json=valid)
         assert resp.status_code == 400
 
-    def test_conflict(self, client):
+    def test_put_conflict(self, client):
         """Test for conflict (already exists)."""
         valid = _get_queue_json()
         valid["queue_type"] = "extraTestQueue1"
         resp = client.put(self.RESOURCE_URL, json=valid)
         assert resp.status_code == 409
+
+    def test_delete(self, client):
+        """Test for DELETE request."""
+        resp = client.delete(self.RESOURCE_URL)
+        assert resp.status_code == 204
 
     def test_not_allowed(self, client):
         """Test for non-supported method."""

@@ -20,6 +20,8 @@ class QueueCollection(Resource):
     https://lovelace.oulu.fi/ohjelmoitava-web/ohjelmoitava-web/implementing-rest-apis-with-flask/#posting-it-all-together
 
     Modification list: variable names.
+
+    Allowed methods: GET, POST
     """
 
     def get(self, place):
@@ -70,6 +72,8 @@ class QueueItem(Resource):
     https://lovelace.oulu.fi/ohjelmoitava-web/ohjelmoitava-web/implementing-rest-apis-with-flask/#posting-it-all-together
 
     Modification list: variable names.
+
+    Allowed methods: GET, PUT, DELETE
     """
 
     def get(self, queue, place):

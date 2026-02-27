@@ -14,7 +14,18 @@ from jsonschema import ValidationError, validate # pylint: disable=import-error
 from queuinghub.database import db, Place
 
 class PlaceCollection(Resource):
-    """ Class for PlaceCollection."""
+    """
+    PlaceCollection is based on these examples:
+
+    https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/tree/ex2-project-layout/sensorhub/resources
+
+    And POST implementation from this excersice:
+    https://lovelace.oulu.fi/ohjelmoitava-web/ohjelmoitava-web/implementing-rest-apis-with-flask/#posting-it-all-together
+
+    Modification list: variable names.
+
+    Allowed methods: GET, POST
+    """
     def get(self):
         """Get method for PlaceCollection."""
         response = []
@@ -47,7 +58,18 @@ class PlaceCollection(Resource):
         })
 
 class PlaceItem(Resource):
-    """Class for PlaceItem."""
+    """
+    PlaceItem is based on these examples:
+
+    https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/tree/ex2-project-layout/sensorhub/resources
+
+    And POST implementation from this excersice.
+    https://lovelace.oulu.fi/ohjelmoitava-web/ohjelmoitava-web/implementing-rest-apis-with-flask/#posting-it-all-together
+
+    Modification list: variable names.
+
+    Allowed methods: GET, PUT, DELETE
+    """
     def get(self, place):
         """Get method for a specific place."""
         return {
