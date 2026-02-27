@@ -70,7 +70,7 @@ def _populate_db():
     db.session.commit()
 
 def _get_place_json():
-    """Hardcoded post-ready json for Place tests."""
+    """Hardcoded POST/PUT-ready json for Place tests."""
     return {"name": "TestPlace",
             "capacity": 300,
             "people_count": 100,
@@ -79,7 +79,7 @@ def _get_place_json():
             }
 
 def _get_queue_json():
-    """Hardcoded post-ready json for Queue tests."""
+    """Hardcoded POST/PUT-ready json for Queue tests."""
     return {"queue_type": "VIP",
             "people_count": 30
             }
