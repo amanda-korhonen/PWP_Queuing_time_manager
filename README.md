@@ -61,8 +61,11 @@ db.session.add_all([queue1, queue2])
 db.session.commit()
 ctx.pop()
 ```
-
-
+Running tests:
+```
+# In project root, run pylint with this command:
+pytest --cov-report term-missing --cov=.
+```
 
 
 
