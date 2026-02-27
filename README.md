@@ -63,7 +63,7 @@ ctx.pop()
 ```
 Running tests:
 ```
-# In project root, run pylint with this command:
+# In project root, run pytest with this command:
 pytest --cov-report term-missing --cov=.
 ```
 
