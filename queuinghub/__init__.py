@@ -1,4 +1,11 @@
-'''Initializes the queuinghub Flask application.'''
+'''
+Initializes the queuinghub Flask application.
+
+This file is modified from this pwp-sensorhub-example in branch ex2-project-layout
+https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/blob/ex2-project-layout/sensorhub/__init__.py
+
+Modifications: variable names.
+'''
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
