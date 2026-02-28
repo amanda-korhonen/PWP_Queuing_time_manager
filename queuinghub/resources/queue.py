@@ -3,10 +3,10 @@ Queueing Collection and Item classes
 """
 
 from flask import request, Response, url_for
-from flask_restful import Resource  # pylint: disable=import-error
+from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
-from werkzeug.exceptions import UnsupportedMediaType, BadRequest, Conflict
-from jsonschema import ValidationError, validate # pylint: disable=import-error
+from werkzeug.exceptions import UnsupportedMediaType, BadRequest, Conflict, NotFound
+from jsonschema import ValidationError, validate
 
 from queuinghub.database import db, Queue
 
@@ -58,9 +58,14 @@ class QueueCollection(Resource):
             ) from e
         return Response(
             status=201,
-            headers={"Location": url_for("api.queueitem", place=place, queue=queue)},
+            headers={
+                "Location": url_for(
+                    "api.queueitem", 
+                    place=place, 
+                    queue_type=queue.queue_type
+                )
+            },
         )
-
 
 class QueueItem(Resource):
     """
@@ -76,8 +81,11 @@ class QueueItem(Resource):
     Allowed methods: GET, PUT, DELETE
     """
 
-    def get(self, queue, place):
+    def get(self, place, queue_type):
         """Get method for a specific queue"""
+        queue = Queue.query.filter_by(place=place, queue_type=queue_type).first()
+        if not queue:
+            raise NotFound
         return {
             "queue_type": queue.queue_type,
             "people_count": queue.people_count,
@@ -86,7 +94,7 @@ class QueueItem(Resource):
 
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_adimn
-    def put(self, queue, place):
+    def put(self, place, queue_type):
         """Put method for a specific queue"""
         if not request.json:
             raise UnsupportedMediaType
@@ -95,6 +103,10 @@ class QueueItem(Resource):
             validate(request.json, Queue.json_schema())
         except ValidationError as e:
             raise BadRequest(description=str(e)) from e
+
+        queue = Queue.query.filter_by(place=place, queue_type=queue_type).first()
+        if not queue:
+            raise NotFound
 
         queue.deserialize(request.json)
         try:
@@ -112,8 +124,11 @@ class QueueItem(Resource):
 
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_adim
-    def delete(self, queue, place):
+    def delete(self, place, queue_type):
         """Delete for queue"""
+        queue = Queue.query.filter_by(place=place, queue_type=queue_type).first()
+        if not queue:
+            raise NotFound
         db.session.delete(queue)
         db.session.commit()
         return Response(status=204)  # Deleted
