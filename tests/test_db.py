@@ -58,10 +58,10 @@ def _get_place(name="Test Place", capacity=10, place_type="Test Type", location=
     )
     return place
 
-def _get_queue(name="Test Queue"):
+def _get_queue(queue_type="Test Queue"):
     '''Helper function to create a Queue instance.'''
     queue = Queue(
-        name=name,
+        queue_type=queue_type,
         people_count=0
     )
     return queue
@@ -106,8 +106,8 @@ def test_create_instances(db_handle):
 def test_place_one_to_many_queue(db_handle):
     '''Tests that we can add more than one queue to a place.'''
     place = _get_place()
-    queue1 = _get_queue(name="Queue 1")
-    queue2 = _get_queue(name="Queue 2")
+    queue1 = _get_queue(queue_type="Queue 1")
+    queue2 = _get_queue(queue_type="Queue 2")
 
     queue1.place = place
     queue2.place = place
@@ -121,22 +121,38 @@ def test_place_one_to_many_queue(db_handle):
     assert len(db_place.queues) == 2
 
 def test_user_onetoone_place(db_handle):
-    '''Tests that a user can be associated with only one place.'''
+    '''Tests that a user can be associated with only one place and that place can have only one user.'''
+    # Try to associate different user with the same place, should raise an error
+    place = _get_place()
+    user1 = _get_user(password="pw1")
+    user2 = _get_user(password="pw2")
+
+    user1.place = place
+    user2.place = place
+    db_handle.session.add(place)
+    db_handle.session.add(user1)
+    db_handle.session.add(user2)
+
+    with pytest.raises(IntegrityError):
+        db_handle.session.commit()
+
+    db_handle.session.rollback()  # rollback the failed transaction
+
+    #try to associate the same user to a different place, should overwrite the previous association
     place1 = _get_place(name="Place 1")
     place2 = _get_place(name="Place 2")
     user = _get_user()
 
     user.place = place1
 
-    db_handle.session.add(place1)
-    db_handle.session.add(place2)
-    db_handle.session.add(user)
+    db_handle.session.add_all([place1, place2, user])
     db_handle.session.commit()
 
-    # Try to associate the same user with another place, should raise an error
-    with pytest.raises(IntegrityError):
-        #user.place = place2
-        db_handle.session.commit()
+    # Reassign to new place
+    user.place = place2
+    db_handle.session.commit()
+
+    assert user.place == place2
 
 def test_queue_ondelete_place(db_handle):
     '''Tests that deleting a place also deletes its queues.'''
@@ -155,10 +171,30 @@ def test_queue_ondelete_place(db_handle):
     assert place.query.count() == 0
     assert queue.query.count() == 0
 
+
+def test_user_ondelete_place(db_handle):
+    '''Tests that deleting a place also deletes its user.'''
+    place = _get_place()
+    user = _get_user()
+
+    user.place = place
+
+    db_handle.session.add(place)
+    db_handle.session.add(user)
+    db_handle.session.commit()
+
+    db_handle.session.delete(place)
+    db_handle.session.commit()
+
+    assert place.query.count() == 0
+    assert user.query.count() == 0
+
 def test_queue_columns(db_handle):
     '''Tests that the columns accept the expected values. Numerical columns accept only numbers,
     and string columns accept only strings.'''
     queue = _get_queue()
+    place = _get_place()
+    queue.place = place
 
     queue.queue_type = 1  # Invalid type, should raise an error
     db_handle.session.add(queue)
@@ -192,14 +228,14 @@ def test_queue_columns(db_handle):
 def test_place_columns(db_handle):
     '''Tests that the columns accept the expected values.'''
     place = _get_place()
-
+    
     place.name = 123  # Invalid type, should raise an error
     db_handle.session.add(place)
     with pytest.raises(StatementError):
         db_handle.session.commit()
 
     db_handle.session.rollback()
-
+    
     place = _get_place()
     place.capacity = "Not a number"  # Invalid type, should raise an error
     db_handle.session.add(place)
@@ -273,8 +309,8 @@ def test_place_columns(db_handle):
 
 def test_queue_unique_constraint(db_handle):
     '''Tests that the queue name is unique within a place.'''
-    queue1 = _get_queue(name="Queue 1")
-    queue2 = _get_queue(name="Queue 1")  # Same name to trigger unique constraint
+    queue1 = _get_queue(queue_type="Queue 1")
+    queue2 = _get_queue(queue_type="Queue 1")  # Same name to trigger unique constraint
 
     db_handle.session.add(queue1)
     db_handle.session.add(queue2)

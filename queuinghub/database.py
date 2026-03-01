@@ -25,7 +25,7 @@ class Place(db.Model):
     location = db.Column(db.String(60), nullable=False)
 
     queues = db.relationship("Queue", cascade="all, delete-orphan", back_populates = "place")
-    user = db.relationship("User", cascade="all, delete-orphan", back_populates = "place")
+    user = db.relationship("User", cascade="all, delete-orphan", back_populates = "place", uselist=False)
 
     """
     The functions serialize, deserialize and json_schema were created based on the
@@ -153,7 +153,7 @@ class User(db.Model):
     """A class to represent a user, e.g. restaurant owner etc."""
     id = db.Column(db.Integer, primary_key=True)
     password = db.Column(db.String(60), nullable = False)
-    place_id = db.Column(db.Integer, db.ForeignKey("place.id", ondelete="CASCADE"), nullable=False)
+    place_id = db.Column(db.Integer, db.ForeignKey("place.id", ondelete="CASCADE"), unique=True, nullable=False)
 
     place = db.relationship("Place", back_populates = "user")
 
