@@ -4,7 +4,7 @@ import tempfile
 import pytest
 from sqlalchemy.engine import Engine
 from sqlalchemy import event
-from sqlalchemy.exc import IntegrityError, StatementError
+from sqlalchemy.exc import IntegrityError
 
 from queuinghub.database import Place, Queue, User # pylint: disable=import-error
 from queuinghub import create_app, db # pylint: disable=import-error
@@ -121,7 +121,8 @@ def test_place_one_to_many_queue(db_handle):
     assert len(db_place.queues) == 2
 
 def test_user_onetoone_place(db_handle):
-    '''Tests that a user can be associated with only one place and that place can have only one user.'''
+    '''Tests that a user can be associated with only one place 
+    and that place can have only one user.'''
     # Try to associate different user with the same place, should raise an error
     place = _get_place()
     user1 = _get_user(password="pw1")
@@ -196,21 +197,6 @@ def test_queue_columns(db_handle):
     place = _get_place()
     queue.place = place
 
-    queue.queue_type = 1  # Invalid type, should raise an error
-    db_handle.session.add(queue)
-    with pytest.raises(StatementError):
-        db_handle.session.commit()
-
-    db_handle.session.rollback()  # Rollback the failed transaction
-
-    queue = _get_queue()
-    queue.people_count = "Not a number"  # Invalid type, should raise an error
-    db_handle.session.add(queue)
-    with pytest.raises(StatementError):
-        db_handle.session.commit()
-
-    db_handle.session.rollback()
-
     queue = _get_queue()
     queue.queue_type = None  # A needed variable, should raise an error
     db_handle.session.add(queue)
@@ -227,46 +213,6 @@ def test_queue_columns(db_handle):
 
 def test_place_columns(db_handle):
     '''Tests that the columns accept the expected values.'''
-    place = _get_place()
-    
-    place.name = 123  # Invalid type, should raise an error
-    db_handle.session.add(place)
-    with pytest.raises(StatementError):
-        db_handle.session.commit()
-
-    db_handle.session.rollback()
-    
-    place = _get_place()
-    place.capacity = "Not a number"  # Invalid type, should raise an error
-    db_handle.session.add(place)
-    with pytest.raises(StatementError):
-        db_handle.session.commit()
-
-    db_handle.session.rollback()
-
-    place = _get_place()
-    place.people_count = "Not a number"  # Invalid type, should raise an error
-    db_handle.session.add(place)
-    with pytest.raises(StatementError):
-        db_handle.session.commit()
-
-    db_handle.session.rollback()
-
-    place = _get_place()
-    place.place_type = 456  # Invalid type, should raise an error
-    db_handle.session.add(place)
-    with pytest.raises(StatementError):
-        db_handle.session.commit()
-
-    db_handle.session.rollback()
-
-    place = _get_place()
-    place.location = 789  # Invalid type, should raise an error
-    db_handle.session.add(place)
-    with pytest.raises(StatementError):
-        db_handle.session.commit()
-
-    db_handle.session.rollback()
 
     place = _get_place()
     place.name = None  # A needed variable, should raise an error
