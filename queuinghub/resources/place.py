@@ -87,7 +87,8 @@ class PlaceItem(Resource):
             "capacity": place.capacity,
             "people_count": place.people_count,
             "place_type": place.place_type,
-            "location": place.location
+            "location": place.location,
+            "fullness": place.people_count / place.capacity
         }
 
     # NOTE: Mikäli aikaa implementoida admin oikeus
