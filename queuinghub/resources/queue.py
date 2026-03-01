@@ -61,7 +61,7 @@ class QueueCollection(Resource):
             headers={
                 "Location": url_for(
                     "api.queueitem", 
-                    place=place, 
+                    place=place,
                     queue_type=queue.queue_type
                 )
             },

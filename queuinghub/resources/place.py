@@ -32,7 +32,16 @@ class PlaceCollection(Resource):
         response = []
         places = Place.query.all()
         for place in places:
-            response.append(place.serialize())
+            place_data = place.serialize()
+            #the fullness calculating logic
+            if place.capacity:
+                fullness = place.people_count / place.capacity
+            else:
+                fullness = 0
+
+            place_data["fullness"] = fullness
+            response.append(place_data)
+
         return response, 200
 
     def post(self):
