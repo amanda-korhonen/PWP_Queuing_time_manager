@@ -101,6 +101,7 @@ class TestPlaceCollection():
             assert "people_count" in item
             assert "place_type" in item
             assert "location" in item
+            assert "fullness" in item
 
     def test_post_valid_request(self, client):
         """Test for valid POST request."""
@@ -208,12 +209,13 @@ class TestPlaceItem():
         resp = client.get(self.RESOURCE_URL)
         assert resp.status_code == 200
         body = json.loads(resp.data)
-        assert len(body) == 5 # Five attributes in one place
+        assert len(body) == 6 # Six attributes in one Place (including fullness)
         assert "name" in body
         assert "capacity" in body
         assert "people_count" in body
         assert "place_type" in body
         assert "location" in body
+        assert "fullness" in body
 
     def test_not_found(self, client):
         """Test for invalid URL."""
