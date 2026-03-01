@@ -119,7 +119,13 @@ class QueueItem(Resource):
             ) from e
         return Response(
             status=201,
-            headers={"Location": url_for("api.queueitem", place=place, queue=queue)},
+            headers={
+                "Location": url_for( 
+                    "api.queueitem", 
+                    place=place,
+                    queue_type=queue.queue_type
+                )
+            },
         )
 
     # NOTE: Mikäli aikaa implementoida admin oikeus
