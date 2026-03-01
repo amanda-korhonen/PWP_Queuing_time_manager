@@ -5,7 +5,7 @@ https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/blo
 
 Tests are mostly 1:1 as in the exercise, but the test setup is slightly different.
 Instead of using tempfiles, the test fixture makes a test database in the instance folder.
-This allows for easier debugging (in my opinion).
+This allows for easier debugging (in my opinion. As a bonus, this gets rid of Windows errors).
 """
 import json
 import pytest
@@ -38,7 +38,7 @@ def fixture_client():
     ctx.pop()
 
 def _populate_db():
-    """Populates the db with three rows of each table, except for Queue (6 tables)."""
+    """Populates the db with three rows of each table, except for Queue (6 rows)."""
     for i in range(1, 4):
         p = Place(
             name = f"testingPlace{i}",

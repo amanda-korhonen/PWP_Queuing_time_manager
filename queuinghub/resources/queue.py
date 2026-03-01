@@ -108,7 +108,7 @@ class QueueItem(Resource):
         if not queue:
             raise NotFound
 
-        newname = (request.json["queue_type"]) # Use this to inform about conflict
+        newname = request.json["queue_type"] # Use this to inform about conflict
         queue.deserialize(request.json)
         try:
             db.session.add(queue)
