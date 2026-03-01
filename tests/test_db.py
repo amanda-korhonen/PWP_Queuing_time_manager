@@ -12,8 +12,8 @@ from sqlalchemy.engine import Engine
 from sqlalchemy import event
 from sqlalchemy.exc import IntegrityError
 
-from queuinghub.database import Place, Queue, User # pylint: disable=import-error
-from queuinghub import create_app, db # pylint: disable=import-error
+from queuinghub.database import Place, Queue, User
+from queuinghub import create_app, db
 
 
 

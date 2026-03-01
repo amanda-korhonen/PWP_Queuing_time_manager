@@ -6,10 +6,10 @@ https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/blo
 #TODO fullness apufunktio tänne tai jonnekki muualle
 '''
 from flask import request, Response, url_for
-from flask_restful import Resource # pylint: disable=import-error
+from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import UnsupportedMediaType, BadRequest, Conflict
-from jsonschema import ValidationError, validate # pylint: disable=import-error
+from jsonschema import ValidationError, validate
 
 from queuinghub.database import Place
 from queuinghub import db
