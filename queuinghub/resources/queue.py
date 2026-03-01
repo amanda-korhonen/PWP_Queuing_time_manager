@@ -108,6 +108,7 @@ class QueueItem(Resource):
         if not queue:
             raise NotFound
 
+        newname = (request.json["queue_type"]) # Use this to inform about conflict
         queue.deserialize(request.json)
         try:
             db.session.add(queue)
@@ -115,7 +116,7 @@ class QueueItem(Resource):
         except IntegrityError as e:
             db.session.rollback() # Use rollback because of unique constraint
             raise Conflict(
-                description=f"Queue type {queue.queue_type} already exists in {place.name}."
+                description=f"Queue type {newname} already exists in {place.name}."
             ) from e
         return Response(
             status=201,
