@@ -1,4 +1,10 @@
-'''Testing for the database models.'''
+'''
+Testing for the database models.
+The tests in this file are based on the example test file provided in the course materials:
+https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/blob/ex2-project-layout/tests/test_db.py
+The variables and functions have been changed to fit our project and our models, 
+but the structure is from the example.
+'''
 import os
 import tempfile
 import pytest
@@ -9,12 +15,7 @@ from sqlalchemy.exc import IntegrityError
 from queuinghub.database import Place, Queue, User # pylint: disable=import-error
 from queuinghub import create_app, db # pylint: disable=import-error
 
-'''
-The tests in this file are based on the example test file provided in the course materials:
-https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/blob/ex2-project-layout/tests/test_db.py
-The variables and functions have been changed to fit our project and our models, 
-but the structure is from the example.
-'''
+
 
 @event.listens_for(Engine, "connect")
 def set_sqlite_pragma(dbapi_connection, connection_record):
@@ -23,8 +24,8 @@ def set_sqlite_pragma(dbapi_connection, connection_record):
     cursor.execute("PRAGMA foreign_keys=ON")
     cursor.close()
 
-@pytest.fixture
-def db_handle():
+@pytest.fixture(name="db_handle")
+def fixture_db_handle():
     '''Setting up a temporary database for testing.'''
     db_fd, db_fname = tempfile.mkstemp()
     config = {
