@@ -212,6 +212,12 @@ class TestLocationCollection():
         assert "TestLocation" in body
         assert isinstance(body["TestLocation"], list)
         assert len(body["TestLocation"]) == 3 # Three places in testing location
+    
+    def test_not_allowed(self, client):
+        """Test for non-supported method."""
+        valid = _get_queue_json()
+        resp = client.put(self.RESOURCE_URL, json=valid)
+        assert resp.status_code == 405
 
 class TestLocationItem():
     """Tests for the LocationItem class."""
