@@ -9,7 +9,7 @@ Queuing Time Manager
 
 
 **Requirements**
-* **We recommend using venv** when creating and populating database.
+* **We recommend using venv**
 *  We use SQLite
 *  python 3
 *  **requirements.txt** file contains all the project dependencies
@@ -60,14 +60,25 @@ db.session.add_all([queue1, queue2])
 # Then commit the changes
 db.session.commit()
 ctx.pop()
-```
-Running tests:
+```  
+### Running tests:  
+To get test coverage:
 ```
 # In project root, run pytest with this command:
 pytest --cov-report term-missing --cov=.
 ```
-
-
+This command to run both tests:
+```
+pytest tests
+``` 
+This command to run database testing:
+```
+pytest tests/test_db.py 
+``` 
+This command to run resource testing:
+```
+pytest tests/test_resources.py 
+``` 
 
 
 
