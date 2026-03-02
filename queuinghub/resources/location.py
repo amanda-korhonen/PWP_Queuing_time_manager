@@ -1,7 +1,7 @@
 from flask import request, Response, url_for
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
-from werkzeug.exceptions import UnsupportedMediaType, BadRequest, Conflict
+from werkzeug.exceptions import UnsupportedMediaType, BadRequest, Conflict, NotFound
 from jsonschema import ValidationError, validate
 from collections import defaultdict
 
@@ -24,7 +24,7 @@ class LocationItem(Resource):
     
     def get(self, location):
         response = []
-        places = Place.query.filter_by(location=location)
+        places = Place.query.filter_by(location=location).all()
         if not places:
             raise NotFound
         for place in places:

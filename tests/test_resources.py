@@ -235,10 +235,9 @@ class TestLocationItem():
             assert place["location"] == "TestLocation"
 
     def test_not_found(self, client):
+        """Test for invalid URL."""
         resp = client.get(self.INVALID_URL)
-        assert resp.status_code == 200
-        body = json.loads(resp.data)
-        assert body == []
+        assert resp.status_code == 404
 
 class TestPlaceItem():
     """Tests for the PlaceItem class."""
