@@ -62,6 +62,7 @@ db.session.commit()
 ctx.pop()
 ```  
 ### Running tests:  
+It is not necessary to create a datbase before testing, the tests create their own temporary databases.  
 To get test coverage:
 ```
 # In project root, run pytest with this command:
