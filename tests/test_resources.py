@@ -11,7 +11,7 @@ import json
 import pytest
 
 from queuinghub.database import Place, Queue, User
-from queuinghub import create_app, db
+from queuinghub import cache, create_app, db
 
 
 @pytest.fixture(name="client")
@@ -35,6 +35,7 @@ def fixture_client():
     #db.session.remove()
     #db.drop_all()
 
+    cache.clear()
     ctx.pop()
 
 def _populate_db():
@@ -237,6 +238,12 @@ class TestLocationItem():
         """Test for invalid URL."""
         resp = client.get(self.INVALID_URL)
         assert resp.status_code == 404
+
+    def test_not_allowed(self, client):
+        """Test for non-supported method."""
+        valid = _get_queue_json()
+        resp = client.post(self.RESOURCE_URL, json=valid)
+        assert resp.status_code == 405
 
 class TestPlaceItem():
     """Tests for the PlaceItem class."""

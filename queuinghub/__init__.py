@@ -8,9 +8,11 @@ Modifications: variable names.
 '''
 import os
 from flask import Flask
+from flask_caching import Cache
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
+cache = Cache()
 
 def create_app(test_config=None):
     '''
@@ -29,6 +31,8 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SQLALCHEMY_DATABASE_URI="sqlite:///" + os.path.join(app.instance_path, "queuing.db"),
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
+        CACHE_TYPE="FileSystemCache",
+        CACHE_DIR=os.path.join(app.instance_path, "cache"),
     )
 
     if test_config is None:
@@ -38,6 +42,8 @@ def create_app(test_config=None):
             SQLALCHEMY_DATABASE_URI="sqlite:///" + os.path.join(app.instance_path, "testing.db"),
             SQLALCHEMY_TRACK_MODIFICATIONS=False,
             TESTING=True,
+            CACHE_TYPE="SimpleCache",
+            CACHE_DIR=os.path.join(app.instance_path, "testing_cache"),
         )
     else:
         app.config.from_mapping(test_config)
@@ -48,6 +54,7 @@ def create_app(test_config=None):
         pass
 
     db.init_app(app)
+    cache.init_app(app)
 
     from queuinghub import database
     from queuinghub import api

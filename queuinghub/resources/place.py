@@ -12,7 +12,7 @@ from werkzeug.exceptions import UnsupportedMediaType, BadRequest, Conflict
 from jsonschema import ValidationError, validate
 
 from queuinghub.database import Place
-from queuinghub import db
+from queuinghub import cache, db
 
 class PlaceCollection(Resource):
     """
@@ -27,6 +27,7 @@ class PlaceCollection(Resource):
 
     Allowed methods: GET, POST
     """
+    @cache.cached(timeout=30, response_filter=lambda r: False)
     def get(self):
         """
         Get method for PlaceCollection.
