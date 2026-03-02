@@ -8,6 +8,7 @@ Instead of using tempfiles, the test fixture makes a test database in the instan
 This allows for easier debugging (in my opinion. As a bonus, this gets rid of Windows errors).
 """
 import json
+from isort import place
 import pytest
 
 from queuinghub.database import Place, Queue, User
@@ -197,6 +198,41 @@ class TestQueueCollection():
         resp = client.put(self.RESOURCE_URL, json=valid)
         assert resp.status_code == 405
 
+class TestLocationCollection():
+    """Tests for the LocationCollection class."""
+
+    RESOURCE_URL = "/api/locations/"
+
+    def test_get(self, client):
+        """Test for GET request."""
+        resp = client.get(self.RESOURCE_URL)
+        assert resp.status_code == 200
+        body = json.loads(resp.data)
+        assert len(body) == 1 # Only one location in testing
+        assert "TestLocation" in body
+        assert isinstance(body["TestLocation"], list)
+        assert len(body["TestLocation"]) == 3 # Three places in testing location
+
+class TestLocationItem():
+    """Tests for the LocationItem class."""
+
+    RESOURCE_URL = "/api/locations/TestLocation/"
+    INVALID_URL = "/api/locations/NoTestLocation/"
+
+    def test_get(self, client):
+        """Test for GET request."""
+        resp = client.get(self.RESOURCE_URL)
+        assert resp.status_code == 200
+        body = json.loads(resp.data)
+        assert len(body) == 3 # three places in testing location
+        for place in body:
+            assert place["location"] == "TestLocation"
+
+    def test_not_found(self, client):
+        resp = client.get(self.INVALID_URL)
+        assert resp.status_code == 200
+        body = json.loads(resp.data)
+        assert body == []
 
 class TestPlaceItem():
     """Tests for the PlaceItem class."""
