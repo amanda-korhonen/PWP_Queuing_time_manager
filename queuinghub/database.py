@@ -41,12 +41,17 @@ class Place(db.Model):
 
     def serialize(self):
         """This function is to change the variables to the correct format to send to the client."""
+        if self.capacity:
+            fullness = self.people_count / self.capacity
+        else:
+            fullness = 0
         return {
             "name": self.name,
             "capacity": self.capacity,
             "people_count": self.people_count,
             "place_type": self.place_type,
-            "location": self.location
+            "location": self.location,
+            "fullness": fullness
         }
 
     def deserialize(self, doc):

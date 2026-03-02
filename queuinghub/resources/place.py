@@ -29,20 +29,11 @@ class PlaceCollection(Resource):
     """
     def get(self):
         """Get method for PlaceCollection."""
-        response = []
+        response_data = []
         places = Place.query.all()
         for place in places:
-            place_data = place.serialize()
-            #the fullness calculating logic
-            if place.capacity:
-                fullness = place.people_count / place.capacity
-            else:
-                fullness = 0
-
-            place_data["fullness"] = fullness
-            response.append(place_data)
-
-        return response, 200
+            response_data.append(place.serialize())
+        return response_data, 200
 
     def post(self):
         """Post method for PlaceCollection."""
@@ -82,14 +73,7 @@ class PlaceItem(Resource):
     """
     def get(self, place):
         """Get method for a specific place."""
-        return {
-            "name": place.name,
-            "capacity": place.capacity,
-            "people_count": place.people_count,
-            "place_type": place.place_type,
-            "location": place.location,
-            "fullness": place.people_count / place.capacity
-        }
+        return place.serialize()
 
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_adimn
