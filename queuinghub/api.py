@@ -12,6 +12,7 @@ from flask_restful import Api  # type: ignore
 
 from .resources.place import PlaceCollection, PlaceItem
 from .resources.queue import QueueCollection, QueueItem
+from .resources.location import LocationCollection
 
 api_bp = Blueprint("api", __name__, url_prefix="/api")
 api = Api(api_bp)
@@ -35,3 +36,4 @@ api.add_resource(PlaceCollection, "/places/" )
 api.add_resource(PlaceItem, "/places/<place:place>/")
 api.add_resource(QueueCollection, "/places/<place:place>/queues/")
 api.add_resource(QueueItem, "/places/<place:place>/queues/<string:queue_type>/")
+api.add_resource(LocationCollection, "/locations/")
