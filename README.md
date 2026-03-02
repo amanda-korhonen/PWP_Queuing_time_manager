@@ -14,8 +14,10 @@ Queuing Time Manager
 *  python 3
 *  **requirements.txt** file contains all the project dependencies
 
+**Note!** Please follow this step by step.
 
-## How to create database:
+
+## Step 1. How to create database:
 We provide db.populate.py to quickly create and populate the database. Use command:
 ```
 python -m queuinghub.db_populate
@@ -66,7 +68,7 @@ db.session.add_all([queue1, queue2])
 db.session.commit()
 ctx.pop()
 ```  
-## Deploying API in localhost
+## Step 2. Deploying API in localhost
 
 To deploy the API for testing in localhost run this command in venv in project root. 
 ```
