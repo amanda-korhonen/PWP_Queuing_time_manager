@@ -15,7 +15,7 @@ class LocationCollection(Resource):
 
     https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/tree/ex2-project-layout/sensorhub/resources
 
-    Modification list: logic for returning places bu location
+    Modification list: logic for returning places by location
 
     Allowed methods: GET
     """
