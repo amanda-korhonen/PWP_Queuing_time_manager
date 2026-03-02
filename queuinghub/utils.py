@@ -14,6 +14,10 @@ from queuinghub.database import Place
 class PlaceConverter(BaseConverter):
     '''Converter for Place'''
     def to_python(self, value):
+        '''
+        Args:
+            value()
+        '''
         db_place = Place.query.filter_by(name=value).first()
         if db_place is None:
             raise NotFound

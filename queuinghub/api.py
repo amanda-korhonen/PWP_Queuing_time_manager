@@ -26,6 +26,8 @@ def entry():
     https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/blob/ex2-project-layout/sensorhub/views.py
 
     Modification list: api_name
+
+    Returns: entry point, accessable through /api/
     '''
     return {"api_version": "1.0", "api_name": "queuing_manager"}
 

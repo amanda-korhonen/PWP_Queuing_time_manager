@@ -40,7 +40,13 @@ class Place(db.Model):
     """
 
     def serialize(self):
-        """This function is to change the variables to the correct format to send to the client."""
+        """
+        This function is to change the variables to the correct format to send to the client.
+        
+        Returns:
+            Dictionary from json containing place's name, capasity, people_count, 
+            location, and calculated fullness.
+        """
         if self.capacity:
             fullness = self.people_count / self.capacity
         else:
@@ -55,7 +61,16 @@ class Place(db.Model):
         }
 
     def deserialize(self, doc):
-        """A method to change the variables to the correct format to save to the database."""
+        """
+        A method to change the variables to the correct format to save to the database.
+        
+        Args:
+            doc(dictionary): A dictionary containing:
+            name, capasity, people_count, place_type, and location.
+
+        Returns:
+            Dictionary to json.
+        """
         self.name = doc["name"]
         self.capacity = doc["capacity"]
         self.people_count = doc["people_count"]
@@ -64,7 +79,12 @@ class Place(db.Model):
 
     @staticmethod
     def json_schema():
-        """The sructure of the json data that the server accepts."""
+        """
+        The sructure of the json data that the server accepts.
+        
+        Returns:
+            dictionary that fullfills certain JSON schema
+        """
         schema = {
             "type": "object",
             "required": ["name", "capacity", "people_count", "place_type", "location"]
@@ -124,7 +144,12 @@ class Queue(db.Model):
     '''
 
     def serialize(self):
-        """A method to change the variables to the correct format to send to the client."""
+        """
+        A method to change the variables to the correct format to send to the client.
+        
+        Returns:
+            Dictionary from json containing queue_type, people_count, and place.
+        """
         return {
             "queue_type": self.queue_type,
             "people_count": self.people_count,
@@ -132,13 +157,28 @@ class Queue(db.Model):
         }
 
     def deserialize(self, doc):
-        """A method to change the variables to the correct format to save to the database."""
+        """
+        A method to change the variables to the correct format to save to the database.
+        
+        Args:
+            doc(dictionary): A dictionary containing:
+            queue_type and people_count.
+
+        Returns:
+            Dictionary to json.
+        
+        """
         self.queue_type = doc["queue_type"]
         self.people_count = doc["people_count"]
 
     @staticmethod
     def json_schema():
-        """The structure of the json data that the server accepts"""
+        """
+        The structure of the json data that the server accepts.
+
+        Returns:
+            dictionary that fullfills certain JSON schema
+        """
         schema = {
             "type": "object",
             "required": ["queue_type", "people_count"]

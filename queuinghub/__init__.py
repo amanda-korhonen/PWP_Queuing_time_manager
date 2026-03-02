@@ -13,7 +13,18 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 def create_app(test_config=None):
-    '''Create and configure the Flask application.'''
+    '''
+    Create and configure the Flask application.
+
+    Args:
+        test_config (string): defines resource tests (otherwise None)
+
+    Returns:
+        flask app
+
+    Exceptions:
+        OSError 
+    '''
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SQLALCHEMY_DATABASE_URI="sqlite:///" + os.path.join(app.instance_path, "queuing.db"),
