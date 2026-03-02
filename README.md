@@ -15,8 +15,13 @@ Queuing Time Manager
 *  **requirements.txt** file contains all the project dependencies
 
 
-__How to create database:__
-We provide db.populate.py to quickly create and populate the database. If you want to create and populate manually you can use these code snippets as a quide.
+## How to create database:
+We provide db.populate.py to quickly create and populate the database. Use command:
+```
+python -m queuinghub.db_populate
+```
+
+If you want to create and populate manually you can use these code snippets as a quide.
 
 Use line by line in python3 terminal.
 To create database:
@@ -61,7 +66,83 @@ db.session.add_all([queue1, queue2])
 db.session.commit()
 ctx.pop()
 ```  
-### Running tests:  
+## Deploying API in localhost
+
+To deploy the API for testing in localhost run this command in venv in project root. 
+```
+flask --app queuinghub run
+```
+It opens a localhost where you can test the API for example with this URL. 
+
+```
+http://127.0.0.1:5000/api/places/
+```
+URL's that connect to resources:
+1. /api/
+2. /api/places/
+3. /api/places/Place name/
+4. /api/places/Place name/queues/
+5. /api/places/Place name/queues/Queue type, for example vip/
+6. /api/locations/
+7. /api/locations/Location name/
+
+Explanations and examples:
+1. Returns general information about our API
+2. Returns all places in a list that are present in our database
+
+Example:
+http://127.0.0.1:5000/api/places/
+
+Returns:
+```
+[{"name": "Bar1", "capacity": 50, "people_count": 30, "place_type": "Bar", "location": "City1", "fullness": 0.6}, {"name": "Club1", "capacity": 200, "people_count": 120, "place_type": "Club", "location": "City1", "fullness": 0.6}, {"name": "Bar2", "capacity": 100, "people_count": 100, "place_type": "Bar", "location": "City1", "fullness": 1.0}]
+```
+
+3. Returns information about certain establishment. 
+
+Example: http://127.0.0.1:5000/api/places/Bar1/
+
+Returns:
+```
+{"name": "Bar1", "capacity": 50, "people_count": 30, "place_type": "Bar", "location": "City1", "fullness": 0.6}
+```
+4. Returns all queues that certain establishment has.
+
+Example: http://127.0.0.1:5000/api/places/Club1/queues/
+
+Returns:
+```
+[{"queue_type": "General", "people_count": 200, "place": "Club1"}, {"queue_type": "VIP", "people_count": 100, "place": "Club1"}]
+```
+5. Returns certain type of queue from a certain establishment.
+
+Example: http://127.0.0.1:5000/api/places/Club1/queues/VIP/
+
+Returns: 
+```
+{"queue_type": "VIP", "people_count": 100, "place": "Club1"}
+```
+6. Returns all places in each location.
+
+Example: http://127.0.0.1:5000/api/locations/
+
+Returns:
+```
+{"City1": [{"name": "Bar1", "capacity": 50, "people_count": 30, "place_type": "Bar", "location": "City1", "fullness": 0.6}, {"name": "Club1", "capacity": 200, "people_count": 120, "place_type": "Club", "location": "City1", "fullness": 0.6}, {"name": "Bar2", "capacity": 100, "people_count": 100, "place_type": "Bar", "location": "City1", "fullness": 1.0}], "City2": [{"name": "Bar3", "capacity": 50, "people_count": 30, "place_type": "Bar", "location": "City2", "fullness": 0.6}, {"name": "Club2", "capacity": 200, "people_count": 120, "place_type": "Club", "location": "City2", "fullness": 0.6}]}
+```
+
+7. Returns all places in certain location.
+
+Example:http://127.0.0.1:5000/api/locations/City2/
+
+Returns:
+```
+[{"name": "Bar3", "capacity": 50, "people_count": 30, "place_type": "Bar", "location": "City2", "fullness": 0.6}, {"name": "Club2", "capacity": 200, "people_count": 120, "place_type": "Club", "location": "City2", "fullness": 0.6}]
+```
+
+
+
+## Running tests:  
 It is not necessary to create a datbase before testing, the tests create their own temporary databases.  
 To get test coverage:  
 ```
