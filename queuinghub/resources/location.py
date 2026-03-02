@@ -9,7 +9,13 @@ class LocationCollection(Resource):
     """Docstring placeholder."""
 
     def get(self):
-        """Get method for LocationCollection."""
+        """
+        Get method for LocationCollection.
+        
+        Retuns:
+            dictionary: all locations and corresponding places.
+            int: HTTP status code (200)
+        """
         places = Place.query.all()
         grouped_places = defaultdict(list)
         for place in places:
@@ -20,7 +26,16 @@ class LocationItem(Resource):
     """Docstring placeholder."""
 
     def get(self, location):
-        """Get method for LocationItem."""
+        """
+        Get method for LocationItem.
+        
+        Retuns:
+            dictionary: certain location and its' places.
+            int: HTTP status code (200)
+        
+        Exceptions:
+            NotFound: If no places excists in certain location. Flask returns 404. 
+        """
         response = []
         places = Place.query.filter_by(location=location).all()
         if not places:

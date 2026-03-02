@@ -25,7 +25,17 @@ class QueueCollection(Resource):
     """
 
     def get(self, place):
-        """Get method for all queues in place."""
+        """
+        Get method for all queues in place.
+        
+        Args:
+            place (Place): The Place object: establishment name for which 
+            the queues are listed. 
+
+        Returns: 
+                list: A list of queues for a certain place and queue information.
+                int: HTTP status code: 200.
+        """
         response_data = []
         queues = Queue.query.filter_by(place=place).all()
         for queue in queues:
@@ -35,7 +45,21 @@ class QueueCollection(Resource):
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_adimn
     def post(self, place):
-        """Post method for a queue."""
+        """
+        Post method for a queue.
+        
+        Args: 
+            place (Place): The Place for which the new queue will belong.
+
+        Returns:
+            Response: HTTP status code: 201 and and url for new queue resource.
+
+        Exceptions:
+            UnsupportedMediaType: If the request is not json.
+            BadRequest: If JSON schema validation does not pass.
+            Conflict: If queue with same place_id + queue_type combo exists 
+                -> rolls back the session.
+        """
         if not request.json:
             raise UnsupportedMediaType
 
@@ -82,7 +106,19 @@ class QueueItem(Resource):
     """
 
     def get(self, place, queue_type):
-        """Get method for a specific queue"""
+        """
+        Get method for a specific queue.
+        
+        Args:
+            place (Place): The place that the queue belongs
+            queue_type (string): The queue type that we want to GET
+
+        Returns:
+            dictionary: serialized queue matching the queue type requested
+
+        Exceptions:
+            NotFound: If there is no queue for certain queue_type + place comboo.
+        """
         queue = Queue.query.filter_by(place=place, queue_type=queue_type).first()
         if not queue:
             raise NotFound
@@ -95,7 +131,23 @@ class QueueItem(Resource):
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_adimn
     def put(self, place, queue_type):
-        """Put method for a specific queue"""
+        """
+        Put method for a specific queue.
+        
+        Args:
+            place (Place): The place that the queue belongs
+            queue_type (string): The queue type of the queue that we want to update.
+
+        Returns:
+            Response: HTTP status code: 201 and url for updated Queue. 
+
+        Exceptions: 
+            UnsupportedMediaType: If the request is not json.
+            BadRequest: If JSON schema validation does not pass.
+            NotFound: If the queue_type does not excist for the place in question.
+            Conflict: If the put tries to rename the queue to 
+                a name that already excists. -> Rolls back the session.
+        """
         if not request.json:
             raise UnsupportedMediaType
 
@@ -132,7 +184,19 @@ class QueueItem(Resource):
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_adim
     def delete(self, place, queue_type):
-        """Delete for queue"""
+        """
+        Delete for queue
+        
+        Args: 
+            place (Place): The Places' name thats' queue we want to delete
+            queue_type (string): The queue_type that we want to delete.
+
+        Returns: 
+            Response: HTTP ststus code: 204.
+
+        Exceptions:
+            NotFound: If we do not find place name + queue_type combo to delete
+        """
         queue = Queue.query.filter_by(place=place, queue_type=queue_type).first()
         if not queue:
             raise NotFound

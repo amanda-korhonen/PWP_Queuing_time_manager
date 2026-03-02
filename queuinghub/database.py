@@ -166,7 +166,6 @@ class Queue(db.Model):
 
         Returns:
             Dictionary to json.
-        
         """
         self.queue_type = doc["queue_type"]
         self.people_count = doc["people_count"]

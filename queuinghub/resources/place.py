@@ -28,7 +28,13 @@ class PlaceCollection(Resource):
     Allowed methods: GET, POST
     """
     def get(self):
-        """Get method for PlaceCollection."""
+        """
+        Get method for PlaceCollection.
+        
+        Returns:
+            list: a list of serialized Places
+            int: HTTP status code (200)
+        """
         response_data = []
         places = Place.query.all()
         for place in places:
@@ -36,7 +42,17 @@ class PlaceCollection(Resource):
         return response_data, 200
 
     def post(self):
-        """Post method for PlaceCollection."""
+        """
+        Post method for PlaceCollection.
+        
+        Returns:
+            Response: HTTP status code: 201, and url for new Place
+
+        Exceptions:
+            UnsupportedMediaType: If the request is not json.
+            BadRequest: If JSON schema validation does not pass.
+            Conflict: If there is already place with that name.
+        """
         if not request.json:
             raise UnsupportedMediaType
 
@@ -72,14 +88,37 @@ class PlaceItem(Resource):
     Allowed methods: GET, PUT, DELETE
     """
     def get(self, place):
-        """Get method for a specific place."""
+        """
+        Get method for a specific place.
+        
+        Args: 
+            place (Place): the place object from database, name from converter.
+
+        Returns:
+            dictionary: serialized place object
+
+        """
         return place.serialize()
 
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_adimn
     # NOTE: Itemille oma schema?
     def put(self, place):
-        """Put method for place."""
+        """
+        Put method for place.
+
+        Args:
+            place (Place): Place object that we update with put.
+        
+        Returns:
+            Response: HTTP status code: 201, and url for the updated Place
+
+        Exceptions:
+            UnsupportedMediaType: If the request is not json.
+            BadRequest: If JSON schema validation does not pass.
+            Conflict: If the put tries to rename the place to a name 
+                that already excists. -> Rolls back the session.
+        """
         if not request.json:
             raise UnsupportedMediaType
         try:
@@ -104,7 +143,15 @@ class PlaceItem(Resource):
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_admin
     def delete(self, place):
-        """Delete method for place."""
+        """
+        Delete method for place.
+        
+        Args:
+            place (Place): Place object that we want to delete.
+
+        Returns: 
+            Response: HTTP status code: 204 
+        """
         db.session.delete(place)
         db.session.commit()
         return Response(status=204) # Deleted
