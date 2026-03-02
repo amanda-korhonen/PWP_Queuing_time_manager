@@ -1,19 +1,15 @@
-from flask import request, Response, url_for
-from flask_restful import Resource
-from sqlalchemy.exc import IntegrityError
-from werkzeug.exceptions import UnsupportedMediaType, BadRequest, Conflict, NotFound
-from jsonschema import ValidationError, validate
+"""Docstring placeholder"""
 from collections import defaultdict
+from flask_restful import Resource
+from werkzeug.exceptions import NotFound
 
 from queuinghub.database import Place
-from queuinghub import db
 
 class LocationCollection(Resource):
     """Docstring placeholder."""
-    
+
     def get(self):
         """Get method for LocationCollection."""
-        response = []
         places = Place.query.all()
         grouped_places = defaultdict(list)
         for place in places:
@@ -21,8 +17,10 @@ class LocationCollection(Resource):
         return grouped_places, 200
 
 class LocationItem(Resource):
-    
+    """Docstring placeholder."""
+
     def get(self, location):
+        """Get method for LocationItem."""
         response = []
         places = Place.query.filter_by(location=location).all()
         if not places:

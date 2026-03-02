@@ -8,7 +8,6 @@ Instead of using tempfiles, the test fixture makes a test database in the instan
 This allows for easier debugging (in my opinion. As a bonus, this gets rid of Windows errors).
 """
 import json
-from isort import place
 import pytest
 
 from queuinghub.database import Place, Queue, User
@@ -212,7 +211,7 @@ class TestLocationCollection():
         assert "TestLocation" in body
         assert isinstance(body["TestLocation"], list)
         assert len(body["TestLocation"]) == 3 # Three places in testing location
-    
+
     def test_not_allowed(self, client):
         """Test for non-supported method."""
         valid = _get_queue_json()
