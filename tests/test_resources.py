@@ -19,6 +19,7 @@ def fixture_client():
     """
     Initialize app and database. Fixture found from following post to keep pylint from screaming:
     https://stackoverflow.com/questions/46089480/pytest-fixtures-redefining-name-from-outer-scope-pylint
+    All tests take this as an argument.
     """
 
     app = create_app(test_config="resourcetest")

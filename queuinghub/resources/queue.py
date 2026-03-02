@@ -33,8 +33,8 @@ class QueueCollection(Resource):
             the queues are listed. 
 
         Returns: 
-                list: A list of queues for a certain place and queue information.
-                int: HTTP status code: 200.
+            list: A list of queues for a certain place and queue information.
+            int: HTTP status code: 200.
         """
         response_data = []
         queues = Queue.query.filter_by(place=place).all()
@@ -71,7 +71,6 @@ class QueueCollection(Resource):
         queue = Queue()
         queue.deserialize(request.json)
         queue.place = place  # connects a queue to a certain place
-        print(queue)
         try:
             db.session.add(queue)
             db.session.commit()
