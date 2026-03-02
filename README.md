@@ -63,23 +63,27 @@ ctx.pop()
 ```  
 ### Running tests:  
 It is not necessary to create a datbase before testing, the tests create their own temporary databases.  
-To get test coverage:
+To get test coverage:  
 ```
 # In project root, run pytest with this command:
 pytest --cov-report term-missing --cov=.
-```
+```  
 This command to run both tests:
 ```
 pytest tests
-``` 
+```  
 This command to run database testing:
 ```
 pytest tests/test_db.py 
-``` 
+```  
 This command to run resource testing:
 ```
 pytest tests/test_resources.py 
-``` 
+```
+To get code quality using PyLint:  
+```
+pylint queuinghub/* tests
+```  
 
 
 
