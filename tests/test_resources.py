@@ -233,7 +233,8 @@ class TestLocationItem():
         body = json.loads(resp.data)
         assert len(body) == 3 # three places in testing location
         for place in body:
-            assert place["location"] == "TestLocation"
+            assert "name" in place
+            assert "URI" in place
 
     def test_not_found(self, client):
         """Test for invalid URL."""

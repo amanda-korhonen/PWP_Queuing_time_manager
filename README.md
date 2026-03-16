@@ -97,7 +97,48 @@ http://127.0.0.1:5000/api/places/
 
 Returns:
 ```
-[{"name": "Bar1", "capacity": 50, "people_count": 30, "place_type": "Bar", "location": "City1", "fullness": 0.6}, {"name": "Club1", "capacity": 200, "people_count": 120, "place_type": "Club", "location": "City1", "fullness": 0.6}, {"name": "Bar2", "capacity": 100, "people_count": 100, "place_type": "Bar", "location": "City1", "fullness": 1.0}]
+[
+  {
+    "name": "Bar1",
+    "capacity": 50,
+    "people_count": 30,
+    "place_type": "Bar",
+    "location": "City1",
+    "fullness": 0.6
+  },
+  {
+    "name": "Club1",
+    "capacity": 200,
+    "people_count": 120,
+    "place_type": "Club",
+    "location": "City1",
+    "fullness": 0.6
+  },
+  {
+    "name": "Bar2",
+    "capacity": 100,
+    "people_count": 100,
+    "place_type": "Bar",
+    "location": "City1",
+    "fullness": 1
+  },
+  {
+    "name": "Bar3",
+    "capacity": 50,
+    "people_count": 30,
+    "place_type": "Bar",
+    "location": "City2",
+    "fullness": 0.6
+  },
+  {
+    "name": "Club2",
+    "capacity": 200,
+    "people_count": 120,
+    "place_type": "Club",
+    "location": "City2",
+    "fullness": 0.6
+  }
+]
 ```
 
 3. Returns information about certain establishment. 
@@ -130,7 +171,32 @@ Example: http://127.0.0.1:5000/api/locations/
 
 Returns:
 ```
-{"City1": [{"name": "Bar1", "capacity": 50, "people_count": 30, "place_type": "Bar", "location": "City1", "fullness": 0.6}, {"name": "Club1", "capacity": 200, "people_count": 120, "place_type": "Club", "location": "City1", "fullness": 0.6}, {"name": "Bar2", "capacity": 100, "people_count": 100, "place_type": "Bar", "location": "City1", "fullness": 1.0}], "City2": [{"name": "Bar3", "capacity": 50, "people_count": 30, "place_type": "Bar", "location": "City2", "fullness": 0.6}, {"name": "Club2", "capacity": 200, "people_count": 120, "place_type": "Club", "location": "City2", "fullness": 0.6}]}
+{
+  "City1": [
+    {
+      "name": "Bar1",
+      "URI": "/api/places/Bar1/"
+    },
+    {
+      "name": "Club1",
+      "URI": "/api/places/Club1/"
+    },
+    {
+      "name": "Bar2",
+      "URI": "/api/places/Bar2/"
+    }
+  ],
+  "City2": [
+    {
+      "name": "Bar3",
+      "URI": "/api/places/Bar3/"
+    },
+    {
+      "name": "Club2",
+      "URI": "/api/places/Club2/"
+    }
+  ]
+}
 ```
 
 7. Returns all places in certain location.
@@ -139,7 +205,7 @@ Example:http://127.0.0.1:5000/api/locations/City2/
 
 Returns:
 ```
-[{"name": "Bar3", "capacity": 50, "people_count": 30, "place_type": "Bar", "location": "City2", "fullness": 0.6}, {"name": "Club2", "capacity": 200, "people_count": 120, "place_type": "Club", "location": "City2", "fullness": 0.6}]
+[{"name": "Bar3", "URI": "/api/places/Bar3/"}, {"name": "Club2", "URI": "/api/places/Club2/"}]
 ```
 
 

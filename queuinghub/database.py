@@ -25,6 +25,7 @@ class Place(db.Model):
     location = db.Column(db.String(60), nullable=False)
 
     queues = db.relationship("Queue", cascade="all, delete-orphan", back_populates = "place")
+    # pylint: disable-next=line-too-long
     user = db.relationship("User", cascade="all, delete-orphan", back_populates = "place", uselist=False)
 
     """
@@ -39,7 +40,7 @@ class Place(db.Model):
     but the structure of the functions is based on the references.
     """
 
-    def serialize(self):
+    def serialize(self, short_form=False):
         """
         This function is to change the variables to the correct format to send to the client.
         
@@ -51,6 +52,16 @@ class Place(db.Model):
             fullness = self.people_count / self.capacity
         else:
             fullness = 0
+
+        if short_form:
+            # get places URI
+            uri = "/api/places/" + self.name + "/"
+
+            return {
+                "name": self.name, 
+                "URI": uri
+            }
+
         return {
             "name": self.name,
             "capacity": self.capacity,
@@ -197,6 +208,7 @@ class User(db.Model):
     """A class to represent a user, e.g. restaurant owner etc."""
     id = db.Column(db.Integer, primary_key=True)
     password = db.Column(db.String(60), nullable = False)
+    # pylint: disable-next=line-too-long
     place_id = db.Column(db.Integer, db.ForeignKey("place.id", ondelete="CASCADE"), unique=True, nullable=False)
 
     place = db.relationship("Place", back_populates = "user")

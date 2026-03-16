@@ -31,7 +31,7 @@ class LocationCollection(Resource):
         places = Place.query.all()
         grouped_places = defaultdict(list)
         for place in places:
-            grouped_places[place.location].append(place.serialize())
+            grouped_places[place.location].append(place.serialize(short_form=True))
         return grouped_places, 200
 
 class LocationItem(Resource):
@@ -61,5 +61,5 @@ class LocationItem(Resource):
         if not places:
             raise NotFound
         for place in places:
-            response.append(place.serialize())
+            response.append(place.serialize(short_form=True))
         return response
