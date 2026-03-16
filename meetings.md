@@ -34,12 +34,15 @@ Discussed the necessity of user table in database. It's not really needed in the
 
 
 ## Meeting 3.
-* **DATE:**
-* **PARTICIPANTS:**
-* **TEACHER:**
+* **DATE: 09.03.2026**
+* **PARTICIPANTS: Leon Piikivi, Eira Paakkunainen, Amanda Korhonen**
+* **TEACHER: Iván Sánchez Milara**
 
 ### Action points
 *List here the actions points discussed with assistants*
+- In the wiki statelesness could be explained clearer (is not related to databases)
+- Connectedness need to implemented correctly; in the returns link other resources
+- Explain the connectedness in the wiki
 
 ### Notes
 *Add here notes that you consider important. This is not mandatory*
