@@ -1,0 +1,76 @@
+---
+openapi: 3.0.3
+servers:
+- url: /api
+components:
+  parameters:
+    place:
+      description: 
+      in: path
+      name: place
+      required: true
+      schema:
+        type: string
+    queue_type:
+      description: 
+      in: path
+      name: queue
+      required: true
+      schema:
+        type: string
+    location:
+      description: 
+      in: path
+      name: location
+      required: true
+      schema:
+        type: string
+schemas:
+  Place:
+    properties:
+      name:
+        description: Unique name of the place
+        type: string
+      capacity:
+        description: Maximum amount of people in place
+        type: integer
+      people_count:
+        description: Latest amount of people in place
+        type: integer
+      place_type:
+        description: Description of the place's type
+        type: string
+      location:
+        description: Location of the place
+        type: string
+    required:
+    - name
+    - capacity
+    - people_count
+    - place_type
+    - location
+    type: object
+  Queue:
+    properties:
+      queue_type:
+        description: Unique name of the place
+        type: string
+      people_count:
+        description: Maximum amount of people in place
+        type: integer
+    required:
+    - queue_type
+    - people_count
+    type: object
+info:
+  title: QueuingHub
+  version: 0.5.0
+  description: Placeholder
+  termsOfService: Placeholder
+  contact:
+    url: http://placehold.er/
+    email: place@hold.er
+    name: Placeholder
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
