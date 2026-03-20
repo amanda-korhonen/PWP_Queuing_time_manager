@@ -1,0 +1,20 @@
+---
+description: Get list of all establisments
+responses: 
+  '200':
+    description: List of establishment in a short serialized form 
+    content:
+      application/json:
+        example:
+        - name: Bar1
+          capacity: 50
+          people_count: 30
+          place_type: Bar1
+          location: City1
+          fullness: 0.6
+        - name: Club1
+          capacity: 200
+          people_count: 120
+          place_type: Club
+          location: City1
+          fullness: 0.6

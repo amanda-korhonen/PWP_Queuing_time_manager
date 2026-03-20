@@ -1,0 +1,23 @@
+---
+description: Create a new establishment
+requestBody:
+  description: JSON document that contains basic data for a new establishment
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/Place'
+      example:
+        name: new-establishment-example
+        capacity: 400
+        people_count: 0
+        place_type: Club
+        location: City2
+        fullness: 0.0
+      responses:
+        '201':
+          description: A new establishment was created succesfully
+          headers:
+            Location:
+            description: URI of the new establishment
+            schema:
+            type: string
