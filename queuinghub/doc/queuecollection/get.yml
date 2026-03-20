@@ -1,3 +1,6 @@
+# Code basis taken from the sensorhub example
+# https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/tree/ex3-03-multiple-yml/doc
+# Modified to fit into our implementation
 ---
 description: Get the list of queues for a place
 responses:
@@ -12,5 +15,3 @@ responses:
         - queue_type: General
           people_count: 0
           place: Club1
-        
-

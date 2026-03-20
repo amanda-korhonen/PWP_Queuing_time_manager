@@ -1,3 +1,6 @@
+# Code basis taken from the sensorhub example
+# https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/tree/ex3-03-multiple-yml/doc
+# Modified to fit into our implementation
 ---
 description: Create a new queue for a place
 requestBody:
@@ -6,10 +9,21 @@ requestBody:
     application/json:
       schema:
         $ref: '#/components/schemas/Queue'
-        example: 
-          - queue_type: Normal
-            people_count: 15
-            place: Bar2
-responses: 
-  '201':
-          
+      example: 
+        queue_type: new-normal-type
+        people_count: 15
+        place: new-place-name
+      responses: 
+        '201':
+          description: The queue was created successfully
+          headers:
+            Location:
+              description: URI of the new queue
+              schema:
+                type: string
+        '400':
+          description: The request body was not valid
+        '409':
+          description: Same queue type already excists for the place
+        '415':
+          description: Request content must be JSON
