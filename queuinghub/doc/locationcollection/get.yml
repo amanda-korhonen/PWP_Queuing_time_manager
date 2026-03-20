@@ -1,0 +1,20 @@
+---
+description: Get all locations and their corresponding places
+responses:
+  '200':
+    description: A list of locations and their corresponding places
+    content:
+      application/json:
+        example:
+        - name: "Location1"
+          places:
+          - name: "Place1"
+            URI: /locations/place1/
+          - name: "Place2"
+            URI: /locations/place2/
+        - name: "Location2"
+          places:
+          - name: "Place3"
+            URI: /locations/place3/
+          - name: "Place4"
+            URI: /locations/place4/

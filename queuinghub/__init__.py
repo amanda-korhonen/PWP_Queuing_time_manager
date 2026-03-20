@@ -62,7 +62,7 @@ def create_app(test_config=None):
     }
     db.init_app(app)
     cache.init_app(app)
-    swagger = Swagger(app, template_file="doc/base.yml")
+    _swagger = Swagger(app, template_file="doc/base.yml")
 
     from queuinghub import database
     from queuinghub import api
