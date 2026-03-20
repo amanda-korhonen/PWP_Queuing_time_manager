@@ -1,0 +1,15 @@
+---
+description: Create a new queue for a place
+requestBody:
+  description: JSON document that contains the basic info for a new queue
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/Queue'
+        example: 
+          - queue_type: Normal
+            people_count: 15
+            place: Bar2
+responses: 
+  '201':
+          
