@@ -10,6 +10,7 @@ import os
 from flask import Flask
 from flask_caching import Cache
 from flask_sqlalchemy import SQLAlchemy
+from flasgger import Swagger, swag_from
 
 db = SQLAlchemy()
 cache = Cache()
@@ -53,8 +54,15 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    app.config["SWAGGER"] = {
+        "title": "Sensorhub API",
+        "openapi": "3.0.4",
+        "uiversion": 3,
+        "doc_dir": "./doc"
+    }
     db.init_app(app)
     cache.init_app(app)
+    swagger = Swagger(app, template_file="doc/base.yml")
 
     from queuinghub import database
     from queuinghub import api
