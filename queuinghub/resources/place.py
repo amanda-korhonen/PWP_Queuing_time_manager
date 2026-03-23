@@ -5,14 +5,21 @@ https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/blo
 
 #TODO fullness apufunktio tänne tai jonnekki muualle
 '''
+import os
 from flask import request, Response, url_for
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from werkzeug.exceptions import UnsupportedMediaType, BadRequest, Conflict
 from jsonschema import ValidationError, validate
+from flasgger import swag_from
 
 from queuinghub.database import Place
 from queuinghub import cache, db
+
+#path for /queuinghub
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#path for /queuinghub/doc
+DOCS_DIR = os.path.join(BASE_DIR, "doc")
 
 class PlaceCollection(Resource):
     """
@@ -28,6 +35,7 @@ class PlaceCollection(Resource):
     Allowed methods: GET, POST
     """
     @cache.cached(timeout=30, response_filter=lambda r: False)
+    @swag_from(os.path.join(DOCS_DIR, "placecollection/get.yml"))
     def get(self):
         """
         Get method for PlaceCollection.
@@ -42,6 +50,7 @@ class PlaceCollection(Resource):
             response_data.append(place.serialize())
         return response_data, 200
 
+    @swag_from(os.path.join(DOCS_DIR, "placecollection/post.yml"))
     def post(self):
         """
         Post method for PlaceCollection.
@@ -88,6 +97,7 @@ class PlaceItem(Resource):
 
     Allowed methods: GET, PUT, DELETE
     """
+    @swag_from(os.path.join(DOCS_DIR, "placeitem/get.yml"))
     def get(self, place):
         """
         Get method for a specific place.
@@ -104,6 +114,7 @@ class PlaceItem(Resource):
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_adimn
     # NOTE: Itemille oma schema?
+    @swag_from(os.path.join(DOCS_DIR, "placeitem/put.yml"))
     def put(self, place):
         """
         Put method for place.
@@ -143,6 +154,7 @@ class PlaceItem(Resource):
 
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_admin
+    @swag_from(os.path.join(DOCS_DIR, "placeitem/delete.yml"))
     def delete(self, place):
         """
         Delete method for place.

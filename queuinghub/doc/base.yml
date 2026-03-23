@@ -1,3 +1,6 @@
+# Code basis taken from the sensorhub example
+# https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/tree/ex3-03-multiple-yml/doc
+# Modified to fit into our implementation
 ---
 openapi: 3.0.3
 servers:
@@ -5,21 +8,21 @@ servers:
 components:
   parameters:
     place:
-      description: 
+      description: Unique name of an establishment
       in: path
       name: place
       required: true
       schema:
         type: string
     queue_type:
-      description: 
+      description: Queue type of a specific establishment
       in: path
       name: queue_type
       required: true
       schema:
         type: string
     location:
-      description: 
+      description: Location of an establishment
       in: path
       name: location
       required: true
