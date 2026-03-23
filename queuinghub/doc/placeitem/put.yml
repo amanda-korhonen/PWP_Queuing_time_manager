@@ -1,0 +1,36 @@
+# Code basis taken from the sensorhub example
+# https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/tree/ex3-03-multiple-yml/doc
+# Modified to fit into our implementation
+---
+parameters:
+- $ref: '#/components/parameters/place'
+description: Replace the establishment data with new values
+requestBody:
+  description: JSON document that contains new data for the establishment
+  content:
+    application/json:
+      schema:
+        $ref: '#components/schemas/Place'
+      example:
+        name: new-establishment-example
+        capacity: 300
+        people_count: 100
+        place_type: Bar
+        location: City2
+        fullness: 0.3
+responses:
+  '201':
+    description: The establishment was edited successfully
+    headers:
+      Location:
+        description: URI for the updated establishment
+        schema:
+          type: string
+  '400':
+    description: The request body was not valid
+  '404':
+    description: The establishment was not found
+  '409':
+    description: An establishment with the same name already exist
+  '415':
+    description: Request content must be JSON

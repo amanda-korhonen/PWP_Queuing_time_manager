@@ -1,3 +1,6 @@
+# Code basis taken from the sensorhub example
+# https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/tree/ex3-03-multiple-yml/doc
+# Modified to fit into our implementation
 ---
 description: Create a new establishment
 requestBody:
@@ -18,6 +21,6 @@ requestBody:
           description: A new establishment was created succesfully
           headers:
             Location:
-            description: URI of the new establishment
-            schema:
-            type: string
+              description: URI of the new establishment
+              schema:
+                type: string

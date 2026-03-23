@@ -1,8 +1,11 @@
+# Code basis taken from the sensorhub example
+# https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/tree/ex3-03-multiple-yml/doc
+# Modified to fit into our implementation
 ---
 description: Get list of all establisments
 responses: 
   '200':
-    description: List of establishment in a short serialized form 
+    description: List of establishment in serialized form 
     content:
       application/json:
         example:
