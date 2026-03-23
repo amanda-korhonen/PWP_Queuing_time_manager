@@ -25,43 +25,43 @@ components:
       required: true
       schema:
         type: string
-schemas:
-  Place:
-    properties:
-      name:
-        description: Unique name of the place
-        type: string
-      capacity:
-        description: Maximum amount of people in place
-        type: integer
-      people_count:
-        description: Latest amount of people in place
-        type: integer
-      place_type:
-        description: Description of the place's type
-        type: string
-      location:
-        description: Location of the place
-        type: string
-    required:
-    - name
-    - capacity
-    - people_count
-    - place_type
-    - location
-    type: object
-  Queue:
-    properties:
-      queue_type:
-        description: Unique name of the place
-        type: string
-      people_count:
-        description: Maximum amount of people in place
-        type: integer
-    required:
-    - queue_type
-    - people_count
-    type: object
+  schemas:
+    Place:
+      properties:
+        name:
+          description: Unique name of the place
+          type: string
+        capacity:
+          description: Maximum amount of people in place
+          type: integer
+        people_count:
+          description: Latest amount of people in place
+          type: integer
+        place_type:
+          description: Description of the place's type
+          type: string
+        location:
+          description: Location of the place
+          type: string
+      required:
+      - name
+      - capacity
+      - people_count
+      - place_type
+      - location
+      type: object
+    Queue:
+      properties:
+        queue_type:
+          description: Unique name of the place
+          type: string
+        people_count:
+          description: Maximum amount of people in place
+          type: integer
+      required:
+      - queue_type
+      - people_count
+      type: object
 info:
   title: QueuingHub
   version: 0.5.0
