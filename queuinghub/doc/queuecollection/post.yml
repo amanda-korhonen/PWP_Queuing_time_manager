@@ -13,17 +13,17 @@ requestBody:
         queue_type: new-normal-type
         people_count: 15
         place: new-place-name
-      responses: 
-        '201':
-          description: The queue was created successfully
-          headers:
-            Location:
-              description: URI of the new queue
-              schema:
-                type: string
-        '400':
-          description: The request body was not valid
-        '409':
-          description: Same queue type already excists for the place
-        '415':
-          description: Request content must be JSON
+responses: 
+  '201':
+    description: The queue was created successfully
+    headers:
+      Location:
+        description: URI of the new queue
+        schema:
+          type: string
+  '400':
+    description: The request body was not valid
+  '409':
+    description: Same queue type already exists for the place
+  '415':
+    description: Request content must be JSON

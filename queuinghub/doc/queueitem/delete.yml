@@ -1,0 +1,13 @@
+# Code basis taken from the sensorhub example
+# https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/tree/ex3-03-multiple-yml/doc
+# Modified to fit into our implementation
+---
+parameters:
+- $ref: '#/components/parameters/place'
+- $ref: '#/components/parameters/queue_type'
+description: Delete the selected queue by type for a certain place
+responses:
+  '204':
+    description: The queue was successfully deleted
+  '404':
+    description: The queue type for the place was not found

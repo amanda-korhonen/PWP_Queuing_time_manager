@@ -1,0 +1,33 @@
+# Code basis taken from the sensorhub example
+# https://github.com/UniOulu-Ubicomp-Programming-Courses/pwp-sensorhub-example/tree/ex3-03-multiple-yml/doc
+# Modified to fit into our implementation
+---
+parameters:
+- $ref: '#/components/parameters/place'
+- $ref: '#/components/parameters/queue_type'
+description: Replace queue's data with new values
+requestBody:
+  description: JSON document that contains new data for queue
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/Queue'
+      example:
+        queue_type: new-queue-type
+        people_count: 67
+responses:
+  '201':
+    description: The queue was edited successfully
+    headers:
+      Location:
+        description: URI for the updated queue
+        schema:
+          type: string
+  '400':
+    description: The request body was not valid
+  '404':
+    description: The queue to be edited was not found for the place
+  '409':
+    description: Same queue type already exists for the place
+  '415':
+    description: Request content must be JSON
