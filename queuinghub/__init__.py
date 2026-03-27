@@ -55,10 +55,10 @@ def create_app(test_config=None):
         pass
 
     app.config["SWAGGER"] = {
-        "title": "Sensorhub API",
+        "title": "Queuinghub API",
         "openapi": "3.0.4",
         "uiversion": 3,
-        "doc_dir": "./doc"
+        "doc_dir": "queuinghub/doc"
     }
     db.init_app(app)
     cache.init_app(app)
