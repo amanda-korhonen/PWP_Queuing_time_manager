@@ -216,23 +216,89 @@ To get test coverage:
 ```
 # In project root, run pytest with this command:
 pytest --cov-report term-missing --cov=.
-```  
+```
+
 This command to run both tests:
 ```
 pytest tests
-```  
+```
+
 This command to run database testing:
 ```
 pytest tests/test_db.py 
-```  
+```
+
 This command to run resource testing:
 ```
 pytest tests/test_resources.py 
 ```
+
 To get code quality using PyLint:  
 ```
 pylint queuinghub/* tests
-```  
+```
+
+
+## Deploying Web API
+
+**To deploy the Web API, you need:**
+- cPouta login credentials; we used a virtual machine in the cPouta cloud
+- VirtualBox with Linux
+- venv
+- Python
+- OpenStack
+
+**The setup of the environment goes in the following order:**
+1. Start VirtualBox that has Linux.
+2. There, inside the VirtualBox Linux, create a separate virtual env to use command-line tools, specifically OpenStack (you can install it in a Python virtual environment). Once the virtual env is created and activated, install tools with the command below:
+```
+python -m pip install python-openstackclient python-troveclient
+```
+
+3. Log in to CSC if you haven't already.
+4. Go to Pouta dashboard  
+
+
+
+
+**To deploy the web API into the environment, follow these instructions:**
+1. Check which floating IP is free using this command:
+```
+openstack floating ip list
+```
+
+2. Look for addresses where _Fixed IP Address_ is _None_. Those addresses are currently not assigned, so you can choose one of them to add to your VM. The command is shown below, and the x.x.x.x is the IP address you are assigning: 
+```
+openstack server add floating ip $PWPGROUP-vm x.x.x.x
+```
+
+3. From now on, use the IP from step 2 to connect to your VM (replace x.x.x.x with it). Please note that your VM will also have a hostname assigned automatically in the form of _fip-x-x-x-x.kaj.poutavm.fi._ 
+
+4. Now you can connect to your VM, for example, with SSH. Connect to your VM as the ubuntu user by adding SSH key to your SSH agent. The commands are the following
+```
+ssh-add /path/to/your/private/key
+ssh ubuntu@x.x.x.x
+```
+5. You should now see something like _"ubuntu@-vm:~$"_ in the command line if step 4 was successful.
+
+
+**To run different tests to check that the environment is properly configured, follow these instructions:**
+
+1. 
+
+
+
+
+
+
+
+
+Ohjeet wikistä: 
+A README.md file containing:
+List of components that must be installed
+How to setup the environment
+How to deploy the web api into the environment
+How to run the different tests to check that your environment is properly configure
 
 
 
