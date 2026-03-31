@@ -241,28 +241,51 @@ pylint queuinghub/* tests
 
 ## Deploying Web API
 
-**To deploy the Web API, you need:**
+**REQUIRED TOOLS:**
 - cPouta login credentials; we used a virtual machine in the cPouta cloud
 - VirtualBox with Linux
 - venv
 - Python
 - OpenStack
 
-**The setup of the environment goes in the following order:**
+**SETUP THE ENVIRONMENT:**
 1. Start VirtualBox that has Linux.
 2. There, inside the VirtualBox Linux, create a separate virtual env to use command-line tools, specifically OpenStack (you can install it in a Python virtual environment). Once the virtual env is created and activated, install tools with the command below:
 ```
 python -m pip install python-openstackclient python-troveclient
 ```
 
-3. Log in to CSC if you haven't already.
-4. Go to Pouta dashboard  
+3. Go to the Pouta dashboard (https://pouta.csc.fi/dashboard/auth/login/?next=/dashboard/). If you haven't logged in already, do it now!
+
+4.  In the dashboard, there is a user menu on the top right. Make sure to download the file that is **tied to your project**.
+
+5.  Now that you have obtained the file in step 4, put it into a suitable location. For example, the bin folder in your virtual environment works well. Now you can source it similarly to how you activate venv itself. For example, if the file's name is _cpouta.sh_ the command is:
+```
+source /path/to/your/venv/bin/cpouta.sh
+```
+6.  Before creating your VM, we need to generate an SSH key pair. This is being done so you can get access to your VM after creating it. Do this locally on your own computer using ssh-keygen, and please include a passphrase for your key!
+- first, state your (group) name into an environment variable:
+```
+export PWPGROUP=<group name>
+```
+- second, run the following command that uses the previously stated environment variable:
+```
+ssh-keygen -t rsa -f ~/.ssh/$PWPGROUP.key
+```
+
+7. Upload the SSH key pair to the cloud. Connect the key only to your own VM whenever you create one. Upload your key with one of them:
+- new open stack version:
+```
+openstack keypair create --public-key ~/.ssh/$PWPGROUP.key.pub $PWPGROUP
+```
+- older versions:
+```
+openstack keypair create --from-file ~/.ssh/$PWPGROUP.key.pub $PWPGROUP
+```
 
 
-
-
-**To deploy the web API into the environment, follow these instructions:**
-1. Check which floating IP is free using this command:
+**DEPLOY WEB API IN THE ENVIRONMENT:**
+1. Now that you have created a VM, we will try to connect to it. First, check which floating IP is free using this command:
 ```
 openstack floating ip list
 ```
