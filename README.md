@@ -250,6 +250,7 @@ pylint queuinghub/* tests
 - Ubuntu (use _standard.small_)
 
 **SETUP THE ENVIRONMENT**
+
 1. Start VirtualBox that has Linux.
 2. There, inside the VirtualBox Linux, create a separate virtual env to use command-line tools, specifically OpenStack (you can install it in a Python virtual environment). Once the virtual env is created and activated, install tools with the command below:
 ```
@@ -266,12 +267,14 @@ source /path/to/your/venv/bin/cpouta.sh
 ```
 
 **GENERATE AN SSH KEY PAIR**
+
 Before creating your VM, we need to generate an SSH key pair. This is being done so you can get access to your VM after creating it. Do this locally on your own computer using ssh-keygen, and please include a passphrase for your key!
 
 1.  State your (group) name into an environment variable:
 ```
 export PWPGROUP=<group name>
 ```
+
 2. Run the following command that uses the previously stated environment variable:
 ```
 ssh-keygen -t rsa -f ~/.ssh/$PWPGROUP.key
@@ -287,6 +290,7 @@ openstack keypair create --from-file ~/.ssh/$PWPGROUP.key.pub $PWPGROUP
 ```
 
 **CREATE A VM**
+
 Now we are actually creating the VM itself. For this, use the **latest Ubuntu image** and choose _**standard.small**_. The command below assumes that you are using the previously stated Ubuntu image and _standard.small_.
 
 1. Create a VM using the previously stated Ubunty image:
@@ -298,6 +302,7 @@ openstack server create --flavor standard.small --image Ubuntu-24.04 --key-name 
 openstack server add security group $PWPGROUP-vm ssh
 ```
 **HOX!** In this case, the necessary security groups are pre-created for the course, so there is no need to create them. 
+
 3. Add one more security group so that HTTP(S) connections to your server can be accepted:
 ```
 openstack server add security group $PWPGROUP-vm web
@@ -321,18 +326,21 @@ openstack server add floating ip $PWPGROUP-vm x.x.x.x
 ssh-add /path/to/your/private/key
 ssh ubuntu@x.x.x.x
 ```
+
 5. You should now see something like _"ubuntu@-vm:~$"_ in the command line if step 4 was successful.
 
 
 **DEPLOY WEB API IN THE ENVIRONMENT**
+
 In this step, we assume that you are working inside a VM owned by the login user. The current working directory must be the virtual environment's root. 
 
-1. Run these 
+1. Start prepping inside the VM 
+```
 sudo apt update
 sudo apt install -y python3 python3-pip python3.12-venv git nginx
-
 python3 -m venv venv
 source venv/bin/activate
+```
 
 2. Download the project, install it and do the basic setup:
 ```
@@ -352,101 +360,91 @@ pip install -r requirements.txt
 
 5. Install Gunicorn 
 ```
-python -m pip install "gunicorn<25"
+pip install "gunicorn<25"
 ```
 
-6. Run the queuinghub app with Gunicorn with:
-```
-gunicorn -w 3 "queuinghub:create_app()"
-```
-
-7. Initialize database
+6. Initialize database
 ```
 flask --app=sensorhub init-db
 ```
 
-8. Create a system user
+7. Create a system user and switch into it
 ```
 sudo useradd --system hub
-```
-
-9. 
-```
 exec su -p $USER
 ```
 
-10. Create the hub folder and grant ownership to hub user, drop all privileges from other users
+8. Create the hub folder and grant ownership to hub user, drop all privileges from other users
 ```
 sudo mkdir /opt/hub
 sudo chown hub:hub /opt/hub
 sudo chmod -R o-rwx /opt/hub
 ```
 
-11. Create venv for the new hub user
+9. Create venv for the new hub user
 ```
 sudo apt install python3.12-venv
-sudo -u sensorhub python3 -m venv /opt/sensorhub/venv
+sudo -u hub python3 -m venv /opt/hub/venv
 ```
 
-12. Clone the project for the user 
+10. Clone the project for the user 
 ```
-sudo -u hub git clone git clone https://github.com/amanda-korhonen/PWP_Queuing_time_manager.git /opt/hub/hub
+sudo -u hub git clone https://github.com/amanda-korhonen/PWP_Queuing_time_manager.git queuinghub /opt/hub/hub
 ```
 
-13. Move to the hub folder where the hub-user project is
+11. Move to the hub folder where the hub-user project is
 ```
 cd /opt/hub/hub
 ```
 
-14. Create the postactive file
+12. Create the postactive file
 ```
 sudo -u hub touch /opt/hub/venv/bin/postactivate
 ```
 
-15. Make an environment variable. This is being put in the postactivate file
+13. Make an environment variable. This is being put in the postactivate file
 ```
 echo 'export GUNICORN_WORKERS=3' | sudo tee -a /opt/hub/venv/bin/postactivate
 ```
 
-16. Activate environments and add environment variables
+14. Activate environments and add environment variables
 ```
 source /opt/hub/venv/bin/activate
 source /opt/hub/venv/bin/postactivate
 ```
 
-17. Install project requirements for the hub user's project
+15. Install project requirements for the hub user's project
 ```
 sudo -u hub -E env PATH=$PATH python -m pip install -r requirements.txt
 ```
 
-18. Set up a database for the hub user's project
+16. Set up a database for the hub user's project
 ```
 sudo -u hub -E env PATH=$PATH flask --app=queuinghub init-db
 ```
 
-19. Install for the hub user and run Gunicorn as the hub user
+17. Install for the hub user and run Gunicorn as the hub user
 ```
 python -m pip install "gunicorn<25"
-sudo -u hub -E env PATH=$PATH gunicorn -w $GUNICORN_WORKERS "queuinghub:create_app()"
+sudo -u hub -E env PATH=$PATH gunicorn -w $GUNICORN_WORKERS "hub:create_app()"
 ```
 
-20. Make a directory for scripts
+18. Make a directory for scripts
 ```
 sudo -u hub mkdir /opt/hub/venv/scripts
 ```
 
-21. Create a script that starts the gunicorn
+19. Create a script that starts the gunicorn
 ```
 sudo -u hub touch /opt/hub/venv/scripts/start_gunicorn
 ```
 
-22. Execute rights 
+20. Execute rights 
 ```
-sudo chmod u+x /opt/sensorhub/venv/scripts/start_gunicorn
+sudo chmod u+x /opt/hub/venv/scripts/start_gunicorn
 ```
 
-
-23. Enter to edit the start_gunicorn script
+21. Enter to edit the start_gunicorn script
 ```
 sudo -u hub nano /opt/hub/venv/scripts/start_gunicorn
 ```
@@ -461,13 +459,13 @@ cd /opt/hub/hub
 exec gunicorn -w $GUNICORN_WORKERS "queuinghub:create_app()"
 ```
 
-24. Install supervisor and create configurations
+22. Install supervisor and create configurations
 ```
 sudo apt install supervisor
 sudo touch /etc/supervisor/conf.d/hub.conf
 ```
 
-25. Enter to edit the configurations 
+23. Enter to edit the configurations 
 ```
 sudo nano /etc/supervisor/conf.d/hub.conf
 ```
@@ -484,8 +482,54 @@ stdout_logfile = /opt/hub/logs/gunicorn.log
 redirect_stderr = true
 ```
 
-26. 
+24. Install supervisor
+```
+sudo -u hub mkdir /opt/hub/logs
+```
 
+25. Include your project in the Supervisor's configuration so the Supervisor can manage your program
+```
+sudo systemctl reload supervisor
+```
+
+26. You can check the status of your process 
+```
+sudo supervisorctl
+```
+If this step is done successfully, it now runs on localhost.
+
+27. To make the IP public, we are using nginx. 
+```
+sudo apt install nginx
+```
+
+28. 
+```
+sudo nano /etc/nginx/sites-available/hub
+sudo ln -s /etc/nginx/sites-available/hub /etc/nginx/sites-enabled/hub
+```
+
+```
+sudo rm /etc/nginx/sites-enabled/default
+sudo systemctl reload nginx
+* 
+sudo nano /etc/nginx/sites-available/sensorhub
+sudo nano /etc/nginx/sites-enabled/sensorhub
+sudo systemctl reload nginx
+sudo chmod 600 /opt/sensorhub/venv/bin/postactivate
+sudo systemctl reload nginx
+sudo systemctl status nginx
+curl http://localhost
+curl http://localhost/api/
+sudo supervisorctl status
+sudo nano /etc/nginx/sites-available/sensorhub
+sudo systemctl reload nginx
+sudo supervisorctl status
+sudo systemctl status nginx
+```
+
+(kuva)
+eli reload jälkeen pitäisi olla IP public netissä
 
 
 
