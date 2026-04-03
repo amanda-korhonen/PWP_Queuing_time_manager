@@ -248,6 +248,8 @@ pylint queuinghub/* tests
 - Python
 - OpenStack
 - Ubuntu (use _standard.small_)
+- gunicorn
+- nginx
 
 **SETUP THE ENVIRONMENT**
 
@@ -503,50 +505,20 @@ If this step is done successfully, it now runs on localhost.
 sudo apt install nginx
 ```
 
-28. 
+28. After installing the nginx, we are going to edit the configurations and "turn on" the site by enabling it.
 ```
 sudo nano /etc/nginx/sites-available/hub
 sudo ln -s /etc/nginx/sites-available/hub /etc/nginx/sites-enabled/hub
 ```
-
+29. We also make sure to remove the default nginx configuration file. 
 ```
 sudo rm /etc/nginx/sites-enabled/default
-sudo systemctl reload nginx
-* 
-sudo nano /etc/nginx/sites-available/sensorhub
-sudo nano /etc/nginx/sites-enabled/sensorhub
-sudo systemctl reload nginx
-sudo chmod 600 /opt/sensorhub/venv/bin/postactivate
-sudo systemctl reload nginx
-sudo systemctl status nginx
-curl http://localhost
-curl http://localhost/api/
-sudo supervisorctl status
-sudo nano /etc/nginx/sites-available/sensorhub
-sudo systemctl reload nginx
-sudo supervisorctl status
-sudo systemctl status nginx
 ```
 
-(kuva)
-eli reload jälkeen pitäisi olla IP public netissä
-
-
-
-
-
-
-
-
-Ohjeet wikistä: 
-A README.md file containing:
-List of components that must be installed
-How to setup the environment
-How to deploy the web api into the environment
-How to run the different tests to check that your environment is properly configure
-
-
-
+30. The previously made changes are valid after you reload nginx. The new configuration become activate and should make the IP public on the internet after a reload if the network is set up correctly. 
+```
+sudo systemctl reload nginx
+```
 
 
 
