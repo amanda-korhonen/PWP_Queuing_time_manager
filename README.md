@@ -338,19 +338,22 @@ In this step, we assume that you are working inside a VM owned by the login user
 
 You can follow the instructions below, or alternatively you can run the following setup script:
 
+
+1. Clone the project to your desired directory:
 ```
-Clone the project to your desired directory:
-
 git clone https://github.com/amanda-korhonen/PWP_Queuing_time_manager.git
-
-Navigate to misc directory:
-
+```
+2. Navigate to misc directory:
+```
 cd /path/to/project/misc
-
-Run the setup script:
-
+```
+3. Run the setup script:
+```
 sudo sh full_setup.sh
 ```
+
+Full setup instructions begin here:
+
 
 1. Start prepping inside the VM
 ```
