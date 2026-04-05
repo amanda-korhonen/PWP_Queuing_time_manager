@@ -10,7 +10,10 @@ APP_USER="hubuser"
 CURRENT_USER="$(whoami)"
 
 #delete any remnants
-sudo rm -r $APP_DIR
+if [-d "$APP_DIR" ]; then
+    sudo rm -r $APP_DIR
+fi
+
 echo "== Creating system user =="
 sudo useradd --system --create-home --shell /bin/bash $APP_USER || true
 
