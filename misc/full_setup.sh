@@ -1,9 +1,9 @@
 echo "== Starting full deployment =="
 
 # Ensure scripts are executable
-chmod +x setup_queuinghub.sh
-chmod +x setup_supervisor.sh
-chmod +x setup_nginx.sh
+chmod +x queue_setup.sh
+chmod +x supervisor_setup.sh
+chmod +x nginx_setup.sh
 
 echo "== Running base setup (app, venv, repo) =="
 ./queue_setup.sh
