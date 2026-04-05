@@ -27,6 +27,8 @@ sudo chmod -R o-rwx $APP_DIR
 
 echo "== Installing dependencies =="
 sudo apt update
+sudo apt install python3
+sudo apt install python3-pip
 sudo apt install -y python3-venv git
 sudo apt-get install curl
 python3 -m pip install "gunicorn<25"
