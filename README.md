@@ -33,8 +33,8 @@ from database import db, Place, Queue, User
 from database import app
 ctx = app.app_context()
 ctx.push()
-db.create_all() 
-```  
+db.create_all()
+```
 
 To create a place you can run a code:
 ```
@@ -58,8 +58,8 @@ ctx.push()
 place1 = Place.query.filter_by(name="Bar1").first()
 queue1 = Queue(queue_type="VIP", peopleCount=4, place=place1)
 queue2 = Queue(peopleCount=2, place=place1)
-db.session.add(queue1) 
-db.session.add(queue2) 
+db.session.add(queue1)
+db.session.add(queue2)
 
 # Alternatively
 db.session.add_all([queue1, queue2])
@@ -67,14 +67,14 @@ db.session.add_all([queue1, queue2])
 # Then commit the changes
 db.session.commit()
 ctx.pop()
-```  
+```
 ## Step 2. Deploying API in localhost
 
-To deploy the API for testing in localhost run this command in venv in project root. 
+To deploy the API for testing in localhost run this command in venv in project root.
 ```
 flask --app queuinghub run
 ```
-It opens a localhost where you can test the API for example with this URL. 
+It opens a localhost where you can test the API for example with this URL.
 
 ```
 http://127.0.0.1:5000/api/places/
@@ -141,7 +141,7 @@ Returns:
 ]
 ```
 
-3. Returns information about certain establishment. 
+3. Returns information about certain establishment.
 
 Example: http://127.0.0.1:5000/api/places/Bar1/
 
@@ -161,7 +161,7 @@ Returns:
 
 Example: http://127.0.0.1:5000/api/places/Club1/queues/VIP/
 
-Returns: 
+Returns:
 ```
 {"queue_type": "VIP", "people_count": 100, "place": "Club1"}
 ```
@@ -210,9 +210,9 @@ Returns:
 
 
 
-## Running tests:  
-It is not necessary to create a datbase before testing, the tests create their own temporary databases.  
-To get test coverage:  
+## Running tests:
+It is not necessary to create a datbase before testing, the tests create their own temporary databases.
+To get test coverage:
 ```
 # In project root, run pytest with this command:
 pytest --cov-report term-missing --cov=.
@@ -225,15 +225,15 @@ pytest tests
 
 This command to run database testing:
 ```
-pytest tests/test_db.py 
+pytest tests/test_db.py
 ```
 
 This command to run resource testing:
 ```
-pytest tests/test_resources.py 
+pytest tests/test_resources.py
 ```
 
-To get code quality using PyLint:  
+To get code quality using PyLint:
 ```
 pylint queuinghub/* tests
 ```
@@ -303,7 +303,7 @@ openstack server create --flavor standard.small --image Ubuntu-24.04 --key-name 
 ```
 openstack server add security group $PWPGROUP-vm ssh
 ```
-**HOX!** In this case, the necessary security groups are pre-created for the course, so there is no need to create them. 
+**HOX!** In this case, the necessary security groups are pre-created for the course, so there is no need to create them.
 
 3. Add one more security group so that HTTP(S) connections to your server can be accepted:
 ```
@@ -316,12 +316,12 @@ openstack server add security group $PWPGROUP-vm web
 openstack floating ip list
 ```
 
-2. Look for addresses where _Fixed IP Address_ is _None_. Those addresses are currently not assigned, so you can choose one of them to add to your VM. The command is shown below, and the x.x.x.x is the IP address you are assigning: 
+2. Look for addresses where _Fixed IP Address_ is _None_. Those addresses are currently not assigned, so you can choose one of them to add to your VM. The command is shown below, and the x.x.x.x is the IP address you are assigning:
 ```
 openstack server add floating ip $PWPGROUP-vm x.x.x.x
 ```
 
-3. From now on, use the IP from step 2 to connect to your VM (replace x.x.x.x with it). Please note that your VM will also have a hostname assigned automatically in the form of _fip-x-x-x-x.kaj.poutavm.fi._ 
+3. From now on, use the IP from step 2 to connect to your VM (replace x.x.x.x with it). Please note that your VM will also have a hostname assigned automatically in the form of _fip-x-x-x-x.kaj.poutavm.fi._
 
 4. Now you can connect to your VM, for example, with SSH. Connect to your VM as the ubuntu user by adding SSH key to your SSH agent. The commands are the following
 ```
@@ -334,9 +334,25 @@ ssh ubuntu@x.x.x.x
 
 **DEPLOY WEB API IN THE ENVIRONMENT**
 
-In this step, we assume that you are working inside a VM owned by the login user. The current working directory must be the virtual environment's root. 
+In this step, we assume that you are working inside a VM owned by the login user. The current working directory must be the virtual environment's root.
 
-1. Start prepping inside the VM 
+You can follow the instructions below, or alternatively you can run the following setup script:
+
+'''
+Clone the project to your desired directory:
+
+git clone https://github.com/amanda-korhonen/PWP_Queuing_time_manager.git
+
+Navigate to misc directory:
+
+cd /path/to/project/misc
+
+Run the setup script:
+
+sudo sh full_setup.sh
+'''
+
+1. Start prepping inside the VM
 ```
 sudo apt update
 sudo apt install -y python3 python3-pip python3.12-venv git nginx
@@ -348,9 +364,9 @@ source venv/bin/activate
 ```
 git clone https://github.com/amanda-korhonen/PWP_Queuing_time_manager.git queuinghub
 ```
-**Note!** In Linux virtual environments, the Flask instance folder is located in _/path/to/your/venv/var/sensorhub-instance_ by default. 
+**Note!** In Linux virtual environments, the Flask instance folder is located in _/path/to/your/venv/var/sensorhub-instance_ by default.
 
-3. Move to the folder where the project is 
+3. Move to the folder where the project is
 ```
 cd PWP_Queuing_time_manager
 ```
@@ -360,7 +376,7 @@ cd PWP_Queuing_time_manager
 pip install -r requirements.txt
 ```
 
-5. Install Gunicorn 
+5. Install Gunicorn
 ```
 pip install "gunicorn<25"
 ```
@@ -389,7 +405,7 @@ sudo apt install python3.12-venv
 sudo -u hub python3 -m venv /opt/hub/venv
 ```
 
-10. Clone the project for the user 
+10. Clone the project for the user
 ```
 sudo -u hub git clone https://github.com/amanda-korhonen/PWP_Queuing_time_manager.git queuinghub /opt/hub/hub
 ```
@@ -441,7 +457,7 @@ sudo -u hub mkdir /opt/hub/venv/scripts
 sudo -u hub touch /opt/hub/venv/scripts/start_gunicorn
 ```
 
-20. Execute rights 
+20. Execute rights
 ```
 sudo chmod u+x /opt/hub/venv/scripts/start_gunicorn
 ```
@@ -467,7 +483,7 @@ sudo apt install supervisor
 sudo touch /etc/supervisor/conf.d/hub.conf
 ```
 
-23. Enter to edit the configurations 
+23. Enter to edit the configurations
 ```
 sudo nano /etc/supervisor/conf.d/hub.conf
 ```
@@ -494,13 +510,13 @@ sudo -u hub mkdir /opt/hub/logs
 sudo systemctl reload supervisor
 ```
 
-26. You can check the status of your process 
+26. You can check the status of your process
 ```
 sudo supervisorctl
 ```
 If this step is done successfully, it now runs on localhost.
 
-27. To make the IP public, we are using nginx. 
+27. To make the IP public, we are using nginx.
 ```
 sudo apt install nginx
 ```
@@ -510,12 +526,12 @@ sudo apt install nginx
 sudo nano /etc/nginx/sites-available/hub
 sudo ln -s /etc/nginx/sites-available/hub /etc/nginx/sites-enabled/hub
 ```
-29. We also make sure to remove the default nginx configuration file. 
+29. We also make sure to remove the default nginx configuration file.
 ```
 sudo rm /etc/nginx/sites-enabled/default
 ```
 
-30. The previously made changes are valid after you reload nginx. The new configuration become activate and should make the IP public on the internet after a reload if the network is set up correctly. 
+30. The previously made changes are valid after you reload nginx. The new configuration become activate and should make the IP public on the internet after a reload if the network is set up correctly.
 ```
 sudo systemctl reload nginx
 ```
