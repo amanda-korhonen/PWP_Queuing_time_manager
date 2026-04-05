@@ -10,8 +10,8 @@ APP_USER="hubuser"
 CURRENT_USER="$(whoami)"
 
 #delete any remnants
-if [-d "$APP_DIR" ]; then
-    sudo rm -r $APP_DIR
+if [ -d "$APP_DIR" ]; then
+    sudo rm -r "$APP_DIR"
 fi
 
 echo "== Creating system user =="
