@@ -352,8 +352,7 @@ cd /path/to/project/misc
 sudo sh full_setup.sh
 ```
 
-Full setup instructions begin here:
-
+**FULL SETUP INSTRUCTIONS BEGIN HERE:**
 
 1. Start prepping inside the VM
 ```
