@@ -61,6 +61,7 @@ sudo -u $APP_USER bash -c "
     #flask --app=queuinghub testgen
 "
 
+: '
 echo "== Starting Gunicorn =="
 sudo -u $APP_USER bash -c "
     source $VENV_DIR/bin/activate
@@ -68,3 +69,4 @@ sudo -u $APP_USER bash -c "
     cd $REPO_DIR
     gunicorn -w \$GUNICORN_WORKERS 'queuinghub:create_app()'
 "
+'
