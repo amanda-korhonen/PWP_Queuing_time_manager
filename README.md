@@ -336,7 +336,7 @@ ssh ubuntu@x.x.x.x
 
 In this step, we assume that you are working inside a VM owned by the login user. The current working directory must be the virtual environment's root.
 
-You can follow the instructions below, or alternatively you can run the following setup script:
+You can follow the instructions below, or alternatively, you can run the following setup script:
 
 
 1. Clone the project to your desired directory:
@@ -538,7 +538,19 @@ sudo rm /etc/nginx/sites-enabled/default
 sudo systemctl reload nginx
 ```
 
+31. Change file permissions to owner only and upload changes by reloading
+```
+sudo chmod 600 /opt/hub/venv/bin/postactivate
+sudo systemctl reload nginx
+```
 
+32. You can check the nginx status or the supervisor status using the following commands 
+```
+sudo systemctl status nginx
+sudo supervisorctl status
+```
+
+33. You should also now be able to test the HTTP endpoints using curls.
 
 
 
