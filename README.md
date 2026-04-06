@@ -355,6 +355,12 @@ cd /path/to/project/misc
 ```
 sudo sh full_setup.sh
 ```
+Running this script streamlines the deployment, only thing left is to edit the nginx configuration file found with:
+```
+sudo nano /etc/nginx/sites-enabled/queuinghub
+```
+Where host_name should be changed to the address/domain name where the API is hosted from e.g. <127.0.0.1> or <place.holder.com>.
+
 
 **FULL SETUP INSTRUCTIONS BEGIN HERE:**
 
