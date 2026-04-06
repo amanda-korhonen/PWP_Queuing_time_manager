@@ -11,12 +11,12 @@ responses:
     content:
       application/json:
         example:
-        name: Bar1
-        capacity: 50
-        people_count: 30
-        place_type: Bar1
-        location: City1
-        fullness: 0.6
+          name: Bar1
+          capacity: 50
+          people_count: 30
+          place_type: Bar1
+          location: City1
+          fullness: 0.6
   '404':
     description: The establishment was not found
           
