@@ -242,7 +242,7 @@ pylint queuinghub/* tests
 ## Deploying Web API
 
 **REQUIRED TOOLS:**
-- cPouta login credentials; we used a virtual machine in the cPouta cloud
+- CSC cloud service: cPouta login credentials; we used a virtual machine in the cPouta cloud
 - VirtualBox with Linux
 - venv
 - Python
@@ -250,6 +250,10 @@ pylint queuinghub/* tests
 - Ubuntu (use _standard.small_)
 - gunicorn
 - nginx
+- supervisor
+- SSH
+- Git
+- Flask
 
 **SETUP THE ENVIRONMENT**
 
