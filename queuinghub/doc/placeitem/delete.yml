@@ -3,7 +3,7 @@
 # Modified to fit into our implementation
 ---
 parameters:
-- $ref: '#components/parameters/place'
+- $ref: '#/components/parameters/place'
 description: Delete an establishment
 responses:
   '204': 

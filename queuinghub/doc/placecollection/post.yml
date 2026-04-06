@@ -15,12 +15,17 @@ requestBody:
         people_count: 0
         place_type: Club
         location: City2
-        fullness: 0.0
-      responses:
-        '201':
-          description: A new establishment was created succesfully
-          headers:
-            Location:
-              description: URI of the new establishment
-              schema:
-                type: string
+responses:
+  '201':
+    description: A new establishment was created succesfully
+    headers:
+      Location:
+        description: URI of the new establishment
+        schema:
+          type: string
+  '400':
+    description: The request body was not valid
+  '409':
+    description: Place already exists
+  '415':
+    description: Request content must be JSON

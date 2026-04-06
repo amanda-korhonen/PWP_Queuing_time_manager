@@ -12,8 +12,8 @@ responses:
     content:
       application/json:
         example:
-        queue_type: General
-        people_count: 12
-        place: Club1
+          queue_type: General
+          people_count: 12
+          place: Club1
   '404':
     description: The queue was not found

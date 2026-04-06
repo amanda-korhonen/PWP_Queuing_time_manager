@@ -10,14 +10,13 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: '#components/schemas/Place'
+        $ref: '#/components/schemas/Place'
       example:
         name: new-establishment-example
         capacity: 300
         people_count: 100
         place_type: Bar
         location: City2
-        fullness: 0.3
 responses:
   '201':
     description: The establishment was edited successfully
