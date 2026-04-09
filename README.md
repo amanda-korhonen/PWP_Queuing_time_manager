@@ -241,7 +241,7 @@ pylint queuinghub/* tests
 
 ## Deploying Web API
 
-**REQUIRED TOOLS:**
+### **REQUIRED TOOLS:**
 - CSC cloud service: cPouta login credentials; we used a virtual machine in the cPouta cloud
 - VirtualBox with Linux
 - venv
@@ -255,7 +255,7 @@ pylint queuinghub/* tests
 - Git
 - Flask
 
-**SETUP THE ENVIRONMENT**
+### **SETUP THE ENVIRONMENT**
 
 1. Start VirtualBox that has Linux.
 2. There, inside the VirtualBox Linux, create a separate virtual env to use command-line tools, specifically OpenStack (you can install it in a Python virtual environment). Once the virtual env is created and activated, install tools with the command below:
@@ -272,7 +272,7 @@ python -m pip install python-openstackclient python-troveclient
 source /path/to/your/venv/bin/cpouta.sh
 ```
 
-**GENERATE AN SSH KEY PAIR**
+### **GENERATE AN SSH KEY PAIR**
 
 Before creating your VM, we need to generate an SSH key pair. This is being done so you can get access to your VM after creating it. Do this locally on your own computer using ssh-keygen, and please include a passphrase for your key!
 
@@ -295,7 +295,7 @@ openstack keypair create --public-key ~/.ssh/$PWPGROUP.key.pub $PWPGROUP
 openstack keypair create --from-file ~/.ssh/$PWPGROUP.key.pub $PWPGROUP
 ```
 
-**CREATE A VM**
+### **CREATE A VM**
 
 Now we are actually creating the VM itself. For this, use the **latest Ubuntu image** and choose _**standard.small**_. The command below assumes that you are using the previously stated Ubuntu image and _standard.small_.
 
@@ -314,7 +314,7 @@ openstack server add security group $PWPGROUP-vm ssh
 openstack server add security group $PWPGROUP-vm web
 ```
 
-**CONNECT TO YOUR VM**
+### **CONNECT TO YOUR VM**
 1. Now that you have created a VM, we will try to connect to it. First, check which floating IP is free using this command:
 ```
 openstack floating ip list
@@ -336,7 +336,7 @@ ssh ubuntu@x.x.x.x
 5. You should now see something like _"ubuntu@-vm:~$"_ in the command line if step 4 was successful.
 
 
-**DEPLOY WEB API IN THE ENVIRONMENT**
+### **DEPLOY WEB API IN THE ENVIRONMENT**
 
 In this step, we assume that you are working inside a VM owned by the login user. The current working directory must be the virtual environment's root.
 
@@ -362,7 +362,7 @@ sudo nano /etc/nginx/sites-enabled/queuinghub
 Where host_name should be changed to the address/domain name where the API is hosted from e.g. <127.0.0.1> or <place.holder.com>.
 
 
-**FULL SETUP INSTRUCTIONS BEGIN HERE:**
+### **FULL SETUP INSTRUCTIONS BEGIN HERE:**
 
 1. Start prepping inside the VM
 ```
@@ -562,6 +562,3 @@ sudo supervisorctl status
 
 33. You should also now be able to test the HTTP endpoints using curls.
 
-
-
-__Remember to include all required documentation and HOWTOs, including how to create and populate the database, how to run and test the API, the url to the entrypoint, instructions on how to setup and run the client, instructions on how to setup and run the axiliary service and instructions on how to deploy the api in a production environment__
