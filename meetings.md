@@ -46,15 +46,20 @@ Discussed the necessity of user table in database. It's not really needed in the
 
 ### Notes
 *Add here notes that you consider important. This is not mandatory*
+- Fixed connectedness with location only getting the relevant information != all information.
+- Fixed wiki on statelesness and connectedness
 
 
 ## Meeting 4.
-* **DATE:**
-* **PARTICIPANTS:**
-* **TEACHER:**
+* **DATE: 09.04.2026** 
+* **PARTICIPANTS: Amanda Korhonen, Teemu Puro**
+* **TEACHER: Iván Sánchez Milara**
 
 ### Action points
 *List here the actions points discussed with assistants*
+- A problem with docstrings appearing on API documentation
+- PUT retunred 201 with location header, must fix this to 200
+- Have to clarify some text in Wiki regards to openstack and cPouta
 
 ### Notes
 *Add here notes that you consider important. This is not mandatory*
