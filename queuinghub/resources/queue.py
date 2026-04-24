@@ -169,16 +169,7 @@ class QueueItem(Resource):
             raise Conflict(
                 description=f"Queue type {newname} already exists in {place.name}."
             ) from e
-        return Response(
-            status=201,
-            headers={
-                "Location": url_for( 
-                    "api.queueitem", 
-                    place=place,
-                    queue_type=queue.queue_type
-                )
-            },
-        )
+        return Response(status=200)
 
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_adim
