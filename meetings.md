@@ -64,6 +64,7 @@ Discussed the necessity of user table in database. It's not really needed in the
 ### Notes
 *Add here notes that you consider important. This is not mandatory*
 - Clarified the wiki text on tools description regarding OpenStack and cPouta
+- Fixed PUT so it returns 200 with no headers, fixed tests to check correctly and removed the header check tests.
 
 
 ## Midterm meeting
