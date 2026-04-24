@@ -1,1 +1,1 @@
-#here will be the javascript code with the functions for the home page
+// here will be the javascript code with the functions for the home page

@@ -238,6 +238,12 @@ To get code quality using PyLint:
 pylint queuinghub/* tests
 ```
 
+## Test Client
+To get client code quality using ESLint:
+```
+npm run lint
+```
+
 
 ## Deploying Web API
 
