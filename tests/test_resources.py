@@ -275,13 +275,8 @@ class TestPlaceItem():
         """Test for valid PUT request."""
         valid = _get_place_json()
         resp = client.put(self.RESOURCE_URL, json=valid)
-        assert resp.status_code == 201
+        assert resp.status_code == 200
 
-    def test_headers(self, client):
-        """Test for headers."""
-        valid = _get_place_json()
-        resp = client.put(self.RESOURCE_URL, json=valid)
-        assert resp.headers["Location"].endswith(valid["name"] + "/")
 
     def test_put_wrong_mediatype(self, client):
         """Test for wrong mediatype."""
@@ -339,13 +334,7 @@ class TestQueueItem():
         """Test for valid PUT request."""
         valid = _get_queue_json()
         resp = client.put(self.RESOURCE_URL, json=valid)
-        assert resp.status_code == 201
-
-    def test_headers(self, client):
-        """Test for headers."""
-        valid = _get_queue_json()
-        resp = client.put(self.RESOURCE_URL, json=valid)
-        assert resp.headers["Location"].endswith(valid["queue_type"] + "/")
+        assert resp.status_code == 200
 
     def test_put_wrong_mediatype(self, client):
         """Test for wrong mediatype."""

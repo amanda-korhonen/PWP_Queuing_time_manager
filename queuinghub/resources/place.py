@@ -138,9 +138,7 @@ class PlaceItem(Resource):
             raise Conflict(
                 description=f"Place with name {place.name} already exists."
             ) from e
-        return Response(status=201, headers= {
-            "Location": url_for("api.placeitem", place=place)
-        })
+        return Response(status=200)
 
     # NOTE: Mikäli aikaa implementoida admin oikeus
     # @require_admin

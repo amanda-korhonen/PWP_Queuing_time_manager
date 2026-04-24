@@ -11,15 +11,21 @@ how to handle the api.js that would connect client to our API so it would have e
 // NOTE: this might need to change??
 const API_BASE_URL = "";
 
-async function apiFetch(endpoint) {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`);
+async function apiFetch(endpoint, options = {}) {
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      ...(options.headers || {})
+    },
+    ...options
+  });
 
-    if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`API error ${response.status}: ${errorText}`);
-    }
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`API error ${response.status}: ${errorText}`);
+  }
 
-    return response.json();
+  return response.json();
 }
 
 // Locations
@@ -48,5 +54,42 @@ export function getQueues(placeName) {
 export function getQueue(placeName, queueType) {
   return apiFetch(
     `/places/${encodeURIComponent(placeName)}/queues/${encodeURIComponent(queueType)}/`
+  );
+}
+
+
+//Leons vibe code if it works it works
+// Create place
+export function createPlace(data) {
+  return apiFetch("/places/", {
+    method: "POST",
+    body: JSON.stringify(data)
+  });
+}
+
+// Update place
+export function updatePlace(placeName, data) {
+  return apiFetch(`/places/${encodeURIComponent(placeName)}/`, {
+    method: "PUT",
+    body: JSON.stringify(data)
+  });
+}
+
+// Create queue
+export function createQueue(placeName, data) {
+  return apiFetch(`/places/${encodeURIComponent(placeName)}/queues/`, {
+    method: "POST",
+    body: JSON.stringify(data)
+  });
+}
+
+// Update queue
+export function updateQueue(placeName, queueType, data) {
+  return apiFetch(
+    `/places/${encodeURIComponent(placeName)}/queues/${encodeURIComponent(queueType)}/`,
+    {
+      method: "PUT",
+      body: JSON.stringify(data)
+    }
   );
 }
