@@ -11,6 +11,8 @@ from flask import Flask
 from flask_caching import Cache
 from flask_sqlalchemy import SQLAlchemy
 from flasgger import Swagger, swag_from
+#added for client testing
+from flask_cors import CORS
 
 db = SQLAlchemy()
 cache = Cache()
@@ -29,6 +31,7 @@ def create_app(test_config=None):
         OSError 
     '''
     app = Flask(__name__, instance_relative_config=True)
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
     app.config.from_mapping(
         SQLALCHEMY_DATABASE_URI="sqlite:///" + os.path.join(app.instance_path, "queuing.db"),
         SQLALCHEMY_TRACK_MODIFICATIONS=False,

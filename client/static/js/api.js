@@ -9,7 +9,7 @@ how to handle the api.js that would connect client to our API so it would have e
 
 // Central API configuration
 // NOTE: this might need to change??
-const API_BASE_URL = "";
+const API_BASE_URL = "http://127.0.0.1:5000/api";
 
 async function apiFetch(endpoint, options = {}) {
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
@@ -25,7 +25,8 @@ async function apiFetch(endpoint, options = {}) {
     throw new Error(`API error ${response.status}: ${errorText}`);
   }
 
-  return response.json();
+  const text = await response.text();
+  return text ? JSON.parse(text) : null;
 }
 
 // Locations
@@ -68,25 +69,25 @@ export function createPlace(data) {
 }
 
 // Update place
-export function updatePlace(placeName, data) {
-  return apiFetch(`/places/${encodeURIComponent(placeName)}/`, {
+export function updatePlace(place, data) {
+  return apiFetch(`/places/${encodeURIComponent(place)}/`, {
     method: "PUT",
     body: JSON.stringify(data)
   });
 }
 
 // Create queue
-export function createQueue(placeName, data) {
-  return apiFetch(`/places/${encodeURIComponent(placeName)}/queues/`, {
+export function createQueue(place, data) {
+  return apiFetch(`/places/${encodeURIComponent(place)}/queues/`, {
     method: "POST",
     body: JSON.stringify(data)
   });
 }
 
 // Update queue
-export function updateQueue(placeName, queueType, data) {
+export function updateQueue(place, queueType, data) {
   return apiFetch(
-    `/places/${encodeURIComponent(placeName)}/queues/${encodeURIComponent(queueType)}/`,
+    `/places/${encodeURIComponent(place)}/queues/${encodeURIComponent(queueType)}/`,
     {
       method: "PUT",
       body: JSON.stringify(data)

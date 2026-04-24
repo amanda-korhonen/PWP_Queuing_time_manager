@@ -10,19 +10,22 @@
 <form id="form">
   <!-- Place fields -->
   <div id="place-fields">
-    <input id="place-name" placeholder="Place name" required />
-    <input id="location" placeholder="Location" required />
+    <input id="place-name" placeholder="Name" />
+    <input id="capacity" type="number" placeholder="Capacity" />
+    <input id="people-count" type="number" placeholder="People count" />
+    <input id="place-type" placeholder="Place type" />
+    <input id="location" placeholder="Location" />
   </div>
 
   <!-- Queue fields -->
   <div id="queue-fields" style="display:none;">
-    <input id="queue-type" placeholder="Queue type" required />
-    <input id="queue-size" type="number" placeholder="Queue size" />
+    <input id="queue-type" placeholder="Queue type" />
+    <input id="people-count" type="number" placeholder="People count" />
   </div>
 
   <button type="submit">Create</button>
 </form>
 
-<script type="module" src="../static/js/create.js"></script>
+<script type="module" src="../static/js/form.js"></script>
 </body>
 </html>

@@ -5,58 +5,74 @@ import {
   updatePlace,
   createQueue,
   updateQueue
-} from './api.js';
+} from "./api.js";
 
 const params = new URLSearchParams(window.location.search);
 
-const type = params.get('type'); 
-// "place" or "queue"
+const type = params.get("type"); // "place" | "queue"
+const placeName = params.get("place");
+const queueType = params.get("queue");
 
-const placeName = params.get('place');
-const queueType = params.get('queue');
-const isEdit = !!params.get('edit'); // ?edit=true
+const isEdit = window.location.pathname.includes("edit");
 
-// Form elements
-const form = document.getElementById('form');
-const nameInput = document.getElementById('name');
-const extraInput = document.getElementById('extra'); 
-// e.g. queue size or description
+console.log("TYPE:", type);
+console.log("PLACE:", placeName);
+console.log("QUEUE:", queueType);
+console.log("EDIT:", isEdit);
 
-// --- Prefill for edit ---
+/* ---------------- DOM ---------------- */
+
+const placeFields = document.getElementById("place-fields");
+const queueFields = document.getElementById("queue-fields");
+
+/* ---------------- UI TOGGLE ---------------- */
+
+if (type === "queue") {
+  placeFields.style.display = "none";
+  queueFields.style.display = "block";
+} else {
+  placeFields.style.display = "block";
+  queueFields.style.display = "none";
+}
+
+/* ---------------- PREFILL ---------------- */
+
 async function prefill() {
   if (!isEdit) return;
 
   try {
-    if (type === 'place') {
+    if (type === "place") {
       const place = await getPlace(placeName);
-      nameInput.value = place.name;
+      document.getElementById("place-name").value = place.name;
+      document.getElementById("location").value = place.location;
     }
 
-    if (type === 'queue') {
+    if (type === "queue") {
       const queue = await getQueue(placeName, queueType);
-      nameInput.value = queue.name;
-      extraInput.value = queue.size || '';
+      document.getElementById("queue-type").value = queue.queue_type;
+      document.getElementById("queue-size").value = queue.people_count || "";
     }
-
   } catch (err) {
-    console.error("Prefill failed:", err);
+    console.error(err);
+    alert("Failed to load data");
   }
 }
 
-// --- Submit handler ---
-async function handleSubmit(e) {
+/* ---------------- SUBMIT ---------------- */
+
+document.getElementById("form").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const data = {
-    name: nameInput.value
-  };
-
-  if (type === 'queue') {
-    data.size = extraInput.value;
-  }
-
   try {
-    if (type === 'place') {
+    if (type === "place") {
+      const data = {
+        name: document.getElementById("place-name").value,
+        capacity: Number(document.getElementById("capacity").value),
+        people_count: Number(document.getElementById("people-count").value),
+        place_type: document.getElementById("place-type").value,
+        location: document.getElementById("location").value
+      };
+
       if (isEdit) {
         await updatePlace(placeName, data);
       } else {
@@ -64,7 +80,12 @@ async function handleSubmit(e) {
       }
     }
 
-    if (type === 'queue') {
+    if (type === "queue") {
+      const data = {
+        queue_type: document.getElementById("queue-type").value,
+        people_count: Number(document.getElementById("people-count").value)
+      };
+
       if (isEdit) {
         await updateQueue(placeName, queueType, data);
       } else {
@@ -72,14 +93,11 @@ async function handleSubmit(e) {
       }
     }
 
-    // Redirect after success
-    window.location.href = 'home.html';
-
+    window.location.href = "home.html";
   } catch (err) {
-    alert("Error: " + err.message);
+    console.error(err);
+    alert(err.message);
   }
-}
-
-form.addEventListener('submit', handleSubmit);
+});
 
 prefill();
