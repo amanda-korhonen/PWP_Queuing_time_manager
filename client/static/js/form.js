@@ -44,7 +44,7 @@ if (type === "queue") {
   placeFields.style.display = "block";
   queueFields.style.display = "none";
   titleEl.textContent = isEdit
-    ? "Edit Place " + placeName
+    ? "Edit " + placeName
     : "Create New Place";
 
     // NAVIGATION

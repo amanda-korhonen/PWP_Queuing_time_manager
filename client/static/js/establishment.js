@@ -12,7 +12,7 @@ function render(data) {
   var q;
   var li;
 
-  list.innerHTML = "";
+  placeList.innerHTML = "";
   list.innerHTML = "";
 
   var placeAttributes = [
@@ -79,7 +79,7 @@ async function init() {
 
     editBtn = document.getElementById("editButton");
     if (editBtn && placeName) {
-      editBtn.href = "../templates/edit.html?place=" +
+      editBtn.href = "../templates/edit.html?type=place&place=" +
         encodeURIComponent(placeName);
     }
 
