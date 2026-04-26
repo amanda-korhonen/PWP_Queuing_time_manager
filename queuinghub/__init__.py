@@ -28,7 +28,7 @@ def create_app(test_config=None):
         flask app
 
     Exceptions:
-        OSError 
+        OSError
     '''
     app = Flask(__name__, instance_relative_config=True)
     CORS(app, resources={r"/api/*": {"origins": "*"}})
