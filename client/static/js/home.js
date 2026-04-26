@@ -11,18 +11,29 @@ It has the QueuingHub-app's name as a big title, and has a list of all users.
 When user (for example bar1) is clicked, another page is opened that is hadled by 
 establishment.js implemented by another teammate.
 */
-import { getLocations, getPlacesByLocation } from "./api.js";
+import { getLocations } from "./api.js";
 
 async function loadLocations() {
   const container = document.getElementById("locations-container");
+  container.innerHTML = "Loading...";
 
   try {
-    const locations = await getLocations(); // e.g. ["City1", "City2"]
+    let locations = await getLocations();
+
+    console.log("RAW locations:", locations);
+
+    //handle string JSON (if api.js returns text sometimes)
+    if (typeof locations === "string") {
+      locations = JSON.parse(locations);
+    }
+
+    if (!locations || typeof locations !== "object") {
+      throw new Error("Invalid API response format");
+    }
 
     container.innerHTML = "";
 
-    for (const city of locations) {
-      const places = await getPlacesByLocation(city);
+    for (const [city, places] of Object.entries(locations)) {
 
       const cityDiv = document.createElement("div");
       cityDiv.className = "city";
@@ -30,27 +41,32 @@ async function loadLocations() {
       const title = document.createElement("h2");
       title.textContent = city;
 
-      const placesList = document.createElement("ul");
+      const list = document.createElement("ul");
 
-      places.forEach(placeName => {
+      places.forEach(place => {
         const li = document.createElement("li");
-        li.textContent = placeName;
+
+        // safety fallback in case structure differs
+        li.textContent = place.name ?? place;
 
         li.addEventListener("click", () => {
-          window.location.href = `establishment.html?place=${encodeURIComponent(placeName)}`;
+          const name = place.name ?? place;
+
+          window.location.href =
+            `establishment.html?place=${encodeURIComponent(name)}`;
         });
 
-        placesList.appendChild(li);
+        list.appendChild(li);
       });
 
       cityDiv.appendChild(title);
-      cityDiv.appendChild(placesList);
+      cityDiv.appendChild(list);
       container.appendChild(cityDiv);
     }
 
   } catch (err) {
+    console.error("LOAD ERROR:", err);
     container.innerHTML = "Error loading locations";
-    console.error(err);
   }
 }
 
