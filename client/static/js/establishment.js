@@ -34,6 +34,8 @@ async function init() {
   var place;
   var queues;
   var title;
+  var description;
+  var createBtn;
 
   placeName = getPlaceFromURL();
 
@@ -53,6 +55,15 @@ async function init() {
 
     title = document.getElementById("app-title");
     title.textContent = place.name;
+
+    description = document.getElementById("app-description");
+    description.textContent = `Queues for: ${place.name || "unknown"}`;
+
+    createBtn = document.getElementById("createQueueButton");
+    if (createBtn && placeName) {
+      createBtn.href = "../templates/create.html?type=queue&place=" +
+        encodeURIComponent(placeName);
+    }
 
     render({
       name: place.name,
