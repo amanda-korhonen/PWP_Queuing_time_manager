@@ -13,6 +13,7 @@ const type = params.get("type"); // "place" | "queue"
 const placeName = params.get("place");
 const queueType = params.get("queue");
 
+const backLink = document.getElementById("back-link");
 const titleEl = document.getElementById("title");
 const isEdit = window.location.pathname.includes("edit");
 
@@ -20,6 +21,7 @@ console.log("TYPE:", type);
 console.log("PLACE:", placeName);
 console.log("QUEUE:", queueType);
 console.log("EDIT:", isEdit);
+
 
 /* ---------------- DOM ---------------- */
 
@@ -34,12 +36,24 @@ if (type === "queue") {
   titleEl.textContent = isEdit
     ? "Edit Queue " + queueType + " of " + placeName
     : "Create New Queue for " + placeName;
+
+    // NAVIGATION
+  backLink.textContent = `Back to ${placeName}`;
+  backLink.href = `../templates/establishment.html?place=${placeName}`;
 } else {
   placeFields.style.display = "block";
   queueFields.style.display = "none";
   titleEl.textContent = isEdit
     ? "Edit Place " + placeName
     : "Create New Place";
+
+    // NAVIGATION
+  if (isEdit) {
+    backLink.textContent = `Back to ${placeName}`;
+    backLink.href = `../templates/establishment.html?place=${placeName}`;
+  } else {
+    backLink.style.display = "none";
+  }
 }
 
 /* ---------------- HELPER FUNCTIONS: INPUT VALIDATION ---------------- */
