@@ -6,13 +6,30 @@ function getPlaceFromURL() {
 }
 
 function render(data) {
+  var placeList = document.getElementById("place-details");
   var list = document.getElementById("places-list");
   var i;
   var q;
   var li;
 
   list.innerHTML = "";
+  list.innerHTML = "";
 
+  var placeAttributes = [
+    { label: "Type", value: data.place_type },
+    { label: "Capacity", value: data.capacity },
+    { label: "People count", value: data.people_count },
+    { label: "Fullness", value: data.fullness },
+  ];
+
+  // List attributes
+  placeAttributes.forEach(function(attribute) {
+    li = document.createElement("li");
+    li.textContent = attribute.label + ": " + (attribute.value || "N/A");
+    placeList.appendChild(li);
+  });
+
+  // List queues
   if (data.queues && data.queues.length > 0) {
     for (i = 0; i < data.queues.length; i += 1) {
       q = data.queues[i];
@@ -35,6 +52,7 @@ async function init() {
   var queues;
   var title;
   var description;
+  var editBtn;
   var createBtn;
 
   placeName = getPlaceFromURL();
@@ -54,10 +72,16 @@ async function init() {
     queues = results[1];
 
     title = document.getElementById("app-title");
-    title.textContent = place.name;
+    title.textContent = placeName;
 
     description = document.getElementById("app-description");
-    description.textContent = `Queues for: ${place.name || "unknown"}`;
+    description.textContent = `Queues for: ${placeName || "unknown"}`;
+
+    editBtn = document.getElementById("editButton");
+    if (editBtn && placeName) {
+      editBtn.href = "../templates/edit.html?place=" +
+        encodeURIComponent(placeName);
+    }
 
     createBtn = document.getElementById("createQueueButton");
     if (createBtn && placeName) {
@@ -65,8 +89,12 @@ async function init() {
         encodeURIComponent(placeName);
     }
 
+
     render({
-      name: place.name,
+      capacity: place.capacity,
+      people_count: place.people_count,
+      fullness: place.fullness,
+      place_type: place.place_type,
       queues: queues
     });
 
