@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Create</title>
+  <title>Edit</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -53,6 +53,25 @@
       padding: 8px 12px;
       cursor: pointer;
     }
+    label {
+      display: block;
+      margin-top: 10px;
+      margin-bottom: 4px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+    form {
+      background: transparent;
+      padding: 20px;
+      border-radius: 8px;
+
+      max-width: 400px;   /* key line */
+    }
   </style>
 </head>
 <body>
@@ -71,17 +90,33 @@
   <form id="form">
     <!-- Place fields -->
     <div id="place-fields">
-      <input id="place-name" placeholder="Name" />
-      <input id="capacity" type="number" placeholder="Capacity" />
-      <input id="place-people-count" type="number" placeholder="People count" />
-      <input id="place-type" placeholder="Place type" />
-      <input id="location" placeholder="Location" />
+
+      <label for="place-name">Name</label>
+      <input id="place-name" type="text" />
+
+      <label for="capacity">Capacity</label>
+      <input id="capacity" type="number" />
+
+      <label for="place-people-count">People count</label>
+      <input id="place-people-count" type="number" />
+
+      <label for="place-type">Place type</label>
+      <input id="place-type" type="text" />
+
+      <label for="location">Location</label>
+      <input id="location" type="text" />
+
     </div>
 
     <!-- Queue fields -->
     <div id="queue-fields" style="display:none;">
-      <input id="queue-type" placeholder="Queue type" />
-      <input id="queue-people-count" type="number" placeholder="People count" />
+
+      <label for="queue-type">Queue type</label>
+      <input id="queue-type" type="text" />
+
+      <label for="queue-people-count">People count</label>
+      <input id="queue-people-count" type="number" />
+
     </div>
 
     <button type="submit">Save changes</button>

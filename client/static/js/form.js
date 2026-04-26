@@ -13,6 +13,7 @@ const type = params.get("type"); // "place" | "queue"
 const placeName = params.get("place");
 const queueType = params.get("queue");
 
+const titleEl = document.getElementById("title");
 const isEdit = window.location.pathname.includes("edit");
 
 console.log("TYPE:", type);
@@ -30,9 +31,45 @@ const queueFields = document.getElementById("queue-fields");
 if (type === "queue") {
   placeFields.style.display = "none";
   queueFields.style.display = "block";
+  titleEl.textContent = isEdit
+    ? "Edit Queue " + queueType + " of " + placeName
+    : "Create New Queue for " + placeName;
 } else {
   placeFields.style.display = "block";
   queueFields.style.display = "none";
+  titleEl.textContent = isEdit
+    ? "Edit Place " + placeName
+    : "Create New Place";
+}
+
+/* ---------------- HELPER FUNCTIONS: INPUT VALIDATION ---------------- */
+
+function validateString(value, maxLength, fieldName) {
+  if (!value || value.trim() === "") {
+    throw new Error(`${fieldName} is required`);
+  }
+  if (value.length > maxLength) {
+    throw new Error(`${fieldName} must be at most ${maxLength} characters`);
+  }
+  return value.trim();
+}
+
+function validateNumber(value, fieldName) {
+  const num = Number(value);
+
+  if (!Number.isInteger(num)) {
+    throw new Error(`${fieldName} must be an integer`);
+  }
+
+  if (num < 0) {
+    throw new Error(`${fieldName} must be positive`);
+  }
+
+  if (num > 10000) {
+    throw new Error(`${fieldName} must be ≤ 10000`);
+  }
+
+  return num;
 }
 
 /* ---------------- PREFILL ---------------- */
@@ -83,11 +120,11 @@ document.getElementById("form").addEventListener("submit", async (e) => {
   try {
     if (type === "place") {
       const data = {
-        name: document.getElementById("place-name").value,
-        capacity: Number(document.getElementById("capacity").value),
-        people_count: Number(document.getElementById("place-people-count").value),
-        place_type: document.getElementById("place-type").value,
-        location: document.getElementById("location").value
+        name: validateString(document.getElementById("place-name").value, 20, "Name"),
+        capacity: validateNumber(document.getElementById("capacity").value, "Capacity"),
+        people_count: validateNumber(document.getElementById("place-people-count").value, "People count"),
+        place_type: validateString(document.getElementById("place-type").value, 120, "Place type"),
+        location: validateString(document.getElementById("location").value, 60, "Location")
       };
 
       if (isEdit) {
@@ -99,8 +136,8 @@ document.getElementById("form").addEventListener("submit", async (e) => {
 
     if (type === "queue") {
       const data = {
-        queue_type: document.getElementById("queue-type").value,
-        people_count: Number(document.getElementById("queue-people-count").value)
+        queue_type: validateString(document.getElementById("queue-type").value, 20, "Queue type"),
+        people_count: validateNumber(document.getElementById("queue-people-count").value, "People count")
       };
 
       if (isEdit) {
