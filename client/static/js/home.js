@@ -11,40 +11,47 @@ It has the QueuingHub-app's name as a big title, and has a list of all users.
 When user (for example bar1) is clicked, another page is opened that is hadled by 
 establishment.js implemented by another teammate.
 */
+import { getLocations, getPlacesByLocation } from "./api.js";
 
-import { getAllPlaces } from "./api.js";
+async function loadLocations() {
+  const container = document.getElementById("locations-container");
 
-const placesList = document.getElementById("places-list");
-
-async function loadPlaces() {
   try {
-    const places = await getAllPlaces();
+    const locations = await getLocations(); // e.g. ["City1", "City2"]
 
-    // Clear list just in case
-    placesList.innerHTML = "";
+    container.innerHTML = "";
 
-    places.forEach(place => {
-      const li = document.createElement("li");
+    for (const city of locations) {
+      const places = await getPlacesByLocation(city);
 
-      // Adjust depending on your API response shape
-      const placeName = place.name;
+      const cityDiv = document.createElement("div");
+      cityDiv.className = "city";
 
-      li.textContent = placeName;
-      li.classList.add("place-item");
+      const title = document.createElement("h2");
+      title.textContent = city;
 
-      li.addEventListener("click", () => {
-        // Navigate to establishment page
-        window.location.href = `establishment.html?place=${encodeURIComponent(placeName)}`;
+      const placesList = document.createElement("ul");
+
+      places.forEach(placeName => {
+        const li = document.createElement("li");
+        li.textContent = placeName;
+
+        li.addEventListener("click", () => {
+          window.location.href = `establishment.html?place=${encodeURIComponent(placeName)}`;
+        });
+
+        placesList.appendChild(li);
       });
 
-      placesList.appendChild(li);
-    });
+      cityDiv.appendChild(title);
+      cityDiv.appendChild(placesList);
+      container.appendChild(cityDiv);
+    }
 
-  } catch (error) {
-    console.error("Failed to load places:", error);
-    placesList.innerHTML = "<li>Error loading places</li>";
+  } catch (err) {
+    container.innerHTML = "Error loading locations";
+    console.error(err);
   }
 }
 
-// Run on page load
-loadPlaces();
+loadLocations();
