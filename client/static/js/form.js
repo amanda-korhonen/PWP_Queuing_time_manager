@@ -164,7 +164,7 @@ document.getElementById("form").addEventListener("submit", async (e) => {
     window.location.href = "../templates/home.html";
   } catch (err) {
     console.error(err);
-    alert(err.message);
+    document.getElementById("error-box").textContent = err.message;
   }
 });
 
