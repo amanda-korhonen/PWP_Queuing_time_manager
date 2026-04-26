@@ -40,17 +40,34 @@ if (type === "queue") {
 async function prefill() {
   if (!isEdit) return;
 
+  if (type === "queue" && !queueType) {
+    alert("Missing queue type in URL");
+    return;
+  }
+
   try {
     if (type === "place") {
-      const place = await getPlace(placeName);
-      document.getElementById("place-name").value = place.name;
-      document.getElementById("location").value = place.location;
-    }
+        const place = await getPlace(placeName);
+        console.log("PLACE DATA:", place);
+        console.log("place-name element:", document.getElementById("place-name"));
+        console.log("capacity element:", document.getElementById("capacity"));
+        console.log("place-people-count element:", document.getElementById("place-people-count"));
+
+        document.getElementById("place-name").value = place.name;
+        document.getElementById("capacity").value = place.capacity;
+        document.getElementById("place-people-count").value = place.people_count;
+        document.getElementById("place-type").value = place.place_type;
+        document.getElementById("location").value = place.location;
+      }
 
     if (type === "queue") {
       const queue = await getQueue(placeName, queueType);
+      console.log("QUEUE DATA:", queue);
+      console.log("queue-type element:", document.getElementById("queue-type"));
+      console.log("queue-people-count element:", document.getElementById("queue-people-count"));
+
       document.getElementById("queue-type").value = queue.queue_type;
-      document.getElementById("queue-size").value = queue.people_count || "";
+      document.getElementById("queue-people-count").value = queue.people_count || "";
     }
   } catch (err) {
     console.error(err);
@@ -68,7 +85,7 @@ document.getElementById("form").addEventListener("submit", async (e) => {
       const data = {
         name: document.getElementById("place-name").value,
         capacity: Number(document.getElementById("capacity").value),
-        people_count: Number(document.getElementById("people-count").value),
+        people_count: Number(document.getElementById("place-people-count").value),
         place_type: document.getElementById("place-type").value,
         location: document.getElementById("location").value
       };
@@ -83,7 +100,7 @@ document.getElementById("form").addEventListener("submit", async (e) => {
     if (type === "queue") {
       const data = {
         queue_type: document.getElementById("queue-type").value,
-        people_count: Number(document.getElementById("people-count").value)
+        people_count: Number(document.getElementById("queue-people-count").value)
       };
 
       if (isEdit) {
@@ -93,7 +110,7 @@ document.getElementById("form").addEventListener("submit", async (e) => {
       }
     }
 
-    window.location.href = "home.html";
+    window.location.href = "../templates/home.html";
   } catch (err) {
     console.error(err);
     alert(err.message);
