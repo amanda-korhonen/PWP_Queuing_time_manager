@@ -19,3 +19,7 @@ Note: you need Node.js with this.
 ```
 npm run lint
 ```
+
+## Running the client in deployment
+
+Please consult README.md in the project root for instructions.
