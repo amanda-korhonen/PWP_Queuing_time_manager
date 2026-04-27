@@ -374,6 +374,13 @@ sudo nano /etc/nginx/sites-enabled/queuinghub
 ```
 Where host_name should be changed to the address/domain name where the API is hosted from e.g. <127.0.0.1> or <place.holder.com>.
 
+4. (Optional) Setting up the client to nginx, run:
+```
+sudo sh client_setup.sh
+```
+This command will setup the client in our repo to be hosted in nginx.
+Please note that you will need to change the address in the api.js -file (as the setup instructs)
+There are posted instructions for applying for a certificate for advanced users, but currently it might take some extra tinkering, since certbot modifies the nginx conf file quite liberally. 
 
 ### **FULL SETUP INSTRUCTIONS BEGIN HERE:**
 
