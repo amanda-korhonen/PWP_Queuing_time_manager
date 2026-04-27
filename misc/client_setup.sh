@@ -75,4 +75,6 @@ sudo systemctl reload nginx
 
 echo ""
 echo "==> Done! Frontend is live at http://$SERVER_NAME/"
+echo "NOTE! Please be sure to change the correct address in: "
+echo "/var/www/client/static/js/api.js (const API_BASE_URL = "your.servername.com")"
 echo "    To enable HTTPS, run: sudo certbot --nginx -d your.servername.com"
