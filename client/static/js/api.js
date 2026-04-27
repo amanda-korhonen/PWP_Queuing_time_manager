@@ -95,3 +95,19 @@ export function updateQueue(place, queueType, data) {
     }
   );
 }
+
+// delete functions
+export function deletePlace(placeName) {
+  return apiFetch(`/places/${encodeURIComponent(placeName)}/`, {
+    method: "DELETE"
+  });
+}
+
+export function deleteQueue(placeName, queueType) {
+  return apiFetch(
+    `/places/${encodeURIComponent(placeName)}/queues/${encodeURIComponent(queueType)}/`,
+    {
+      method: "DELETE"
+    }
+  );
+}

@@ -84,6 +84,20 @@ The layout style was referred from establishment.html.
 
       max-width: 400px;   /* key line */
     }
+    .danger-btn {
+      background-color: #c0392b;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      margin-top: 10px;
+      display: block;
+      margin-left: auto;
+    }
+
+    .danger-btn:hover {
+      background-color: #e74c3c;
+    }
   </style>
 </head>
 <body>
@@ -135,7 +149,12 @@ The layout style was referred from establishment.html.
     </div>
 
     <button type="submit">Save changes</button>
+
   </form>
+
+<button id="delete-btn" type="button" class="danger-btn">
+  Delete
+</button>
 </main>
 
 <footer>

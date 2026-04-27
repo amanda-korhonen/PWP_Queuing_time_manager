@@ -15,7 +15,9 @@ import {
   createPlace,
   updatePlace,
   createQueue,
-  updateQueue
+  updateQueue,
+  deletePlace,
+  deleteQueue
 } from "./api.js";
 
 const params = new URLSearchParams(window.location.search);
@@ -27,6 +29,9 @@ const queueType = params.get("queue");
 const backLink = document.getElementById("back-link");
 const titleEl = document.getElementById("title");
 const isEdit = window.location.pathname.includes("edit");
+
+
+const deleteBtn = document.getElementById("delete-btn");
 
 console.log("TYPE:", type);
 console.log("PLACE:", placeName);
@@ -44,22 +49,27 @@ const queueFields = document.getElementById("queue-fields");
 if (type === "queue") {
   placeFields.style.display = "none";
   queueFields.style.display = "block";
+
   titleEl.textContent = isEdit
     ? "Edit Queue " + queueType + " of " + placeName
     : "Create New Queue for " + placeName;
 
-    // NAVIGATION
+  // NAVIGATION
+  backLink.style.display = "inline";
   backLink.textContent = `Back to ${placeName}`;
   backLink.href = `../templates/establishment.html?place=${placeName}`;
+
 } else {
   placeFields.style.display = "block";
   queueFields.style.display = "none";
+
   titleEl.textContent = isEdit
     ? "Edit " + placeName
     : "Create New Place";
 
-    // NAVIGATION
+  // NAVIGATION
   if (isEdit) {
+    backLink.style.display = "inline";
     backLink.textContent = `Back to ${placeName}`;
     backLink.href = `../templates/establishment.html?place=${placeName}`;
   } else {
@@ -95,6 +105,25 @@ function validateNumber(value, fieldName) {
   }
 
   return num;
+}
+
+/* ---------------- DELETE ---------------- */
+
+if (deleteBtn) {
+  deleteBtn.addEventListener("click", async () => {
+    if (!confirm("Delete this " + (type === "queue" ? "queue?" : "place?"))) return;
+
+    try {
+      if (type === "queue") {
+        await deleteQueue(placeName, queueType);
+      } else {
+        await deletePlace(placeName);
+      }
+      window.location.href = "../templates/home.html";
+    } catch (err) {
+      alert("Failed to delete " + (type === "queue" ? "queue" : "place"));
+    }
+  });
 }
 
 /* ---------------- PREFILL ---------------- */
