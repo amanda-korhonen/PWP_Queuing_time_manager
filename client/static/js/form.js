@@ -2,8 +2,8 @@
 This file contains the logic for the create/edit form used for both places and queues.
 ChatGPT was used to generate the base code which was then modified to fit our purpose.
 
-Prompt used: 
-we have an api and want to do a separate html client that a user can use to view edit 
+Prompt used:
+we have an api and want to do a separate html client that a user can use to view edit
 and create content. We want a javascript file for the form page that would handle both
 creating and editing of places and queues.
 
@@ -121,6 +121,7 @@ if (deleteBtn) {
       }
       window.location.href = "../templates/home.html";
     } catch (err) {
+      console.error(err)
       alert("Failed to delete " + (type === "queue" ? "queue" : "place"));
     }
   });
