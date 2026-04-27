@@ -1,5 +1,6 @@
 /*
 A homepage for the QueuingHub, java script creates the logic of UI
+ * Displays locations and their places.
 Code generated with ChatGPT and reviewed to fit our purpose. 
 
 Prompt used:
@@ -12,6 +13,19 @@ When user (for example bar1) is clicked, another page is opened that is hadled b
 establishment.js implemented by another teammate.
 */
 import { getLocations } from "./api.js";
+
+/**
+ * Loads locations and places from the API
+ * and renders them into the homepage UI.
+ *
+ * @returns {Promise<void>}
+ *
+ * @throws {Error}
+ * Thrown if API request fails or response format is invalid.
+ *
+ * @failure_handling
+ * Displays a fallback error message in the UI.
+ */
 
 async function loadLocations() {
   const container = document.getElementById("locations-container");
@@ -69,5 +83,9 @@ async function loadLocations() {
     container.innerHTML = "Error loading locations";
   }
 }
+
+/**
+ * Application entry point for homepage.
+ */
 
 loadLocations();

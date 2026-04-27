@@ -1,9 +1,31 @@
 import { getPlace, getQueues } from "./api.js";
 
+/**
+ * Extracts the "place" parameter from the page URL.
+ *
+ * @returns {string|null} Place name if present, otherwise null.
+ *
+ * @failure_case
+ * Returns null if the URL parameter is missing.
+ * The caller must handle this case.
+ */
 function getPlaceFromURL() {
   var params = new URLSearchParams(window.location.search);
   return params.get("place");
 }
+
+
+/**
+ * Renders place details and queue list into the DOM.
+ *
+ * @param {Object} data - Combined place and queue data.
+ *
+ * @throws {Error}
+ * Runtime errors may occur if required DOM elements are missing.
+ *
+ * @failure_handling
+ * Ensure required HTML elements exist before calling this function.
+ */
 
 function render(data) {
   var placeList = document.getElementById("place-details");
@@ -52,6 +74,18 @@ function render(data) {
     list.appendChild(li);
   }
 }
+
+/**
+ * Initializes the page by loading place and queue data.
+ *
+ * @returns {Promise<void>}
+ *
+ * @throws {Error}
+ * Thrown if API calls fail or required URL parameters are missing.
+ *
+ * @failure_handling
+ * Errors are logged to the console; application remains stable.
+ */
 
 async function init() {
   var placeName;

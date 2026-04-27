@@ -1,5 +1,7 @@
 /*
 This file contains the logic for the create/edit form used for both places and queues.
+ * It supports both creation and editing based on URL parameters.
+
 ChatGPT was used to generate the base code which was then modified to fit our purpose.
 
 Prompt used:
@@ -20,11 +22,19 @@ import {
   deleteQueue
 } from "./api.js";
 
+/* =========================
+   URL PARAMETERS
+   ========================= */
+
 const params = new URLSearchParams(window.location.search);
 
 const type = params.get("type"); // "place" | "queue"
 const placeName = params.get("place");
 const queueType = params.get("queue");
+
+/* =========================
+   DOM REFERENCES
+   ========================= */
 
 const backLink = document.getElementById("back-link");
 const titleEl = document.getElementById("title");
@@ -45,6 +55,14 @@ const placeFields = document.getElementById("place-fields");
 const queueFields = document.getElementById("queue-fields");
 
 /* ---------------- UI TOGGLE ---------------- */
+
+/**
+ * Shows or hides form sections and configures navigation
+ * depending on whether the user edits/creates a place or queue.
+ *
+ * @failure_handling
+ * Assumes required DOM elements exist.
+ */
 
 if (type === "queue") {
   placeFields.style.display = "none";
@@ -79,6 +97,19 @@ if (type === "queue") {
 
 /* ---------------- HELPER FUNCTIONS: INPUT VALIDATION ---------------- */
 
+/**
+ * Validates a string input field.
+ *
+ * @param {string} value - The input value.
+ * @param {number} maxLength - Maximum allowed length.
+ * @param {string} fieldName - Name used in error messages.
+ *
+ * @returns {string} Trimmed valid string.
+ *
+ * @throws {Error}
+ * Thrown if value is empty or exceeds maxLength.
+ */
+
 function validateString(value, maxLength, fieldName) {
   if (!value || value.trim() === "") {
     throw new Error(`${fieldName} is required`);
@@ -88,6 +119,19 @@ function validateString(value, maxLength, fieldName) {
   }
   return value.trim();
 }
+
+
+/**
+ * Validates a numeric input field.
+ *
+ * @param {string} value - Raw input string.
+ * @param {string} fieldName - Name used in error messages.
+ *
+ * @returns {number} Validated integer.
+ *
+ * @throws {Error}
+ * Thrown if value is not a positive integer or exceeds limits.
+ */
 
 function validateNumber(value, fieldName) {
   const num = Number(value);
@@ -109,6 +153,19 @@ function validateNumber(value, fieldName) {
 
 /* ---------------- DELETE ---------------- */
 
+/**
+ * Handles deletion of either a place or queue.
+ *
+ * @returns {Promise<void>}
+ *
+ * @throws {Error}
+ * Thrown if the API delete request fails.
+ *
+ * @failure_handling
+ * User confirmation is required before deletion.
+ * Errors are reported via alert and console.
+ */
+
 if (deleteBtn) {
   deleteBtn.addEventListener("click", async () => {
     if (!confirm("Delete this " + (type === "queue" ? "queue?" : "place?"))) return;
@@ -128,6 +185,15 @@ if (deleteBtn) {
 }
 
 /* ---------------- PREFILL ---------------- */
+
+/**
+ * Prefills the form fields when editing an existing place or queue.
+ *
+ * @returns {Promise<void>}
+ *
+ * @throws {Error}
+ * Thrown if API request fails or required URL parameters are missing.
+ */
 
 async function prefill() {
   if (!isEdit) return;
@@ -159,6 +225,19 @@ async function prefill() {
 }
 
 /* ---------------- SUBMIT ---------------- */
+
+/**
+ * Handles form submission for creating or updating a place or queue.
+ *
+ * @param {Event} e - Submit event.
+ *
+ * @throws {Error}
+ * Thrown when validation or API operations fail.
+ *
+ * @failure_handling
+ * Error messages are shown to the user via error box.
+ */
+
 
 document.getElementById("form").addEventListener("submit", async (e) => {
   e.preventDefault();
