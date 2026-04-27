@@ -121,7 +121,7 @@ if (deleteBtn) {
       }
       window.location.href = "../templates/home.html";
     } catch (err) {
-      console.error(err)
+      console.error(err);
       alert("Failed to delete " + (type === "queue" ? "queue" : "place"));
     }
   });
