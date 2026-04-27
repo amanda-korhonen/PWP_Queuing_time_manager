@@ -1,3 +1,12 @@
+/*
+establishment.js
+
+Most of the code here was generated using ChatGPT, except for some tweaks
+to make the buttons work correctly.
+The AI was prompted with the establishment.html and some functions from api.js code,
+along with some objectives (such as "get the place attributes and queues
+as a list"), which took many iterations and tweaking to get it to a working state.
+*/
 import { getPlace, getQueues } from "./api.js";
 
 /**
