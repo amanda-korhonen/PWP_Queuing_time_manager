@@ -36,6 +36,16 @@ function render(data) {
 
       li = document.createElement("li");
       li.textContent = q.queue_type + " (" + (q.people_count || 0) + ")";
+
+      li.addEventListener("click", (function(currentQueue) {
+        return function() {
+          const name = currentQueue.queue_type ?? currentQueue;
+
+          window.location.href =
+            `edit.html?type=queue&place=${encodeURIComponent(data.name)}&queue=${encodeURIComponent(currentQueue.queue_type)}`;
+        };
+      })(q));  // Immediately invoked function expression to pass the current 'q'
+
       list.appendChild(li);
     }
   } else {
@@ -91,6 +101,7 @@ async function init() {
 
 
     render({
+      name: place.name,
       capacity: place.capacity,
       people_count: place.people_count,
       fullness: place.fullness,
