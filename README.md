@@ -25,12 +25,19 @@ python -m queuinghub.db_populate
 
 If you want to create and populate manually you can use these code snippets as a quide.
 
-Use line by line in python3 terminal.
-To create database:
+To create database run in project root:
 
 ```
-from database import db, Place, Queue, User
-from database import app
+flask --app=queuinghub init-db
+```
+
+### Older instructions 
+Use line by line in python3 terminal.
+To create database:
+```
+from queuinghub.database import db, Place, Queue, User
+from queuinghub import create_app, db
+app = create_app()
 ctx = app.app_context()
 ctx.push()
 db.create_all()
