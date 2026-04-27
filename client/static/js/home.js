@@ -31,7 +31,7 @@ async function loadLocations() {
       throw new Error("Invalid API response format");
     }
 
-    container.innerHTML = "";
+    container.innerHTML = " ";
 
     for (const [city, places] of Object.entries(locations)) {
 
