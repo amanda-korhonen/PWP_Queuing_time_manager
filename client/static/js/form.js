@@ -75,7 +75,7 @@ if (type === "queue") {
   // NAVIGATION
   backLink.style.display = "inline";
   backLink.textContent = `Back to ${placeName}`;
-  backLink.href = `../templates/establishment.html?place=${placeName}`;
+  backLink.href = `/establishment.html?place=${placeName}`;
 
 } else {
   placeFields.style.display = "block";
@@ -89,7 +89,7 @@ if (type === "queue") {
   if (isEdit) {
     backLink.style.display = "inline";
     backLink.textContent = `Back to ${placeName}`;
-    backLink.href = `../templates/establishment.html?place=${placeName}`;
+    backLink.href = `/establishment.html?place=${placeName}`;
   } else {
     backLink.style.display = "none";
   }
@@ -176,7 +176,7 @@ if (deleteBtn) {
       } else {
         await deletePlace(placeName);
       }
-      window.location.href = "../templates/home.html";
+      window.location.href = "/home.html";
     } catch (err) {
       console.error(err);
       alert("Failed to delete " + (type === "queue" ? "queue" : "place"));
@@ -272,7 +272,7 @@ document.getElementById("form").addEventListener("submit", async (e) => {
       }
     }
 
-    window.location.href = "../templates/home.html";
+    window.location.href = "/home.html";
   } catch (err) {
     console.error(err);
     document.getElementById("error-box").textContent = err.message;

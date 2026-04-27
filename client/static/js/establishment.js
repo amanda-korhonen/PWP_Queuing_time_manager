@@ -130,13 +130,13 @@ async function init() {
 
     editBtn = document.getElementById("editButton");
     if (editBtn && placeName) {
-      editBtn.href = "../templates/edit.html?type=place&place=" +
+      editBtn.href = "/edit.html?type=place&place=" +
         encodeURIComponent(placeName);
     }
 
     createBtn = document.getElementById("createQueueButton");
     if (createBtn && placeName) {
-      createBtn.href = "../templates/create.html?type=queue&place=" +
+      createBtn.href = "/create.html?type=queue&place=" +
         encodeURIComponent(placeName);
     }
 

@@ -1,9 +1,9 @@
 <!--
-An edit page for the QueuingHub, where users can edit existing places
-and queues. 
+A create page for the QueuingHub, where users can create new places
+and queueus.
 ChatGPT was used to generate the base code which was then modified to fit our purpose.
 
-Prompt used: 
+Prompt used:
 //I gave api.js in in it's then state and the form.js file in it's then state//
 what would html be for create and edit pages that are two separate pages, where users can edit/create places
 and queues
@@ -15,7 +15,7 @@ The layout style was referred from establishment.html.
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Edit</title>
+  <title>Create</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -84,26 +84,12 @@ The layout style was referred from establishment.html.
 
       max-width: 400px;   /* key line */
     }
-    .danger-btn {
-      background-color: #c0392b;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      cursor: pointer;
-      margin-top: 10px;
-      display: block;
-      margin-left: auto;
-    }
-
-    .danger-btn:hover {
-      background-color: #e74c3c;
-    }
   </style>
 </head>
 <body>
   <header>
     <h1>Queuing time manager</h1>
-    <p>Edit</p>
+    <p>Create</p>
   </header>
 
   <nav>
@@ -112,55 +98,35 @@ The layout style was referred from establishment.html.
   </nav>
 
 <main>
-  <h1 id="title">Edit</h1>
+  <h1 id="title">Create</h1>
 
   <div id="error-box" style="color: red; margin-bottom: 10px;"></div>
-  
+
   <form id="form">
     <!-- Place fields -->
     <div id="place-fields">
-
-      <label for="place-name">Name</label>
-      <input id="place-name" type="text" />
-
-      <label for="capacity">Capacity</label>
-      <input id="capacity" type="number" />
-
-      <label for="place-people-count">People count</label>
-      <input id="place-people-count" type="number" />
-
-      <label for="place-type">Place type</label>
-      <input id="place-type" type="text" />
-
-      <label for="location">Location</label>
-      <input id="location" type="text" />
-
+      <input id="place-name" placeholder="Name" />
+      <input id="capacity" type="number" placeholder="Capacity" />
+      <input id="place-people-count" type="number" placeholder="People count" />
+      <input id="place-type" placeholder="Place type" />
+      <input id="location" placeholder="Location" />
     </div>
 
     <!-- Queue fields -->
     <div id="queue-fields" style="display:none;">
-
-      <label for="queue-type">Queue type</label>
-      <input id="queue-type" type="text" />
-
-      <label for="queue-people-count">People count</label>
-      <input id="queue-people-count" type="number" />
-
+      <input id="queue-type" placeholder="Queue type" />
+      <input id="queue-people-count" type="number" placeholder="People count" />
     </div>
 
-    <button type="submit">Save changes</button>
-
+    <button type="submit">Create</button>
   </form>
 
-<button id="delete-btn" type="button" class="danger-btn">
-  Delete
-</button>
 </main>
 
 <footer>
   <p>© 2026 ryhma2</p>
 </footer>
 
-<script type="module" src="../static/js/form.js"></script>
+<script type="module" src="/static/js/form.js"></script>
 </body>
 </html>
