@@ -6,9 +6,9 @@ Prompt used:
 //First I gave api.js and snippets of readme where the examples 
 of URL's that connect to resources are//
 
-I need to do a home.js and home.html files, that acts as a homepage. 
-It has the QueuingHub-app's name as a big title, and has a list of all users. 
-When user (for example bar1) is clicked, another page is opened that is hadled by 
+I need to do a home.js and home.html files, that acts as a homepage.
+It has the QueuingHub-app's name as a big title, and has a list of locations and the places in that location.
+When user (for example bar1) is clicked, another page is opened that is hadled by
 establishment.js implemented by another teammate.
 */
 import { getLocations } from "./api.js";

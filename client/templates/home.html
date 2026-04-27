@@ -2,12 +2,15 @@
 A homepage for the QueuingHub, html creates the visible UI
 Code generated with ChatGPT and reviewed to fit our purpose.
 
+The html style was reused from establishment.html. Code for the header, .top-bar, .button and .button:hover was 
+modified with to create the visual layout for the Create new place -button.
+
 Prompt used:
 //First I gave api.js and snippets of readme where the examples
 of URL's that connect to resources are//
 
 I need to do a home.js and home.html files, that acts as a homepage.
-It has the QueuingHub-app's name as a big title, and has a list of all users.
+It has the QueuingHub-app's name as a big title, and has a list of locations and the places in that location.
 When user (for example bar1) is clicked, another page is opened that is hadled by
 establishment.js implemented by another teammate.
 -->
@@ -30,9 +33,9 @@ establishment.js implemented by another teammate.
       color: #fff;
       padding: 1rem;
 
-      display: flex;              /* 👈 enables horizontal layout */
-      justify-content: space-between; /* left + right */
-      align-items: center;        /* vertical alignment */
+      display: flex;              
+      justify-content: space-between; 
+      align-items: center;        
     }
 
     nav {
