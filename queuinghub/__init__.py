@@ -13,6 +13,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flasgger import Swagger, swag_from
 #added for client testing
 from flask_cors import CORS
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 db = SQLAlchemy()
 cache = Cache()
@@ -66,6 +67,7 @@ def create_app(test_config=None):
     db.init_app(app)
     cache.init_app(app)
     _swagger = Swagger(app, template_file="doc/base.yml")
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
     from queuinghub import database
     from queuinghub import api
