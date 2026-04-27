@@ -18,13 +18,8 @@ requestBody:
         place_type: Bar
         location: City2
 responses:
-  '201':
+  '200':
     description: The establishment was edited successfully
-    headers:
-      Location:
-        description: URI for the updated establishment
-        schema:
-          type: string
   '400':
     description: The request body was not valid
   '404':

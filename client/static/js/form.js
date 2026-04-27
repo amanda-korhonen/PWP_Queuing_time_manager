@@ -1,3 +1,14 @@
+/*
+This file contains the logic for the create/edit form used for both places and queues.
+ChatGPT was used to generate the base code which was then modified to fit our purpose.
+
+Prompt used: 
+we have an api and want to do a separate html client that a user can use to view edit 
+and create content. We want a javascript file for the form page that would handle both
+creating and editing of places and queues.
+
+This instruction video was used as reference when coding: https://www.youtube.com/watch?v=lTpa6r-JBhk&t=338s
+*/
 import {
   getPlace,
   getQueue,
@@ -99,11 +110,6 @@ async function prefill() {
   try {
     if (type === "place") {
         const place = await getPlace(placeName);
-        console.log("PLACE DATA:", place);
-        console.log("place-name element:", document.getElementById("place-name"));
-        console.log("capacity element:", document.getElementById("capacity"));
-        console.log("place-people-count element:", document.getElementById("place-people-count"));
-
         document.getElementById("place-name").value = place.name;
         document.getElementById("capacity").value = place.capacity;
         document.getElementById("place-people-count").value = place.people_count;
@@ -113,10 +119,6 @@ async function prefill() {
 
     if (type === "queue") {
       const queue = await getQueue(placeName, queueType);
-      console.log("QUEUE DATA:", queue);
-      console.log("queue-type element:", document.getElementById("queue-type"));
-      console.log("queue-people-count element:", document.getElementById("queue-people-count"));
-
       document.getElementById("queue-type").value = queue.queue_type;
       document.getElementById("queue-people-count").value = queue.people_count || "";
     }

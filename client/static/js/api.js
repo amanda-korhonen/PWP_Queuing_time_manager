@@ -5,6 +5,8 @@ Code generated with Copilot generative AI and reviewed to fit our purpose.
 Prompt used:
 // cut some information about our code structure//  
 how to handle the api.js that would connect client to our API so it would have every helper function to connect to api
+
+This instruction video was used as reference when coding: https://www.youtube.com/watch?v=lTpa6r-JBhk&t=338s
 */
 
 // Central API configuration
@@ -57,7 +59,6 @@ export function getQueue(placeName, queueType) {
     `/places/${encodeURIComponent(placeName)}/queues/${encodeURIComponent(queueType)}/`
   );
 }
-
 
 //Leons vibe code if it works it works
 // Create place

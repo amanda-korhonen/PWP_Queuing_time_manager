@@ -16,13 +16,8 @@ requestBody:
         queue_type: new-queue-type
         people_count: 67
 responses:
-  '201':
+  '200':
     description: The queue was edited successfully
-    headers:
-      Location:
-        description: URI for the updated queue
-        schema:
-          type: string
   '400':
     description: The request body was not valid
   '404':
