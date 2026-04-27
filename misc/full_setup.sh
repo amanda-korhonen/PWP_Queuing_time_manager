@@ -18,3 +18,5 @@ echo "== Deployment complete =="
 echo ""
 echo "Test with:"
 echo "  curl http://localhost:8000/api/"
+
+echo "If you want to setup the client, you'll have to run the client_setup.sh script"
