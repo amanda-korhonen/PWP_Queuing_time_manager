@@ -14,6 +14,12 @@ SERVER_NAME=${2:-localhost}
 
 echo "==> Moving client to /var/www..."
 cd ..
+
+if [ -d "/var/www/client" ]; then
+    echo "    /var/www/client already exists, removing old version..."
+    sudo rm -rf /var/www/client
+fi
+
 sudo mv client /var/www/client
 
 echo "==> Setting Nginx permissions on /var/www/client..."
