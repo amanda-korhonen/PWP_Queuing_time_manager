@@ -39,8 +39,6 @@ function render(data) {
 
       li.addEventListener("click", (function(currentQueue) {
         return function() {
-          const name = currentQueue.queue_type ?? currentQueue;
-
           window.location.href =
             `edit.html?type=queue&place=${encodeURIComponent(data.name)}&queue=${encodeURIComponent(currentQueue.queue_type)}`;
         };
