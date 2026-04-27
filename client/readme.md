@@ -1,3 +1,8 @@
+## Runnin client on localhost
+```
+python -m http.server 8000
+```
+
 ## Helpful links for testing
 Create new place -> http://localhost:8000/templates/create.html?type=place
 
