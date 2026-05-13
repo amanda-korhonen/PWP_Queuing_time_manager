@@ -68,22 +68,10 @@ Discussed the necessity of user table in database. It's not really needed in the
 - Fixed PUT so it returns 200 with no headers, fixed tests to check correctly and removed the header check tests.
 
 
-## Midterm meeting
-* **DATE:**
-* **PARTICIPANTS:**
-* **TEACHER:**
-
-### Action points
-*List here the actions points discussed with assistants*
-
-### Notes
-*Add here notes that you consider important. This is not mandatory*
-
-
 ## Final meeting
-* **DATE:**
-* **PARTICIPANTS:**
-* **TEACHER:**
+* **DATE: 13.05.2026 klo 9**
+* **PARTICIPANTS: Teemu, Amanda, Eira, Leon**
+* **TEACHER:Iván Sánchez Milara**
 
 ### Minutes
 *Summary of what was discussed during the meeting*
